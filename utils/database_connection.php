@@ -6,14 +6,13 @@
  * @brief maakt een connectie met de database die we gebruiken.
  *
  * Dit bestand kunnen we simpel inladen als we een verbinding met de database moeten maken.
- *
  */
 
-/// @param $server De server die we gebruiken.
-/// @param $user De user die we gebruiken.
-/// @param $password Het wachtwoord van de user die we gebruiken.
-/// @param $database De database waarmee we verbinding maken.
-/// @param $mysqli Maakt de daadwerkelijk verbinding met de database,
+/// @brief $server De server die we gebruiken.
+/// @brief $user De user die we gebruiken.
+/// @brief $password Het wachtwoord van de user die we gebruiken.
+/// @brief $database De database waarmee we verbinding maken.
+/// @brief $mysqli Maakt de daadwerkelijk verbinding met de database,
 $server = '';
 $user = '';
 $password = '';

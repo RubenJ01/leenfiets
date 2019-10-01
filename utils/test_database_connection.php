@@ -6,7 +6,6 @@
  * @brief Een script dat controleert of de connectie met de database succesvol is.
  *
  * Script dat je in de console runt om te kijken of de connectie met de database succesvol is.
- *
  */
 
 require "database_connection.php";
