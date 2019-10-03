@@ -22,7 +22,7 @@
         <div class="dropdown-content">
             <a href="mijn_fietsen.php">Mijn fietsen</a>
             <a href="fiets_toevoegen.php">Fiets toevoegen</a>
-            <a href="#">Inloggen</a>
+            <a href="inloggen.php">Inloggen</a>
             <a href="registreren.php">Registreren</a>
         </div>
     </div>
