@@ -8,7 +8,9 @@
  */
 
 require 'utils/database_connection.php';
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -43,8 +45,8 @@ if(isset($_POST['login'])){
         if ($sql_password->num_rows == 1) {
             while($row = $sql_password->fetch_assoc()) {
                 if (password_verify($wachtwoord, $row['wachtwoord'])) {
-                    echo 'Login succesvol!';
                     $_SESSION['email'] = $email;
+                    header('location: index.php');
                 } else {
                     echo 'Wachtwoord incorrect.';
                 }
