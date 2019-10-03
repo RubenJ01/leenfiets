@@ -14,6 +14,6 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div><?php require '../menu.php'; ?></div>
+<div><?php include 'menu.php'; ?></div>
 </body>
 </html>

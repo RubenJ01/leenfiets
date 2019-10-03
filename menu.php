@@ -10,20 +10,20 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <link rel="stylesheet" href="/ict-project/utils/styles.css">
+    <link rel="stylesheet" href="utils/styles.css">
     <meta charset="UTF-8">
 </head>
 <body>
 <div class="navbar">
-    <a href="/ict-project/index.php">Home</a>
+    <a href="index.php">Home</a>
     <a href="#">Nieuws</a>
     <div class="dropdown">
         <button class="dropbtn">Mijn account</button>
         <div class="dropdown-content">
-            <a href="/ict-project/fietsen_systeem/mijn_fietsen.php">Mijn fietsen</a>
-            <a href="/ict-project/fietsen_systeem/fiets_toevoegen.php">Fiets toevoegen</a>
+            <a href="mijn_fietsen.php">Mijn fietsen</a>
+            <a href="fiets_toevoegen.php">Fiets toevoegen</a>
             <a href="#">Inloggen</a>
-            <a href="/ict-project/registratie_systeem/registreren.php">Registreren</a>
+            <a href="registreren.php">Registreren</a>
         </div>
     </div>
     <a href="#">Contact</a>

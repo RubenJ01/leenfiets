@@ -7,7 +7,7 @@
  * Gebruikers kunnen op deze pagina een nieuw account registreren en die worden dan opgeslagen in de database.
  */
 
-require '../utils/database_connection.php';
+require 'utils/database_connection.php';
 ?>
     <!DOCTYPE html>
     <html lang="nl">
@@ -16,7 +16,7 @@ require '../utils/database_connection.php';
         <meta charset="UTF-8">
     </head>
     <body>
-    <div><?php include '../menu.php'; ?></div>
+    <div><?php include 'menu.php'; ?></div>
     <form method="post" id="registreerForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="Gebruikersnaam"> <br />
         <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
