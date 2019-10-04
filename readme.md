@@ -4,7 +4,7 @@
 Het kan zijn dat je na het runnen van `database_connection.php` deze error krijgt: `Fatal error: Class 'mysqli' not found`.
 Dit kan voorkomen als je zelf de interpreter moest instellen voor je editor (bijv in PhPStorm).
 Om dit op te lossen moet je naar de folder waarin je PhP hebt geinstalleerd, het is makkelijk deze folder php te noemen.
-Voor mij is deze locatie `D:/php`. 
+Voor mij is deze locatie `D:/php`.
 
 In deze folder zie je onder andere 2 bestanden:  `php.ini-production` en `php.ini-development`.
 Hernoem `php.ini-development` naar `php.ini`.
@@ -18,5 +18,12 @@ folder die binnenin je php folder zit, bij mij ziet dat het er zo uit: `extensio
 Sla je wijzigingen op.
 
 
+### Documentatie
+-------------
 
-
+Voor het genereren van de documentatie ben je doxygen nodig: <http://www.doxygen.nl/download.html>
+Voer doxygen uit in de root van de folder doormiddel van de powershell met de command:
+```
+  doxygen doxyfile
+```
+Open vervolgens `index.html` die in de documentatie folder staat

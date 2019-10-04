@@ -1,10 +1,10 @@
 <?php
 /**
- * @file index.php
+ * @file uitloggen.php
  *
- * @brief Dit is de homepagina, hier worden de fietsen getoond.
+ * @brief Op deze pagina word je uitgelogd.
  *
- * Gebruikers kunnen zoeken naar fietsen.
+ * Dit script vernietigd de huidige functie.
  */
 if (!isset($_SESSION)) {
     session_start();
