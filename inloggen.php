@@ -20,11 +20,17 @@ if (!isset($_SESSION)) {
 </head>
 <body>
 <div><?php include 'menu.php'; ?></div>
+<?php
+if(isset($_GET['registratie_succesvol'])){
+    echo "<p>Account met succes aangemaakt.</p>";
+}
+?>
 <form method="post" id="LoginForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
     <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord"> <br />
     <input type="submit" name="login" value="Inloggen!">
 </form>
+<p>Nog niet geregistreerd? Registreer je <a href="registreren.php">hier.</a></p>
 </body>
 </html>
 <?php
