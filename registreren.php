@@ -44,15 +44,21 @@ if(isset($_POST['registreer'])){
             $error = true;
         }
     }
+    $hashed_wachtwoord = password_hash($wachtwoord, PASSWORD_BCRYPT); ///< @brief $hashed_wachtwoord Encrypt het wachtwoord.
+    $gebruikernaam = $mysqli->real_escape_string($gebruikernaam);
+    $email = $mysqli->real_escape_string($email);
+    $wachtwoord = $mysqli->real_escape_string($hashed_wachtwoord);
     if ($error == false) {
         $sql_email = "select * from gebruiker where email = '$email'"; ///< @brief $sql_email Query om te kijken of het opgegeven email adres al bestaat.
         $email_query = $mysqli->query($sql_email); ///< @brief $email_query Voert de $sql_email query uit.
         if ($email_query->num_rows == 0) {
-            $hashed_wachtwoord = password_hash($wachtwoord, PASSWORD_BCRYPT); ///< @brief $hashed_wachtwoord Encrypt het wachtwoord.
             $sql_insert = "insert into gebruiker(naam, email, wachtwoord) 
-                                values('$gebruikersnaam', '$email', '$hashed_wachtwoord')"; ///< @brief $sql_insert Een query om de nieuwe user in de database te zetten.
-            $insert_query = $mysqli->query($sql_insert); ///< @brief $insert_query Voert de $sql_insert query uit.
-            echo 'Gebruiker succesvol toegevoegd.';
+                                values(?, ?, ?)"; ///< @brief $sql_insert Een query om de nieuwe user in de database te zetten.
+            $stmt = $mysqli->prepare($sql_insert);
+            $stmt->bind_param('sss', $gebruikersnaam, $email, $hashed_wachtwoord);
+            $stmt->execute();
+            $stmt->close();
+            header('location: inloggen.php?registratie_succesvol='. urlencode('true'));
         } else {
             echo "Sorry dat e-mail adres is helaas al in gebruik!";
         }
