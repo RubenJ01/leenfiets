@@ -16,8 +16,8 @@ require 'utils/database_connection.php';
 </head>
 <body>
 <div><?php include 'menu.php'; ?></div>
-<form method="post" id="fietsentoevoegen" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    Merk
+<form method="post" id="fietsentoevoegen" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    Merk (*)
     <select name="merk_naam">
         <?php
         $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
@@ -31,12 +31,11 @@ require 'utils/database_connection.php';
             <?php
         }
         ?>
-        <option value="anders">Anders</option>
     </select><br>
-    Model: <input type="text" name="model" placeholder="Model"><br>
-    Plaats: <input type="text" name="plaats" placeholder="Plaats"><br>
-    Adres: <input type="text" name="adres" placeholder="Adres"><br>
-    Kleur fiets:
+    Model(*) <input type="text" name="model" placeholder="Model" required><br>
+    Plaats(*) <input type="text" name="plaats" placeholder="Plaats" required><br>
+    Adres(*) <input type="text" name="adres" placeholder="Adres" required><br>
+    Kleur fiets(*):
     <select name="kleur">
         <option value="Geel">Geel</option>
         <option value="Oranje">Oranje</option>
@@ -45,10 +44,10 @@ require 'utils/database_connection.php';
         <option value="Grijs">Grijs</option>
         <option value="Wit">Wit</option>
     </select><br>
-    Man of vrouw<input type="radio" name="soort_fiets" value="Mannen fiets">Mannen fiets
-    <input type="radio" name="soort_fiets" value="Vrouwen fiets">Vrouwen fiets<br>
-    Versnellingen: <input type="number" name="merk" placeholder="Aantal versnellingen"><br>
-    Soort fiets:
+    Man of vrouw(*)<input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
+    <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets<br>
+    Versnellingen(*): <input type="number" min="0" max="27" name="versnellingen" placeholder="Aantal versnellingen" required><br>
+    Soort fiets(*):
     <select name="soort_fiets">
         <?php
         $sql = "SELECT soort_fiets, id FROM soort_fiets order by soort_fiets asc";
@@ -62,18 +61,18 @@ require 'utils/database_connection.php';
             <?php
         }
         ?>
-        <option value="anders">Anders</option>
     </select><br>
-    Borg: <input type="number" name="borg" placeholder="Borg"><br>
-    Huurprijs per dag:<input type="number" name="huur-prijs" placeholder="Huurprijs"><br>
-    <input type="file" name="foto" value="foto"><br><br>
+    Borg(*): <input type="number" min="0" step="0.01" name="borg" max="1000" placeholder="Borg" required><br>
+    Huurprijs per dag(*):<input type="number" step="0.01" min="0" max="200" name="huur-prijs" placeholder="Huurprijs" required><br>
+    <input type="file" name="foto" value="foto" id="foto"><br><br>
     <input type="submit" name="toevoegen" value="Toevoegen">
 </form>
 <?php
 if(isset($_POST['toevoegen'])){
-    $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto_id) VALUES (".$_POST['merk_naam'].",2,3,'".$_POST['plaats']."',".$_POST['soort_fiets'].",3,'".$_POST['adres']."',3);";
-    $insert_query = $mysqli->query($sql);
-}
+    $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",3,'".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','/image/test.png','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."');";
+    echo $sql;
+    $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);;
+    }
 ?>
 </body>
 </html>
