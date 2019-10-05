@@ -8,6 +8,13 @@
  */
 
 require 'utils/database_connection.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'plugins/PHPMailer/src/Exception.php';
+require 'plugins/PHPMailer/src/PHPMailer.php';
+require 'plugins/PHPMailer/src/SMTP.php';
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -24,6 +31,7 @@ require 'utils/database_connection.php';
     <input type="password" name="wachtwoord_twee" id="wachtwoord_twee" placeholder="Wachtwoord Herhalen"> <br />
     <input type="submit" name="registreer" value="Registreer!">
 </form>
+<p>Heb je al een account? Log <a href="inloggen.php">hier.</a> in.</p>
 </body>
 </html>
 <?php
@@ -45,20 +53,41 @@ if(isset($_POST['registreer'])){
         }
     }
     $hashed_wachtwoord = password_hash($wachtwoord, PASSWORD_BCRYPT); ///< @brief $hashed_wachtwoord Encrypt het wachtwoord.
-    $gebruikernaam = $mysqli->real_escape_string($gebruikernaam);
+    $gebruikersnaam = $mysqli->real_escape_string($gebruikersnaam);
     $email = $mysqli->real_escape_string($email);
     $wachtwoord = $mysqli->real_escape_string($hashed_wachtwoord);
+    $verificatie_code = md5(time().$gebruikersnaam);
+    $verificatie_code = $mysqli->real_escape_string($verificatie_code);
     if ($error == false) {
         $sql_email = "select * from gebruiker where email = '$email'"; ///< @brief $sql_email Query om te kijken of het opgegeven email adres al bestaat.
         $email_query = $mysqli->query($sql_email); ///< @brief $email_query Voert de $sql_email query uit.
         if ($email_query->num_rows == 0) {
-            $sql_insert = "insert into gebruiker(naam, email, wachtwoord) 
-                                values(?, ?, ?)"; ///< @brief $sql_insert Een query om de nieuwe user in de database te zetten.
+            $sql_insert = "insert into gebruiker(naam, email, wachtwoord, verificatiecode) 
+                                values(?, ?, ?, ?)"; ///< @brief $sql_insert Een query om de nieuwe user in de database te zetten.
             $stmt = $mysqli->prepare($sql_insert);
-            $stmt->bind_param('sss', $gebruikersnaam, $email, $hashed_wachtwoord);
+            $stmt->bind_param('ssss', $gebruikersnaam, $email, $hashed_wachtwoord, $verificatie_code);
             $stmt->execute();
+            if (!$stmt){
+                die('Invalid query: ' . $mysqli->error);
+            }
             $stmt->close();
-            header('location: inloggen.php?registratie_succesvol='. urlencode('true'));
+            $mail = new PHPMailer(true);
+            try {
+                $mail->IsSMTP();
+                $mail->Host = "smtp.gmail.com";
+                $mail->SMTPAuth = true;
+                $mail->Username = 'leenfiets2019@gmail.com';
+                $mail->Password = 'ict_project2019';
+                $mail->setFrom('leenfiets2019@gmail.com', 'Mailer');
+                $mail->addAddress($email);
+                $mail->isHTML(true);
+                $mail->Subject = 'Account verificatie';
+                $mail->Body = "Verifieer je account <a href=localhost/ict-project/verify.php?verificatie_code=$verificatie_code>hier<a/>. ";
+                $mail->send();
+                header('location: inloggen.php?registratie_succesvol='. urlencode('true'));
+            } catch (Exception $e) {
+                echo "E-mail niet kunnen verzenden. Mail error {$mail->ErrorInfo}";
+            }
         } else {
             echo "Sorry dat e-mail adres is helaas al in gebruik!";
         }

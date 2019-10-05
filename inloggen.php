@@ -22,7 +22,10 @@ if (!isset($_SESSION)) {
 <div><?php include 'menu.php'; ?></div>
 <?php
 if(isset($_GET['registratie_succesvol'])){
-    echo "<p>Account met succes aangemaakt.</p>";
+    echo "<p>Check je mailbox om je email te verifieren.</p>";
+}
+if(isset($_GET['verificatie_succesvol'])){
+    echo "<p>Je account is met succes geverifieerd. Je kunt nu inloggen.</p>";
 }
 ?>
 <form method="post" id="LoginForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
@@ -48,17 +51,23 @@ if(isset($_POST['login'])){
     if(!$error){
         $sql_get_password = "select wachtwoord from gebruiker where email = '$email'";
         $sql_password = $mysqli->query($sql_get_password);
-        if ($sql_password->num_rows == 1) {
-            while($row = $sql_password->fetch_assoc()) {
-                if (password_verify($wachtwoord, $row['wachtwoord'])) {
-                    $_SESSION['email'] = $email;
-                    header('location: index.php');
-                } else {
-                    echo 'Wachtwoord incorrect.';
+        $check_status = "select status_code from gebruiker where email = '$email' and status_code = 1";
+        $check_query = $mysqli->query($check_status);
+        if ($check_query->num_rows == 1) {
+            if ($sql_password->num_rows == 1) {
+                while ($row = $sql_password->fetch_assoc()) {
+                    if (password_verify($wachtwoord, $row['wachtwoord'])) {
+                        $_SESSION['email'] = $email;
+                        header('location: index.php');
+                    } else {
+                        echo 'Wachtwoord incorrect.';
+                    }
                 }
+            } else {
+                echo 'Er bestaat geen gebruiker met dat E-mail adres.';
             }
         } else {
-            echo 'Er bestaat geen gebruiker met dat E-mail adres.';
+            echo "Je account is nog niet geverifieerd. Check je mail voor instructies.";
         }
     }
 }
