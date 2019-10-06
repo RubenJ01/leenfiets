@@ -43,6 +43,7 @@ require 'utils/database_connection.php';
         <option value="Blauw">Blauw</option>
         <option value="Grijs">Grijs</option>
         <option value="Wit">Wit</option>
+        <option value="Wit">Roze</option>
     </select><br>
     Man of vrouw(*)<input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
     <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets<br>
@@ -69,9 +70,37 @@ require 'utils/database_connection.php';
 </form>
 <?php
 if(isset($_POST['toevoegen'])){
-    $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",3,'".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','/image/test.png','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."');";
-    echo $sql;
-    $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);;
+    //moet aangepast worden door ID sessie
+    $uniekePad = date('dmYHis') .'ID46';
+    echo $uniekePad;
+
+
+    $target_dir = "fiets_afbeeldingen/" .$uniekePad;
+    $target_file = $target_dir . basename($_FILES["foto"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["foto"]["tmp_name"]);
+    if($check !== false) {
+        echo "bestand is foto";
+        $uploadOk = 1;
+    } else {
+        echo "Bestand is geen foto";
+        $uploadOk = 0;
+    }
+    if ($uploadOk == 0) {
+        echo "Niet geupload";
+// if everything is ok, try to upload file
+    } else {
+        if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+            echo "Is geupload";
+            $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",3,'".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','$target_file','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
+            echo $sql;
+            $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);;
+        } else {
+            echo "Uploaden niet gelukt";
+        }
+    }
     }
 ?>
 </body>
