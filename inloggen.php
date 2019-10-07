@@ -24,6 +24,11 @@ if (!isset($_SESSION)) {
 if(isset($_GET['registratie_succesvol'])){
     echo "<p>Check je mailbox om je email te verifieren.</p>";
 }
+
+if(isset($_GET['niet_ingelogd'])){
+    echo "<p>Eerst inloggen om een fiets te plaatsen.</p>";
+}
+
 if(isset($_GET['verificatie_succesvol'])){
     echo "<p>Je account is met succes geverifieerd. Je kunt nu inloggen.</p>";
 }

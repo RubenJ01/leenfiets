@@ -7,6 +7,13 @@
  * Gebruikers kunnen hier hun fiets toevoegen.
  */
 require 'utils/database_connection.php';
+if (!isset($_SESSION)) {
+    session_start();
+}
+if (!isset($_SESSION['email'])) {
+    header('location: inloggen.php?niet_ingelogd='. urlencode('true'));
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -45,8 +52,10 @@ require 'utils/database_connection.php';
         <option value="Wit">Wit</option>
         <option value="Wit">Roze</option>
     </select><br>
-    Man of vrouw(*)<input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
-    <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets<br>
+    Man of vrouw(*)
+    <input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
+    <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets
+    <input type="radio" name="geslacht_fiets" value="Onzijdig">Onzijdige fiets<br>
     Versnellingen(*): <input type="number" min="0" max="27" name="versnellingen" placeholder="Aantal versnellingen" required><br>
     Soort fiets(*):
     <select name="soort_fiets">
@@ -70,10 +79,15 @@ require 'utils/database_connection.php';
 </form>
 <?php
 if(isset($_POST['toevoegen'])){
-    //moet aangepast worden door ID sessie
-    $uniekePad = date('dmYHis') .'ID46';
+    if (!$_FILES["foto"]["name"]){
+        echo 'geen foto';
+        $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",'".$_SESSION['id']."','".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
+        echo $sql;
+        $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+    }
+    else{
+    $uniekePad = date('dmYHis') .$_SESSION['id'];
     echo $uniekePad;
-
 
     $target_dir = "fiets_afbeeldingen/" .$uniekePad;
     $target_file = $target_dir . basename($_FILES["foto"]["name"]);
@@ -94,7 +108,7 @@ if(isset($_POST['toevoegen'])){
     } else {
         if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
             echo "Is geupload";
-            $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",3,'".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','$target_file','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
+            $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",'".$_SESSION['id']."','".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','$target_file','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
             echo $sql;
             $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
         } else {
@@ -102,6 +116,7 @@ if(isset($_POST['toevoegen'])){
         }
     }
     }
+}
 ?>
 </body>
 </html>
