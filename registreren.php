@@ -6,12 +6,9 @@
  *
  * Gebruikers kunnen op deze pagina een nieuw account registreren en die worden dan opgeslagen in de database.
  */
-
 require 'utils/database_connection.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
 require 'plugins/PHPMailer/src/Exception.php';
 require 'plugins/PHPMailer/src/PHPMailer.php';
 require 'plugins/PHPMailer/src/SMTP.php';
