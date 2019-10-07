@@ -53,6 +53,12 @@ if(isset($_POST['login'])){
         $sql_password = $mysqli->query($sql_get_password);
         $check_status = "select status_code from gebruiker where email = '$email' and status_code = 1";
         $check_query = $mysqli->query($check_status);
+        $sql_get_id = "select id from gebruiker where email = '$email'";
+        $sql_id_query = $mysqli->query($sql_get_id);
+        while ($row = $sql_id_query->fetch_assoc()) {
+            $_SESSION['id'] = $row['id'];
+        }
+        echo $_SESSION['id'];
         if ($check_query->num_rows == 1) {
             if ($sql_password->num_rows == 1) {
                 while ($row = $sql_password->fetch_assoc()) {
