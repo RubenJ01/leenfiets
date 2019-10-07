@@ -1,39 +1,46 @@
 <?php
 require 'utils/database_connection.php';
-$borg = null;
-$afbeelding = null;
-$merk = null;
-$model = null;
-$plaats = null;
-$adres = null;
-$kleur_fiets = null;
-$geslacht_fiets = null;
-$versnellingen = null;
-$soort_fiets = null;
-$huurprijs_dag = null;
+$fiets_id = $_GET['fiets_id'];
 
 $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam from fietsen, merk_fiets, soort_fiets
-WHERE fietsen.id_soort_fiets = soort_fiets.id AND fietsen.id_merk_fiets = merk_fiets.id AND fietsen.id = 95 limit 1";
+WHERE fietsen.id_soort_fiets = soort_fiets.id AND fietsen.id_merk_fiets = merk_fiets.id AND fietsen.id = $fiets_id AND fietsen.gebruiker_id = 46 limit 1 ";
 
 $query = $mysqli->query($sql);
-while ($row = mysqli_fetch_assoc($query)) {
-    $borg = $row['borg'];
-    $afbeelding = $row['foto'];
-    $merk = $row['merk_naam'];
-    $model = $row['model'];
-    $plaats = $row['plaats'];
-    $adres = $row['adres'];
-    $kleur_fiets = $row['kleur_fiets'];
-    $geslacht_fiets = $row['geslacht_fiets'];
-    $versnellingen = $row['versnellingen'];
-    $soort_fiets = $row['soort_fiets'];
-    $huurprijs_dag = $row['prijs'];
+if (mysqli_num_rows($query) > 0) {
+    while ($row = mysqli_fetch_assoc($query)) {
+        $GLOBALS['borg'] = $row['borg'];
+        $GLOBALS['afbeelding'] = $row['foto'];
+        $GLOBALS['merk'] = $row['merk_naam'];
+        $GLOBALS['model'] = $row['model'];
+        $GLOBALS['plaats'] = $row['plaats'];
+        $GLOBALS['adres'] = $row['adres'];
+        $GLOBALS['kleur_fiets'] = $row['kleur_fiets'];
+        $GLOBALS['geslacht_fiets'] = $row['geslacht_fiets'];
+        $GLOBALS['versnellingen'] = $row['versnellingen'];
+        $GLOBALS['soort_fiets'] = $row['soort_fiets'];
+        $GLOBALS['huurprijs_dag'] = $row['prijs'];
+    }
+}
+else {
+    header('location: index.php');
 }
 ?>
 <html>
 <body>
 <div><?php include 'menu.php'; ?></div>
-<form method="post" id="fietsentoevoegen" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+<div class="afbeelding_foto_bewerken">
+
+    <img style="width: 300px;" src="<?php echo $afbeelding?>"><br>
+    <h1>Afbeelding bewerken</h1>
+    <br>
+<form method="post" id="fietsenbewerken" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <input type="file" name="foto" value="foto" id="foto"><br>
+
+    <input type="submit" name="foto_bewerken" value="Foto wijzigen">
+</form>
+</div>
+
+<form method="post" id="fietsenbewerken" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>?fiets_id=<?php echo $fiets_id ?>">
     Merk (*)
     <select name="merk_naam">
         <?php
@@ -63,8 +70,8 @@ while ($row = mysqli_fetch_assoc($query)) {
         <option value="Roze" <?php if($kleur_fiets == 'Roze'){echo 'selected';} ?>>Roze</option>
     </select><br>
     Man of vrouw(*)
-    <input type="radio" <?php if($geslacht_fiets == 'Man'){echo 'checked="checked';} ?> name="geslacht_fiets" value="Man">Mannen fiets
-    <input type="radio" <?php if($geslacht_fiets == 'Vrouw'){echo 'checked="checked';} ?> name="geslacht_fiets" value="Vrouw" >Vrouwen fiets<br>
+    <input type="radio" <?php if($geslacht_fiets == 'Man'){echo 'checked="checked"';} ?> name="geslacht_fiets" value="Man">Mannen fiets
+    <input type="radio" <?php if($geslacht_fiets == 'Vrouw'){echo 'checked="checked"';} ?> name="geslacht_fiets" value="Vrouw" >Vrouwen fiets<br>
     Versnellingen(*): <input type="number" min="0" max="27" name="versnellingen" placeholder="Aantal versnellingen" value="<?php echo $versnellingen ?>" required><br>
     Soort fiets(*):
     <select name="soort_fiets">
@@ -83,9 +90,53 @@ while ($row = mysqli_fetch_assoc($query)) {
     </select><br>
     Borg(*): <input type="number" min="0" step="0.01" name="borg" max="1000" placeholder="Borg" value="<?php echo $borg ?>" required><br>
     Huurprijs per dag(*):<input type="number" step="0.01" min="0" max="200" name="huur-prijs" placeholder="Huurprijs" value="<?php echo $huurprijs_dag ?>" required><br>
-    <input type="file" name="foto" value="foto" id="foto"><br><br>
+
     <input type="submit" name="bewerken" value="Bewerken">
+
 </form>
-<img style="width: 20%;" src="<?php echo $afbeelding?>">
+
+
+<?php
+if(isset($_POST['bewerken'])){
+    $sql = "UPDATE fietsen SET borg = ".$_POST['borg'].", prijs = ".$_POST['huur-prijs'].", plaats = '".$_POST['plaats']."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$_POST['adres']."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$_POST['versnellingen']."', model = '".$_POST['model']."' WHERE id = $fiets_id";
+    echo $sql;
+    $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+}
+
+if(isset($_POST['foto_bewerken'])){
+    $uniekePad = date('dmYHis') .'ID46';
+    echo $uniekePad;
+
+
+    $target_dir = "$afbeelding";
+    $target_file = $target_dir ;
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["foto"]["tmp_name"]);
+    if($check !== false) {
+        echo "bestand is foto";
+        $uploadOk = 1;
+    } else {
+        echo "Bestand is geen foto";
+        $uploadOk = 0;
+    }
+    if ($uploadOk == 0) {
+        echo "Niet geupload";
+// if everything is ok, try to upload file
+    } else {
+        if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+            echo "Is geupload";
+        } else {
+            echo "Uploaden niet gelukt";
+        }
+    }
+}
+?>
+<br>
+
+
+
+
 </body>
 </html>

@@ -75,3 +75,13 @@ body{
 #fietsentoevoegen{
     margin: 10px;
 }
+
+#fietsenbewerken{
+    float: left;
+}
+
+.afbeelding_foto_bewerken{
+    background-color: red;
+    float: left;
+
+}
