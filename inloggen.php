@@ -32,6 +32,9 @@ if(isset($_GET['niet_ingelogd'])){
 if(isset($_GET['verificatie_succesvol'])){
     echo "<p>Je account is met succes geverifieerd. Je kunt nu inloggen.</p>";
 }
+if(isset($_GET['wachtwoord_reset'])){
+    echo "<p>Je wachtwoord is met succes gerest. je kunt nu inloggen.</p>";
+}
 ?>
 <form method="post" id="LoginForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
@@ -39,6 +42,7 @@ if(isset($_GET['verificatie_succesvol'])){
     <input type="submit" name="login" value="Inloggen!">
 </form>
 <p>Nog niet geregistreerd? Registreer je <a href="registreren.php">hier.</a></p>
+<p>Wachtwoord vergeten? Vraag een nieuwe <a href="wachtwoord_vergeten.php">aan.</a></p>
 </body>
 </html>
 <?php
@@ -63,7 +67,6 @@ if(isset($_POST['login'])){
         while ($row = $sql_id_query->fetch_assoc()) {
             $_SESSION['id'] = $row['id'];
         }
-        echo $_SESSION['id'];
         if ($check_query->num_rows == 1) {
             if ($sql_password->num_rows == 1) {
                 while ($row = $sql_password->fetch_assoc()) {
