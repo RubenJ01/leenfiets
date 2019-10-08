@@ -6,9 +6,13 @@
  *
  * Gebruikers kunnen op deze pagina een nieuw account registreren en die worden dan opgeslagen in de database.
  */
+
 require 'utils/database_connection.php';
+include 'utils/core_functions.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 require 'plugins/PHPMailer/src/Exception.php';
 require 'plugins/PHPMailer/src/PHPMailer.php';
 require 'plugins/PHPMailer/src/SMTP.php';
@@ -33,34 +37,41 @@ require 'plugins/PHPMailer/src/SMTP.php';
 </html>
 <?php
 if(isset($_POST['registreer'])){
-    $gebruikersnaam = $_POST['gebruikersnaam']; ///< @brief $gebruikersnaam De gebruikersnaam.
-    $email = $_POST['email']; ///< @brief $email Het e-mail adres.
-    $wachtwoord = $_POST['wachtwoord']; ///< @brief $wachtwoord Het wachtwoord.
-    $wachtwoord_twee = $_POST['wachtwoord_twee']; ///< @brief $wachtwoord Het herhaalde wachtwoord.
-    $error = false; ///< @brief $error word op false gezet.
+    $gebruikersnaam = $_POST['gebruikersnaam'];
+    $email = $_POST['email'];
+    $wachtwoord = $_POST['wachtwoord'];
+    $wachtwoord_twee = $_POST['wachtwoord_twee'];
+    $error = false;
     if ($wachtwoord != $wachtwoord_twee) {
         $error = true;
         echo 'De opgegeven wachtwoorden zijn niet gelijk <br />';
     }
-    $fields = array('gebruikersnaam', 'email', 'wachtwoord', 'wachtwoord_twee'); ///< @brief $fields Een array met alle fields.
+    $fields = array('gebruikersnaam', 'email', 'wachtwoord', 'wachtwoord_twee');
     foreach ($fields as $fieldname) {
         if (!isset($_POST[$fieldname]) || empty($_POST[$fieldname])) {
             echo $fieldname . " is niet ingevuld. <br />";
             $error = true;
         }
     }
-    $hashed_wachtwoord = password_hash($wachtwoord, PASSWORD_BCRYPT); ///< @brief $hashed_wachtwoord Encrypt het wachtwoord.
+    $errors = check_password_strength($wachtwoord);
+    if (count($errors) > 0){
+        $error = true;
+    }
+    foreach($errors as $fault){
+        echo $fault . "<br />";
+    }
+    $hashed_wachtwoord = password_hash($wachtwoord, PASSWORD_BCRYPT);
     $gebruikersnaam = $mysqli->real_escape_string($gebruikersnaam);
     $email = $mysqli->real_escape_string($email);
     $wachtwoord = $mysqli->real_escape_string($hashed_wachtwoord);
     $verificatie_code = md5(time().$gebruikersnaam);
     $verificatie_code = $mysqli->real_escape_string($verificatie_code);
     if ($error == false) {
-        $sql_email = "select * from gebruiker where email = '$email'"; ///< @brief $sql_email Query om te kijken of het opgegeven email adres al bestaat.
-        $email_query = $mysqli->query($sql_email); ///< @brief $email_query Voert de $sql_email query uit.
+        $sql_email = "select * from gebruiker where email = '$email'";
+        $email_query = $mysqli->query($sql_email);
         if ($email_query->num_rows == 0) {
             $sql_insert = "insert into gebruiker(naam, email, wachtwoord, verificatiecode) 
-                                values(?, ?, ?, ?)"; ///< @brief $sql_insert Een query om de nieuwe user in de database te zetten.
+                                values(?, ?, ?, ?)";
             $stmt = $mysqli->prepare($sql_insert);
             $stmt->bind_param('ssss', $gebruikersnaam, $email, $hashed_wachtwoord, $verificatie_code);
             $stmt->execute();

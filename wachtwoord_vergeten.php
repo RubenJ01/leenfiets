@@ -1,4 +1,12 @@
 <?php
+/**
+ * @file wachtwoord_vergeten.php
+ *
+ * @brief gebruikers kunnen op deze pagina een nieuw wachtwoord aanvragen.
+ *
+ * Vanuit deze pagina word een verzoek gestuurd om het wachtwoord van het opgegeven account te veranderen.
+ */
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -7,6 +15,7 @@ require 'plugins/PHPMailer/src/PHPMailer.php';
 require 'plugins/PHPMailer/src/SMTP.php';
 
 require 'utils/database_connection.php';
+require 'utils/core_functions.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -40,6 +49,13 @@ if (isset($_POST['aanvragen'])) {
             echo $fieldname . " is niet ingevuld. <br />";
             $error = true;
         }
+    }
+    $errors = check_password_strength($nieuwe_wachtwoord);
+    if (count($errors) > 0){
+        $error = true;
+    }
+    foreach($errors as $fault){
+        echo $fault . "<br />";
     }
     $wachtwoord_code = md5(time().$email);
     if ($error ==  false){
