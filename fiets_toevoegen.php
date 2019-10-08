@@ -32,9 +32,7 @@ if (!isset($_SESSION['email'])) {
         while($row = $result->fetch_assoc())
         {
             ?>
-            <option value = <?php echo($row['id'])?> >
-                <?php echo($row['merk_naam']) ?>
-            </option>
+            <option value =<?php echo($row['id'])?>><?php echo($row['merk_naam']) ?></option>
             <?php
         }
         ?>
@@ -56,7 +54,8 @@ if (!isset($_SESSION['email'])) {
     <input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
     <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets
     <input type="radio" name="geslacht_fiets" value="Onzijdig">Onzijdige fiets<br>
-    Versnellingen(*): <input type="number" min="0" max="27" name="versnellingen" placeholder="Aantal versnellingen" required><br>
+    Versnellingen(*):
+    <input type="number" min="0" max="27" name="versnellingen" placeholder="Aantal versnellingen" required><br>
     Soort fiets(*):
     <select name="soort_fiets">
         <?php
@@ -80,15 +79,13 @@ if (!isset($_SESSION['email'])) {
 <?php
 if(isset($_POST['toevoegen'])){
     if (!$_FILES["foto"]["name"]){
-        echo 'geen foto';
+        //geen foto
         $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",'".$_SESSION['id']."','".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
-        echo $sql;
         $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+        header('location: fiets.php?succesvol_toegevoegd='. urlencode('true'));
     }
     else{
     $uniekePad = date('dmYHis') .$_SESSION['id'];
-    echo $uniekePad;
-
     $target_dir = "fiets_afbeeldingen/" .$uniekePad;
     $target_file = $target_dir . basename($_FILES["foto"]["name"]);
     $uploadOk = 1;
@@ -107,10 +104,10 @@ if(isset($_POST['toevoegen'])){
 // if everything is ok, try to upload file
     } else {
         if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-            echo "Is geupload";
+            //echo "Is geupload";
             $sql = "INSERT INTO fietsen(borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",'".$_SESSION['id']."','".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','$target_file','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
-            echo $sql;
             $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+            header('location: fiets.php?succesvol_toegevoegd='. urlencode('true'));
         } else {
             echo "Uploaden niet gelukt";
         }

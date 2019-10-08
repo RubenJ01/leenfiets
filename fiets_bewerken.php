@@ -30,7 +30,12 @@ else {
     header('location: index.php');
 }
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Fiets bewerken</title>
+    <meta charset="UTF-8">
+</head>
 <body>
 <div><?php include 'menu.php'; ?></div>
 <div class="afbeelding_foto_bewerken">
@@ -107,14 +112,12 @@ else {
 <?php
 if(isset($_POST['bewerken'])){
     $sql = "UPDATE fietsen SET borg = ".$_POST['borg'].", prijs = ".$_POST['huur-prijs'].", plaats = '".$_POST['plaats']."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$_POST['adres']."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$_POST['versnellingen']."', model = '".$_POST['model']."' WHERE id = $fiets_id and gebruiker_id = $gebruiker_id ";
-    echo $sql;
     $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
 }
 
 if(isset($_POST['foto_bewerken'])){
     if (empty($afbeelding)) {
-        $uniekePad = date('dmYHis') .$_SESSION['id'];
-        echo $uniekePad;
+        $uniekePad = date('dmYHis') .$gebruiker_id;
 
         $target_dir = "fiets_afbeeldingen/" .$uniekePad;
         $target_file = $target_dir . basename($_FILES["foto"]["name"]);

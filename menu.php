@@ -28,6 +28,7 @@ if (!isset($_SESSION)) {
                 echo "
                     <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
                     <a href='mijn_fietsen.php'>Mijn fietsen</a>
+                    <a href='profiel.php'>Mijn profiel</a>
                     <a href='uitloggen.php'>Uitloggen</a>
                     ";
             } else {
