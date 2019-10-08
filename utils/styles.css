@@ -85,3 +85,41 @@ body{
     float: left;
 
 }
+
+/* Begin faq css */
+.page .page-part {
+    overflow: hidden;
+    padding: 5px 20px;
+    background-color: lightgrey;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+}
+
+.page p{
+    display: block;
+    margin: 20px 10px;
+    color: black;
+    font-size: 18px;
+}
+
+.content p, .page .Answer {
+    -webkit-transition: height 	0.5s;
+    -moz-transition:    height 	0.5s;
+    -ms-transition:     height 	0.5s;
+    -o-transition:      height 	0.5s;
+    transition:         height 	0.5s;
+}
+
+.page .Answer {
+    display: block;
+    overflow: hidden;
+    background-color: lightgrey;
+    margin: 0px 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.page .vraag {
+    color: dodgerblue;
+    font-size: 15px;
+}
+/*einde faq css*/
