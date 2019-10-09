@@ -41,6 +41,7 @@ if (!isset($_SESSION)) {
         </div>
     </div>
     <a href="#">Contact</a>
+    <a href="faq.php">FAQ</a>
 </div>
 </body>
 </html>

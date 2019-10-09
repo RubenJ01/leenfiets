@@ -26,13 +26,22 @@ require 'plugins/PHPMailer/src/SMTP.php';
 <body>
 <div><?php include 'menu.php'; ?></div>
 <form method="post" id="registreerForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="Gebruikersnaam"> <br />
-    <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
-    <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord"> <br />
-    <input type="password" name="wachtwoord_twee" id="wachtwoord_twee" placeholder="Wachtwoord Herhalen"> <br />
-    <input type="submit" name="registreer" value="Registreer!">
+    <div class="wrapper">
+        <h1>Registreren</h1>
+        <hr>
+        <label for="gebruikersnaam">Gebruikersnaam</label>
+        <input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="Gebruikersnaam"> <br />
+        <label for="email">E-mail adres</label>
+        <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
+        <label for name="wachtwoord">Wachtwoord</label>
+        <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord"> <br />
+        <label for="wachtwoord_twee">Wachtwoord herhalen</label>
+        <input type="password" name="wachtwoord_twee" id="wachtwoord_twee" placeholder="Wachtwoord Herhalen"> <br />
+        </hr>
+        <input type="submit" name="registreer" value="Registreer!" class="registreerknop">
+        <p>Heb je al een account? Log <a href="inloggen.php">hier.</a> in.</p>
+    </div>
 </form>
-<p>Heb je al een account? Log <a href="inloggen.php">hier.</a> in.</p>
 </body>
 </html>
 <?php
