@@ -7,6 +7,7 @@
  */
 
 /*Begin Navigatiebar boven aan de website*/
+
 .navbar {
     overflow: hidden;
     background-color: grey;
@@ -123,3 +124,4 @@ body{
     font-size: 15px;
 }
 /*einde faq css*/
+
