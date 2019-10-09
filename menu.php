@@ -25,10 +25,11 @@ if (!isset($_SESSION)) {
         <div class="dropdown-content">
            <?php
             if (isset($_SESSION['email'])) {
+                $email = $_SESSION['email'];
                 echo "
                     <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
                     <a href='mijn_fietsen.php'>Mijn fietsen</a>
-                    <a href='profiel.php'>Mijn profiel</a>
+                    <a href='profiel.php?gebruiker=$email'>Mijn profiel</a>
                     <a href='uitloggen.php'>Uitloggen</a>
                     ";
             } else {

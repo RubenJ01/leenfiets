@@ -1,6 +1,8 @@
 # Leenfiets
 
 ### Mysqli error
+
+
 Het kan zijn dat je na het runnen van `database_connection.php` deze error krijgt: `Fatal error: Class 'mysqli' not found`.
 Dit kan voorkomen als je zelf de interpreter moest instellen voor je editor (bijv in PhPStorm).
 Om dit op te lossen moet je naar de folder waarin je PhP hebt geinstalleerd, het is makkelijk deze folder php te noemen.
