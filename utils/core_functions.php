@@ -11,6 +11,7 @@
 /// @param $wachtwoord Het wachtwoord wat we willen controleren.
 /// @return array
 function check_password_strength($wachtwoord){
+    $errors = array();
     if (strlen($wachtwoord) < 8) {
         $errors[] = "Je wachtwoord moet minimaal 8 tekens lang zijn.";
     }
