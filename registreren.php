@@ -9,13 +9,6 @@
 
 require 'utils/database_connection.php';
 include 'utils/core_functions.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'plugins/PHPMailer/src/Exception.php';
-require 'plugins/PHPMailer/src/PHPMailer.php';
-require 'plugins/PHPMailer/src/SMTP.php';
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -88,22 +81,14 @@ if(isset($_POST['registreer'])){
                 die('Invalid query: ' . $mysqli->error);
             }
             $stmt->close();
-            $mail = new PHPMailer(true);
-            try {
-                $mail->IsSMTP();
-                $mail->Host = "smtp.gmail.com";
-                $mail->SMTPAuth = true;
-                $mail->Username = 'leenfiets2019@gmail.com';
-                $mail->Password = 'ict_project2019';
-                $mail->setFrom('leenfiets2019@gmail.com', 'Mailer');
-                $mail->addAddress($email);
-                $mail->isHTML(true);
-                $mail->Subject = 'Account verificatie';
-                $mail->Body = "Verifieer je account <a href=localhost/ict-project/verify.php?verificatie_code=$verificatie_code>hier<a/>. ";
-                $mail->send();
-                header('location: inloggen.php?registratie_succesvol='. urlencode('true'));
-            } catch (Exception $e) {
-                echo "E-mail niet kunnen verzenden. Mail error {$mail->ErrorInfo}";
+            $ontvanger = $email;
+            $onderwerp = "E-mail verificatie";
+            $body = "Verifieer je account <a href=localhost/ict-project/verify.php?verificatie_code=$verificatie_code>hier<a/>. ";
+            $error = send_email($ontvanger, $onderwerp, $body);
+            if ($error == 'false') {
+                header('location: inloggen.php?registratie_succesvol=' . urlencode('true'));
+            } else {
+                echo $error;
             }
         } else {
             echo "Sorry dat e-mail adres is helaas al in gebruik!";
