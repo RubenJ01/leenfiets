@@ -14,7 +14,51 @@ if (!isset($_SESSION['email'])) {
     header('location: inloggen.php?niet_ingelogd='. urlencode('true'));
 }
 ?>
-
+<?php
+if(isset($_POST['toevoegen'])){
+    if (!$_FILES["foto"]["name"]){
+        //geen foto
+        $sql = "INSERT INTO fietsen
+                    (borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) 
+                    VALUES (" . $_POST['borg'] . "," . $_POST['huur-prijs'] . ",'" . $_SESSION['id'] . "','" . $_POST['plaats'] . "'," . $_POST['soort_fiets'] . "," . $_POST['merk_naam'] . ",'" . $_POST['adres'] . "','','" . $_POST['geslacht_fiets'] . "','" . $_POST['kleur'] . "','" . $_POST['versnellingen'] . "','" . $_POST['model'] . "');";
+        $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+        header('location: fiets.php?succesvol_toegevoegd='. urlencode('true'));
+    }
+    else{
+        $uniekePad = date('dmYHis') .$_SESSION['id'];
+        $target_dir = "fiets_afbeeldingen/" .$uniekePad;
+        $target_file = $target_dir . basename($_FILES["foto"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES["foto"]["tmp_name"]);
+        if($check !== false) {
+            //bestand is een foto
+            $uploadOk = 1;
+        }
+        else {
+            echo "Bestand is geen foto";
+            $uploadOk = 0;
+        }
+        if ($uploadOk == 0) {
+            echo "Afbeelding niet geupload, probeer het opnieuw.";
+        }
+        else {// if everything is ok, try to upload file
+            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+                //echo Is geupload
+                $sql = "INSERT INTO fietsen
+                            (borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) 
+                            VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",'".$_SESSION['id']."','".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','$target_file','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
+                $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+                header('location: fiets.php?succesvol_toegevoegd='. urlencode('true'));
+            }
+            else {
+                echo "Afbeelding niet geupload, probeer het opnieuw.";
+            }
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="nl">
     <head>
@@ -76,50 +120,6 @@ if (!isset($_SESSION['email'])) {
             <input type="file" name="foto" value="foto" id="foto"><br><br>
             <input type="submit" name="toevoegen" value="Toevoegen">
         </form>
-        <?php
-        if(isset($_POST['toevoegen'])){
-            if (!$_FILES["foto"]["name"]){
-            //geen foto
-            $sql = "INSERT INTO fietsen
-                    (borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) 
-                    VALUES (" . $_POST['borg'] . "," . $_POST['huur-prijs'] . ",'" . $_SESSION['id'] . "','" . $_POST['plaats'] . "'," . $_POST['soort_fiets'] . "," . $_POST['merk_naam'] . ",'" . $_POST['adres'] . "','','" . $_POST['geslacht_fiets'] . "','" . $_POST['kleur'] . "','" . $_POST['versnellingen'] . "','" . $_POST['model'] . "');";
-            $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-            header('location: fiets.php?succesvol_toegevoegd='. urlencode('true'));
-            }
-            else{
-                $uniekePad = date('dmYHis') .$_SESSION['id'];
-                $target_dir = "fiets_afbeeldingen/" .$uniekePad;
-                $target_file = $target_dir . basename($_FILES["foto"]["name"]);
-                $uploadOk = 1;
-                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-                // Check if image file is a actual image or fake image
-                $check = getimagesize($_FILES["foto"]["tmp_name"]);
-                if($check !== false) {
-                //bestand is een foto
-                $uploadOk = 1;
-                }
-                else {
-                    echo "Bestand is geen foto";
-                    $uploadOk = 0;
-                }
-                if ($uploadOk == 0) {
-                    echo "Afbeelding niet geupload, probeer het opnieuw.";
-                }
-                else {// if everything is ok, try to upload file
-                    if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-                        //echo Is geupload
-                        $sql = "INSERT INTO fietsen
-                            (borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model) 
-                            VALUES (".$_POST['borg'].",".$_POST['huur-prijs'].",'".$_SESSION['id']."','".$_POST['plaats']."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$_POST['adres']."','$target_file','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$_POST['versnellingen']."','".$_POST['model']."');";
-                        $insert_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-                        header('location: fiets.php?succesvol_toegevoegd='. urlencode('true'));
-                    }
-                    else {
-                        echo "Afbeelding niet geupload, probeer het opnieuw.";
-                    }
-                }
-            }
-        }
-        ?>
+
     </body>
 </html>

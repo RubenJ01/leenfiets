@@ -125,3 +125,45 @@ body{
 }
 /*einde faq css*/
 
+/* blok fiets */
+.fiets_blok{
+    width: 30%;
+    margin-left: 3%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.fiets_blok h1{
+    text-align: center;
+}
+
+.fiets_blok a{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    width: 50%;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.fiets_blok img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+
+}
+
+
+/* einde blok fiets */
+

@@ -3,6 +3,10 @@ if (!isset($_SESSION)) {
     session_start();
     require 'utils/database_connection.php';
 
+    if (empty($_GET['succesvol_toegevoegd']) && empty($_GET['fiets_id'])){
+        header('location: index.php');
+    }
+
     if(isset($_GET['fiets_id'])){
         //ID meegegeven bijvoorbeeld van overzichtspagina.
         $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.id, fietsen.gebruiker_id, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
@@ -35,7 +39,6 @@ if (!isset($_SESSION)) {
     <body>
         <div><?php include 'menu.php';?></div>
         <?php
-        echo $sql;
         $query = $mysqli->query($sql);
         if (mysqli_num_rows($query) > 0) {
             while ($row = mysqli_fetch_assoc($query)) {
@@ -50,9 +53,12 @@ if (!isset($_SESSION)) {
                 $GLOBALS['versnellingen'] = $row['versnellingen'];
                 $GLOBALS['soort_fiets'] = $row['soort_fiets'];
                 $GLOBALS['huurprijs_dag'] = $row['prijs'];
-                $GLOBALS['show_gebruikers_id'] = $row['gebruiker_id'];
+                $GLOBALS['fiets_gebruikers_id'] = $row['gebruiker_id'];
                 $GLOBALS['fiets_id'] = $row['id'];
             }
+        }
+        else {
+            header('location: index.php');
         }
         if(isset($_GET['succesvol_toegevoegd'])){
         echo "<p>Je fiets ".$merk ." ".$model ." is succesvol toegevoegd.</p>";
@@ -77,8 +83,8 @@ if (!isset($_SESSION)) {
         <tr><td>Borg</td><td> €<?php echo $borg?></td></tr>
         <tr><td>Huurprijs per dag</td><td> €<?php echo $huurprijs_dag?></td></tr>
     </table>
-    <?php if($show_gebruikers_id == $_SESSION['id'] ){
-        echo "<a href=\"http://localhost/ict-project/fiets_bewerken.php?fiets_id=" .$fiets_id ."\">Fiets bewerken</a>";
+    <?php if($fiets_gebruikers_id == $_SESSION['id'] ){
+        echo "<a href=\"fiets_bewerken.php?fiets_id=" .$fiets_id ."\">Fiets bewerken</a>";
     }
     else{
         echo "<a href=\"#" .$fiets_id ."\">Fiets huren</a>";

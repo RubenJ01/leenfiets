@@ -33,6 +33,87 @@ if (mysqli_num_rows($query) > 0) {
 else {
     header('location: index.php');
 }?>
+<?php
+if(isset($_POST['bewerken'])){
+    $sql = "UPDATE fietsen SET borg = ".$_POST['borg'].", prijs = ".$_POST['huur-prijs'].", plaats = '".$_POST['plaats']."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$_POST['adres']."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$_POST['versnellingen']."', model = '".$_POST['model']."' WHERE id = $fiets_id and gebruiker_id = $gebruiker_id ";
+    $insert_query = $mysqli->query($sql);
+    header("Location: fiets.php?fiets_id=$fiets_id");
+    die();
+}
+
+if(isset($_POST['foto_bewerken'])){
+    if (empty($afbeelding)) {
+        $uniekePad = date('dmYHis') .$gebruiker_id;
+        $target_dir = "fiets_afbeeldingen/" .$uniekePad;
+        $target_file = $target_dir . basename($_FILES["foto"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES["foto"]["tmp_name"]);
+        if($check !== false) {
+            //is foto
+            $uploadOk = 1;
+        }
+        else {
+            //is geen foto
+            $uploadOk = 0;
+        }
+        if ($uploadOk == 0) {
+            //echo "Niet geupload";
+        }
+        else {// if everything is ok, try to upload file
+            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+                //uploaden gelukt
+                $sql = "UPDATE fietsen SET foto = '$target_file' where id = $fiets_id and gebruiker_id = $gebruiker_id;";
+                $insert_query = $mysqli->query($sql);
+            }
+            else {
+                //echo "Uploaden niet gelukt";
+            }
+        }
+    }
+    else {
+        $target_dir = "$afbeelding";
+        $target_file = $target_dir ;
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES["foto"]["tmp_name"]);
+        if($check !== false) {
+            //bestand is foto
+            $uploadOk = 1;
+        }
+        else {
+            // Bestand is geen foto
+            $uploadOk = 0;
+        }
+        if ($uploadOk == 0) {
+            //echo "Niet geupload";
+        }
+        else {// if everything is ok, try to upload file
+            if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+                // echo "Is geupload";
+            }
+            else {
+                //echo "Uploaden niet gelukt";
+            }
+        }
+    }
+}
+
+if(isset($_POST['verwijderen'])){
+    if (empty($afbeelding)) {
+        $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
+        $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+        header("Location: index.php");
+    }
+    else{
+        unlink($afbeelding);
+        $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
+        $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+        header("Location: index.php");
+    }
+}?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -53,7 +134,7 @@ else {
             <input type="submit" name="foto_bewerken" value="Foto wijzigen">
         </form>
     </div>
-    <form method="post" id="fietsenbewerken" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>?fiets_id=<?php echo $fiets_id?>">
+    <form method="post" id="fietsenbewerken" enctype="multipart/form-data"  action="<?php echo $_SERVER['PHP_SELF'];?>?fiets_id=<?php echo $fiets_id?>">
         Merk (*)
         <select name="merk_naam"><?php
             $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
@@ -92,88 +173,11 @@ else {
             while($row = $result->fetch_assoc()) {?>
             <option value =<?php echo($row['id'])?><?php if($soort_fiets == ($row['soort_fiets'])){echo ' selected';}?>><?php echo($row['soort_fiets'])?></option><?php
             }?></select><br>
-        Borg(*):
-        <input type="number" min="0" step="0.01" name="borg" max="1000" placeholder="Borg" value="<?=$borg?>" required><br>
+        Borg(*):<input type="number" min="0" step="0.01" name="borg" max="1000" placeholder="Borg" value="<?=$borg?>" required><br>
         Huurprijs per dag(*):
         <input type="number" step="0.01" min="0" max="200" name="huur-prijs" placeholder="Huurprijs" value="<?php echo $huurprijs_dag?>" required><br>
-        <input type="submit" name="bewerken" value="Bewerken">
+        <input type="submit" name="bewerken" value="Opslaan">
         <input type="submit" name="verwijderen" value="Verwijderen">
-    </form><?php
-    if(isset($_POST['bewerken'])){
-        $sql = "UPDATE fietsen SET borg = ".$_POST['borg'].", prijs = ".$_POST['huur-prijs'].", plaats = '".$_POST['plaats']."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$_POST['adres']."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$_POST['versnellingen']."', model = '".$_POST['model']."' WHERE id = $fiets_id and gebruiker_id = $gebruiker_id ";
-        $insert_query = $mysqli->query($sql);
-    }
-
-    if(isset($_POST['foto_bewerken'])){
-        if (empty($afbeelding)) {
-            $uniekePad = date('dmYHis') .$gebruiker_id;
-            $target_dir = "fiets_afbeeldingen/" .$uniekePad;
-            $target_file = $target_dir . basename($_FILES["foto"]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-            // Check if image file is a actual image or fake image
-            $check = getimagesize($_FILES["foto"]["tmp_name"]);
-            if($check !== false) {
-                //is foto
-                $uploadOk = 1;
-            }
-            else {
-                //is geen foto
-                $uploadOk = 0;
-            }
-            if ($uploadOk == 0) {
-                //echo "Niet geupload";
-            }
-            else {// if everything is ok, try to upload file
-                if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-                    //uploaden gelukt
-                    $sql = "UPDATE fietsen SET foto = '$target_file' where id = $fiets_id and gebruiker_id = $gebruiker_id;";
-                    $insert_query = $mysqli->query($sql);
-                }
-                else {
-                    //echo "Uploaden niet gelukt";
-                }
-            }
-        }
-        else {
-            $target_dir = "$afbeelding";
-            $target_file = $target_dir ;
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-            // Check if image file is a actual image or fake image
-            $check = getimagesize($_FILES["foto"]["tmp_name"]);
-            if($check !== false) {
-                //bestand is foto
-                $uploadOk = 1;
-            }
-            else {
-                // Bestand is geen foto
-                $uploadOk = 0;
-            }
-            if ($uploadOk == 0) {
-                //echo "Niet geupload";
-            }
-            else {// if everything is ok, try to upload file
-                if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-                   // echo "Is geupload";
-                }
-                else {
-                    //echo "Uploaden niet gelukt";
-                }
-            }
-        }
-    }
-
-    if(isset($_POST['verwijderen'])){
-        if (empty($afbeelding)) {
-            $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
-            $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-        }
-        else{
-        unlink($afbeelding);
-        $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
-        $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-        }
-    }?>
+    </form>
     </body>
 </html>
