@@ -16,7 +16,6 @@ require 'utils/database_connection.php';
 <head>
     <title>Home</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="utils/styles.css">
 </head>
 <body>
     <div><?php include 'menu.php'; ?></div>

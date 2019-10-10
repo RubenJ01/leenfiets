@@ -83,11 +83,16 @@ if (!isset($_SESSION)) {
         <tr><td>Borg</td><td> €<?php echo $borg?></td></tr>
         <tr><td>Huurprijs per dag</td><td> €<?php echo $huurprijs_dag?></td></tr>
     </table>
-    <?php if($fiets_gebruikers_id == $_SESSION['id'] ){
+    <?php
+    if(!empty($_SESSION['id'])){
+    if($fiets_gebruikers_id == $_SESSION['id'] ){
         echo "<a href=\"fiets_bewerken.php?fiets_id=" .$fiets_id ."\">Fiets bewerken</a>";
     }
     else{
         echo "<a href=\"#" .$fiets_id ."\">Fiets huren</a>";
+    }}
+    else{
+        echo "<a href=\"inloggen.php\">Log in</a>";
     }?>
     </body>
 </html>
