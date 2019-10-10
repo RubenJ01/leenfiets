@@ -17,6 +17,7 @@
 
     require_once('plugins/phpqrcode/qrlib.php');
     require_once('utils/database_connection.php');
+    require_once('utils/core_functions.php');
 
     /// @brief Deze functie genereert een QRcode voor een fiets met daarin een link. In de link staat informatie over het fiets ID en de token van de fiets.
     /// @param $fietsId De id van de fiets waar je een QRcode voor wilt maken.
@@ -57,16 +58,6 @@
     /// @return void
     function DeleteQR($fietsId) {
       unlink("fietsen/{$fietsId}/qr.svg");
-    }
-
-    /// @brief Deze functie geeft een token in hexadecimals. Hou ermee rekening dat de length van de string die je terugkrijgt het dubbele is van de opgegeven length
-    /// @param $length length is optioneel, de standaard waarde is 8
-    /// @return string
-    function GetToken($length = 8) {
-      if ($length < 8) {
-        $length = 8;
-      }
-      return bin2hex(random_bytes($length));
     }
 
 ?>

@@ -56,3 +56,30 @@ function send_email($ontvanger, $onderwerp, $body){
     }
     return $error;
 }
+
+/// @brief Deze functie geeft een token in hexadecimals. Hou ermee rekening dat de length van de string die je terugkrijgt het dubbele is van de opgegeven length
+/// @param $length length is optioneel, de standaard waarde is 8
+/// @return string
+function GetToken($length = 8) {
+  if ($length < 8) {
+    $length = 8;
+  }
+  return bin2hex(random_bytes($length));
+}
+
+/// @brief Deze functie is bijna hetzelfde als header() alleen hier heb je de optie om je getters te bewaren als je naar een andere pagina wil redirecten
+/// @param $page Met $page kan je aangeven naar welke pagina je wil bv. "index.php"
+/// @param $keepGetters $keepGetters is een boolean die standaard false is waarmee je kan aangeven of je de huidige getters wil bewaren tijdens het redirecten naar een andere pagina
+/// @return void
+function RedirectToPage($page, $keepGetters = false) {
+  $header = "Location: $page";
+  // Als er getters in de link staan
+  if ($keepGetters) {
+    $actual_link = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $pos = strpos($actual_link, '?');
+    if ($pos !== false) {
+      $header .= substr($actual_link, $pos);
+    }
+  }
+  header($header);
+}

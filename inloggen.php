@@ -8,20 +8,14 @@
  */
 
 require 'utils/database_connection.php';
+require 'utils/core_functions.php';
 
 if (!isset($_SESSION)) {
     session_start();
 }
 // Als de gebruiker al is ingelogt redirect de gebruiker dan naar de hoofdpagina
 if (isset($_SESSION['email'])) {
-  $header = "Location: index.php";
-  // Als er getters in de link staan
-  $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-  $pos = strpos($actual_link, '?');
-  if ($pos !== false) {
-    $header .= substr($actual_link, $pos);
-  }
-  header($header);
+  RedirectToPage("index.php", true); // Dit is geen standaar functie maar een functie die in core_functions.php staat
 }
 
 ?>
