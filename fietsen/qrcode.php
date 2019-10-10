@@ -15,27 +15,40 @@
 
     // TODO: Delete QR naar dat die gescant is
 
-    require_once('..\plugins\phpqrcode\qrlib.php');
-
-    GenerateQR(1);
+    require_once('../plugins/phpqrcode/qrlib.php');
+    require_once('../utils/database_connection.php');
 
     /// @brief Deze functie genereert een QRcode voor een fiets met daarin een link. In de link staat informatie over het fiets ID en de token van de fiets.
     /// @param $fietsId De id van de fiets waar je een QRcode voor wilt maken.
     /// @return void
     function GenerateQR($fietsId) {
-      $fileName = ($fietsId.'.svg');
-      // Genereer svg bestand met een token voor de fiets
+      $fileName = ("{$fietsId}/qr.svg");
+      // 1. Check of er al een qr code voor deze fiets bestaat
       if (!file_exists($fileName)) {
-          $token = GetToken();
-          // TODO: Sla de token op in de database
-
+        // Maak een folder aan als die nog niet bestaat voor deze fiets
+        if (!is_dir($fietsId)) {
+          mkdir($fietsId);
+        }
+        // 2. Maak een token
+        $token = GetToken();
+        // 3. Insert de token in de database
+        $query = "UPDATE fietsen
+                  SET token = ?
+                  WHERE id = ?";
+        $stmt = $GLOBALS['mysqli']->prepare($query);
+        if (!$stmt) {
+          trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
+        }
+        else {
+          $stmt->bind_param('si', $token, $fietsId);
+          if (!$stmt->execute()) {
+            trigger_error($stmt->error, E_USER_ERROR);
+          }
+          $stmt->close();
+          // 4. Maak de qr.svg bestand
           $QRdescription = ("inloggen.php?qr=true&fietsId={$fietsId}&token={$token}");
           QRcode::svg($QRdescription, $fileName);
-          echo "File generated! Token: {$token}";
-      }
-
-      if (file_exists($fileName)) {
-        echo "<img src='{$fileName}' style='width:500;height:auto;'>";
+        }
       }
     }
 
@@ -43,10 +56,10 @@
     /// @param $fietsId De id van de fiets
     /// @return void
     function DeleteQR($fietsId) {
-      unlink($fietsId.'.svg');
+      unlink("{$fietsId}/qr.svg");
     }
 
-    /// @brief Deze functie geeft een token met
+    /// @brief Deze functie geeft een token in hexadecimals. Hou er dus rekening mee dat de string langer kan zijn dan de aangegeven length
     /// @param $length length is optioneel, de standaard waarde is 8
     /// @return string
     function GetToken($length = 8) {
