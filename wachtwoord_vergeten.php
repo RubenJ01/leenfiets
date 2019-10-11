@@ -66,25 +66,15 @@ if (isset($_POST['aanvragen'])) {
             die('Invalid query: ' . $mysqli->error);
         }
         if ($mysqli->affected_rows == 1) {
-            $mail = new PHPMailer(true);
-            try {
-                $mail->IsSMTP();
-                $mail->Host = "smtp.gmail.com";
-                $mail->SMTPAuth = true;
-                $mail->Username = 'leenfiets2019@gmail.com';
-                $mail->Password = 'ict_project2019';
-                $mail->setFrom('leenfiets2019@gmail.com', 'Leenfiets');
-                $mail->addAddress($email);
-                $mail->isHTML(true);
-                $mail->Subject = 'Wachtwoord veranderen';
-                $mail->Body = "<a href=localhost/ict-project/nieuw_wachtwoord.php?wachtwoord_code=$wachtwoord_code&email=$email>hier<a/>";
-                $mail->send();
-                echo "Er is een mail gestuurd om je wachtwoord te resetten.";
-            } catch (Exception $e) {
-                echo "E-mail niet kunnen verzenden. Mail error {$mail->ErrorInfo}";
-            }
-        } else {
-            echo "Sorry we hebben dat E-mail adres niet kunnen vinden.";
+           $ontvanger = $email;
+           $onderwerp = 'Wachtwoord vergeten.';
+           $body = "<a href=localhost/ict-project/nieuw_wachtwoord.php?wachtwoord_code=$wachtwoord_code&email=$email>hier<a/>";
+           $error = send_email($ontvanger, $onderwerp, $body);
+           if ($error == 'false') {
+               echo 'Er is een mail verstuurd om je wachtwoord te resetten.';
+           } else {
+               echo $error;
+           }
         }
     }
 }

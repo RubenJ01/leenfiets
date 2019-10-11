@@ -26,6 +26,11 @@ if (!isset($_SESSION)) {
            <?php
             if (isset($_SESSION['id'])) {
                 $id = $_SESSION['id'];
+                if ($_SESSION['rol'] == 'admin') {
+                    echo "
+                        <a href='dashboard.php'>Dashboard</a>
+                        ";
+                }
                 echo "
                     <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
                     <a href='mijn_fietsen.php'>Mijn fietsen</a>

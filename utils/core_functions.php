@@ -10,9 +10,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'plugins/PHPMailer/src/Exception.php';
-require 'plugins/PHPMailer/src/PHPMailer.php';
-require 'plugins/PHPMailer/src/SMTP.php';
+require_once('plugins/PHPMailer/src/Exception.php');
+require_once('plugins/PHPMailer/src/PHPMailer.php');
+require_once('plugins/PHPMailer/src/SMTP.php');
 
 /// @brief Deze functie controleert of het wachtwoord wat de gebruiker ingevuld heeft sterk genoeg is.
 /// @param $wachtwoord Het wachtwoord wat we willen controleren.

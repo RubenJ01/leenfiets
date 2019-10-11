@@ -78,6 +78,7 @@ if(isset($_POST["Verstuur"])){
         echo "E-mail niet kunnen verzenden. Mail error {$mail->ErrorInfo}";
     }
     echo "email is succesvol verzonden";
+
 }
 
 
