@@ -32,13 +32,20 @@ while ($row = $get_userinfo->fetch_assoc()) {
 <body>
 <div><?php include 'menu.php'; ?></div>
 
+    <table>
+        <tr><td>Profielfoto:</td><td><input type="file" name="foto" value="foto" id="foto"></td></tr>
+        <tr><td><input type="submit" name="toevoegen" value="Toevoegen"></td></tr>
+    </table>
+
     <p>Gebruikersnaam: <?php echo $naam?></p>
     <p>Email address: <?php echo $email?></p>
     <p>Gebruiker ID: <?php echo $id?></p>
+    <p>Bio: </p><br/><br/>
 
+    <p>Bio updaten:</p>
     <form action="" method="post">
         <textarea name="bio" cols="40" rows="5"></textarea><br/>
-        <input type="submit" name="submit" value="update">
+        <input type="submit" name="submit" value="Update en verzenden">
     </form>
 
 

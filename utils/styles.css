@@ -11,6 +11,9 @@
 .navbar {
     overflow: hidden;
     background-color: grey;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+
 }
 
 .navbar a {
@@ -20,11 +23,15 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 
 .dropdown {
     float: left;
     overflow: hidden;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 
 .dropdown .dropbtn {
@@ -34,12 +41,15 @@
     color: white;
     padding: 14px 16px;
     background-color: inherit;
-    font-family: inherit;
     margin: 0;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
     background-color: darkgrey;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 
 .dropdown-content {
@@ -49,6 +59,8 @@
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 
 .dropdown-content a {
@@ -58,19 +70,27 @@
     text-decoration: none;
     display: block;
     text-align: left;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 
 .dropdown-content a:hover {
     background-color: #ddd;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
 }
 /*Einde Navigatiebar boven aan de website*/
 
 body{
     margin: 0;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+
 }
 
 #fietsentoevoegen{
