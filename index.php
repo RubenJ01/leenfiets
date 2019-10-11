@@ -81,8 +81,8 @@ require 'fietsen/qrcode.php';
 
 
 
-    $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen,fietsen.gebruiker_id , fietsen.id, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam
-        from fietsen, merk_fiets, soort_fiets, gebruiker
+    $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.id, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam
+        from fietsen, merk_fiets, soort_fiets
         WHERE fietsen.id_soort_fiets = soort_fiets.id
         AND fietsen.id_merk_fiets = merk_fiets.id ";
     $result = $mysqli->query($sql);
