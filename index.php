@@ -101,7 +101,7 @@ require 'fietsen/qrcode.php';
                     <li>Plaats: $row[plaats]</li>
                     <li>Soort fiets: $row[soort_fiets]</li>
                     <li>Aantal versnellingen $row[versnellingen]</li>
-                    <li>Geslacht fiets:: $row[geslacht_fiets]</li>
+                    <li>Geslacht fiets: $row[geslacht_fiets]</li>
                     </ul>
                     <img src = $afbeelding>
                     <a href=fiets.php?fiets_id=$row[id]  >Fiets bekijken</a>
