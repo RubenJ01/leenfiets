@@ -14,6 +14,7 @@ if (!isset($_SESSION)) {
 <html lang="nl">
 <head>
     <link rel="stylesheet" href="utils/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
 </head>
 <body>
