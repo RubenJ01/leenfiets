@@ -68,57 +68,48 @@ if(isset($_POST['toevoegen'])){
     <body>
         <div><?php include 'menu.php'; ?></div>
         <form method="post" id="fietsentoevoegen" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            Merk (*)
-            <select name="merk_naam"><?php
-            $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
-            $result = $mysqli->query($sql);
-            while($row = $result->fetch_assoc())
-            {
-                ?>
-                <option value =<?php echo($row['id'])?>><?php echo($row['merk_naam']) ?></option><?php
-            }
-            ?>
-            </select><br>
-            Model(*)
-            <input type="text" name="model" placeholder="Model" required><br>
-            Plaats(*)
-            <input type="text" name="plaats" placeholder="Plaats" required><br>
-            Adres(*)
-            <input type="text" name="adres" placeholder="Adres" required><br>
-            Kleur fiets(*):
-            <select name="kleur">
-                <option value="Geel">Geel</option>
-                <option value="Oranje">Oranje</option>
-                <option value="Zwart">Zwart</option>
-                <option value="Blauw">Blauw</option>
-                <option value="Grijs">Grijs</option>
-                <option value="Wit">Wit</option>
-                <option value="Wit">Roze</option>
-            </select><br>
-            Man of vrouw(*)
-            <input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
-            <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets
-            <input type="radio" name="geslacht_fiets" value="Onzijdig">Onzijdige fiets<br>
-            Versnellingen(*):
-            <input type="number" min="0" max="27" name="versnellingen" placeholder="Aantal versnellingen" required><br>
-            Soort fiets(*):
-            <select name="soort_fiets">
-                <?php
-                    $sql = "SELECT soort_fiets, id FROM soort_fiets order by soort_fiets asc";
-                    $result = $mysqli->query($sql);
-                    while($row = $result->fetch_assoc()) {
-                ?>
-                    <option value = <?php echo($row['id'])?>><?php echo($row['soort_fiets'])?></option><?php
-                }
-                ?>
-            </select><br>
-            Borg(*):
-            <input type="number" min="0" step="0.01" name="borg" max="1000" placeholder="Borg" required><br>
-            Huurprijs per dag(*):
-            <input type="number" step="0.01" min="0" max="200" name="huur-prijs" placeholder="Huurprijs" required><br>
-            Afbeelding:
-            <input type="file" name="foto" value="foto" id="foto"><br><br>
-            <input type="submit" name="toevoegen" value="Toevoegen">
+            <table>
+                <tr><td>Merk (*)</td><td><select name="merk_naam"><?php
+                            $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
+                            $result = $mysqli->query($sql);
+                            while($row = $result->fetch_assoc())
+                            {
+                                ?>
+                                <option value =<?php echo($row['id'])?>><?php echo($row['merk_naam']) ?></option><?php
+                            }
+                            ?>
+                        </select><br></td></tr>
+                <tr><td>Model(*)</td><td><input type="text" name="model" placeholder="Model" required></td></tr>
+                <tr><td>Plaats(*)</td><td><input type="text" name="plaats" placeholder="Plaats" required></td></tr>
+                <tr><td>Adres(*)</td><td><input type="text" name="adres" placeholder="Adres" required></td></tr>
+                <tr><td>Kleur fiets(*):</td><td><select name="kleur">
+                            <option value="Geel">Geel</option>
+                            <option value="Oranje">Oranje</option>
+                            <option value="Zwart">Zwart</option>
+                            <option value="Blauw">Blauw</option>
+                            <option value="Grijs">Grijs</option>
+                            <option value="Wit">Wit</option>
+                            <option value="Wit">Roze</option>
+                        </select></td></tr>
+                <tr><td>Geslacht fiets(*)</td><td><input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
+                        <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets
+                        <input type="radio" name="geslacht_fiets" value="Onzijdig">Onzijdige fiets</tr>
+                <tr><td>Versnellingen(*)</td><td><input type="number" min="0" max="27" name="versnellingen" placeholder="Aantal versnellingen" required></td></tr>
+                <tr><td>Soort fiets(*)</td><td><select name="soort_fiets">
+                            <?php
+                            $sql = "SELECT soort_fiets, id FROM soort_fiets order by soort_fiets asc";
+                            $result = $mysqli->query($sql);
+                            while($row = $result->fetch_assoc()) {
+                                ?>
+                                <option value = <?php echo($row['id'])?>><?php echo($row['soort_fiets'])?></option><?php
+                            }
+                            ?>
+                        </select></td></tr>
+                <tr><td>Borg(*)</td><td><input type="number" min="0" step="0.01" name="borg" max="1000" placeholder="Borg" required></td></tr>
+                <tr><td>Huurprijs per dag(*)</td><td><input type="number" step="0.01" min="0" max="200" name="huur-prijs" placeholder="Huurprijs" required></td></tr>
+                <tr><td>Afbeelding:</td><td><input type="file" name="foto" value="foto" id="foto"></td></tr>
+                <tr><td><input type="submit" name="toevoegen" value="Toevoegen"></td></tr>
+            </table>
         </form>
 
     </body>

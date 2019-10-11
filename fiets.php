@@ -9,10 +9,11 @@ if (!isset($_SESSION)) {
 
     if(isset($_GET['fiets_id'])){
         //ID meegegeven bijvoorbeeld van overzichtspagina.
-        $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.id, fietsen.gebruiker_id, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
-        from fietsen, merk_fiets, soort_fiets   
+        $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.id, gebruiker.naam, fietsen.gebruiker_id, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
+        from fietsen, merk_fiets, soort_fiets, gebruiker   
         WHERE fietsen.id_soort_fiets = soort_fiets.id 
-        AND fietsen.id_merk_fiets = merk_fiets.id 
+        AND fietsen.id_merk_fiets = merk_fiets.id
+        AND fietsen.gebruiker_id = gebruiker.id
         AND fietsen.id = " .$_GET['fiets_id'] ."
         limit 1";
     }
@@ -55,6 +56,7 @@ if (!isset($_SESSION)) {
                 $GLOBALS['huurprijs_dag'] = $row['prijs'];
                 $GLOBALS['fiets_gebruikers_id'] = $row['gebruiker_id'];
                 $GLOBALS['fiets_id'] = $row['id'];
+                $GLOBALS['gebruikersnaam'] = $row['naam'];
             }
         }
         else {
@@ -82,6 +84,7 @@ if (!isset($_SESSION)) {
         <tr><td>Soort fiets</td><td> <?php echo $soort_fiets?></td></tr>
         <tr><td>Borg</td><td> €<?php echo $borg?></td></tr>
         <tr><td>Huurprijs per dag</td><td> €<?php echo $huurprijs_dag?></td></tr>
+        <tr><td>Deze fiets wordt aangeboden door:</td><td><a href=<?= '\profiel.php?gebruikers_id=' .$fiets_gebruikers_id?> ><?= $gebruikersnaam?></a></td></tr>
     </table>
     <?php
     if(!empty($_SESSION['id'])){
