@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <?php
 include "menu.php";
+include "utils/core_functions.php";
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
-require 'plugins/PHPMailer/src/Exception.php';
-require 'plugins/PHPMailer/src/PHPMailer.php';
-require 'plugins/PHPMailer/src/SMTP.php';
  ?>
 <html>
 <head><title>Contact</title></head>
 <body>
-<form method="post">
+<form method="GET">
   <?php
   if(!isset($_SESSION["email"])){
 
@@ -37,21 +33,21 @@ echo    '<fieldset>
 </body>
 </html>
 <?php
-if(isset($_POST["Verstuur"])){
+if(isset($_GET["Verstuur"])){
     $email = NULL;
     if(isset($_SESSION["email"])){
       $email = $_SESSION["email"];
 
     }
     else{
-      $email=$_POST["email"];
+      $email=$_GET["email"];
       if($email==""){
         echo "vul email in";
         return;
       }
     }
-    $onderwerp = $_POST["onderwerp"];
-    $bericht=$_POST["bericht"];
+    $onderwerp = $_GET["onderwerp"];
+    $bericht=$_GET["bericht"];
     if($onderwerp==""){
       echo "vul een onderwerp in";
       return;
@@ -60,27 +56,15 @@ if(isset($_POST["Verstuur"])){
       echo "vul een bericht in";
       return;
     }
-    $bericht = "From: ". $email. "<br>". $bericht;
-    $mail = new PHPMailer(true);
-    try {
-        $mail->IsSMTP();
-        $mail->Host = "smtp.gmail.com";
-        $mail->SMTPAuth = true;
-        $mail->Username = 'leenfiets2019@gmail.com';
-        $mail->Password = 'ict_project2019';
-        $mail->setFrom('leenfiets2019@gmail.com', 'Mailer');
-        $mail->addAddress("leenfiets2019@gmail.com");
-        $mail->isHTML(true);
-        $mail->Subject = $onderwerp;
-        $mail->Body = $bericht;
-        $mail->send();
-    } catch (Exception $e) {
-        echo "E-mail niet kunnen verzenden. Mail error {$mail->ErrorInfo}";
+    $bericht = "From: ". $email. "<br>". $bericht;"";
+    $ontvanger = "leenfiets2019@gmail.com";
+    $error = send_email($ontvanger, $onderwerp, $bericht);
+    if ($error == 'false') {
+        echo "email is succesvol verzonden";
+    } else {
+        echo $error;
     }
-    echo "email is succesvol verzonden";
+    RedirectToPage("contact.php");
+
 }
-
-
-
-
  ?>
