@@ -17,22 +17,21 @@ while ($row = $get_userinfo->fetch_assoc()) {
     $user_bio = $row['bio'];
 }
 
+$user_bio = str_replace("\n","<br/>",$user_bio);
+
 } else {
     header('location: index.php');
 }
 
 if (isset($_POST['submit'])) {
-    $bio = $_POST['bio'];
+    $bio = str_replace("\n","<br/>",$_POST['bio']);
     $sql = "update gebruiker
             set bio = '$bio'
             where id = '$id'";
     $bio_update = $mysqli->query($sql);
-
+    header("Refresh:0");
 }
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -41,22 +40,20 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 <div><?php include 'menu.php'; ?></div>
-
-    <table>
-        <tr><td>Profielfoto:</td><td><input type="file" name="foto" value="foto" id="foto"></td></tr>
-        <tr><td><input type="submit" name="toevoegen" value="Toevoegen"></td></tr>
-    </table><br/>
-
-    <p>Gebruikersnaam: <?php echo $naam;?></p>
-    <p>Email address: <?php echo $email;?></p>
-    <p>Gebruiker ID: <?php echo $id;?></p>
-    <p>Bio: <?php echo $user_bio;?></p><br/><br/>
-
+<form action="" method="post">
+     <b>Profielfoto:</b><br/>
+     <input type="file" name="foto" value="foto" id="foto"><br/>
+     <input type="submit" name="toevoegen" value="Toevoegen">
+</form>
+<p><b>Gebruikersnaam: </b> <?php echo $naam;?></p>
+<p><b>Email address: </b><?php echo $email;?></p>
+<p><b>Gebruiker ID: </b> <?php echo $id;?></p>
+<p><b>Bio: </b></br> <?php echo $user_bio;?></p><br/><br/>
 <?php
 if (isset($_SESSION['id'])) {
     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
         echo " 
-    <p>Bio updaten:</p>
+    <p><b>Bio updaten:</b></p>
     <form action='' method='post'>
         <textarea name='bio' cols='40' rows='5'></textarea><br/>
         <input type='submit' name='submit' value='Update en verzenden'>
@@ -64,7 +61,6 @@ if (isset($_SESSION['id'])) {
     ";
     }
 }
-
 ?>
 </body>
 </html>
