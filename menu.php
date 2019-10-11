@@ -24,12 +24,12 @@ if (!isset($_SESSION)) {
         <button class="dropbtn">Mijn account</button>
         <div class="dropdown-content">
            <?php
-            if (isset($_SESSION['email'])) {
-                $email = $_SESSION['email'];
+            if (isset($_SESSION['id'])) {
+                $id = $_SESSION['id'];
                 echo "
                     <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
                     <a href='mijn_fietsen.php'>Mijn fietsen</a>
-                    <a href='profiel.php?gebruiker=$email'>Mijn profiel</a>
+                    <a href='profiel.php?gebruikers_id=$id'>Mijn profiel</a>
                     <a href='uitloggen.php'>Uitloggen</a>
                     ";
             } else {
@@ -43,6 +43,6 @@ if (!isset($_SESSION)) {
     </div>
     <a href="contact.php">Contact</a>
     <a href="faq.php">FAQ</a>
-</div>
+</div>//njjnjj
 </body>
 </html>
