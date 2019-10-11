@@ -35,6 +35,7 @@ if (isset($_GET['gebruikers_id'])) {
 
 <?php } else {
     header('location: index.php');
+    //jjij
 } ?>
 </body>
 </html>
