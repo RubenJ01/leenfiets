@@ -30,7 +30,7 @@ if (isset($_GET['gebruikers_id'])) {
     <p>Email address: <?php echo $email?></p>
     <p>Gebruiker ID: <?php echo $id?></p>
 <?php } else {
-    //header('location: index.php');
+    header('location: index.php');
 } ?>
 </body>
 </html>
