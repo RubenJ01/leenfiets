@@ -54,6 +54,16 @@ if (isset($_SESSION['rol'])) {
             }
             ?>
         </table>
+        <form method="post" action="" id="admin_geven">
+            <h3>Admin rechten geven</h3>
+            <label for="gebruiker_email">Gebruiker email</label>
+            <input type="text" name="gebruiker_email" id="admin_geven"> <br />
+            <label for="actie">Rechten toekennen</label>
+            <input type="radio" name="actie" value="admin_geven"> <br />
+            <label for="actie">Rechten verwijderen</label>
+            <input type="radio" name="actie" value="admin_verwijderen"> <br>
+            <input type="submit" name="admin_aanpassing_versturen" value="Uitvoeren">
+        </form>
     </div>
     <?php
     $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
@@ -78,13 +88,13 @@ if (isset($_SESSION['rol'])) {
         </table>
         <form method="post" action="" id="merk_aanpassen">
             <h3>Merk Toevoegen</h3>
-            <label for="nieuw_merk">Merk:</label>
+            <label for="nieuw_merk">Merk</label>
             <input type="text" name="merk_naam" id="merk_naam" placeholder="Merk naam"> <br />
             <label for="merk_toevoegen">Toevoegen</label>
             <input type="radio" name="merk_aanpassen" id="merk_toevoegen" value="toevoegen"> <br />
             <label for="merk_verwijderen">Verwijderen</label>
             <input type="radio" name="merk_aanpassen" id="merk_verwijderen" value="verwijderen"> <br />
-            <input type="submit" name="merk_aanpassing_versturen" value="Uitvoeren" class="registreerknop">
+            <input type="submit" name="merk_aanpassing_versturen" value="Uitvoeren">
         </form>
     </div>
     <script src="js/dashboard.js"></script>
@@ -120,6 +130,25 @@ if (isset($_POST['merk_aanpassing_versturen'])) {
             echo $merk_naam . " verwijdert uit de database.";
         } else {
             echo "Dat merk bestaat al.";
+        }
+    }
+}
+
+if (isset($_POST['admin_aanpassing_versturen'])) {
+    $email = $_POST['gebruiker_email'];
+    $actie = $_POST['actie'];
+    $zoek_gebruiker = "select rol from gebruiker where email= '$email'";
+    $result = $mysqli->query($zoek_gebruiker);
+    if ($result->num_rows == 1){
+        if ($actie == 'admin_geven'){
+            $sql_update = "update gebruiker set rol = 'admin' where email = '$email'";
+            $result = $mysqli->query($sql_update);
+            echo $email .  " heeft nu admin rechten.";
+        }
+        elseif ($actie == 'admin_verwijderen') {
+            $sql_update = "update gebruiker set rol = 'standaard' where email = '$email'";
+            $result = $mysqli->query($sql_update);
+            echo $email .  " heeft nu geen admin rechten meer.";
         }
     }
 }
