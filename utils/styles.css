@@ -148,8 +148,7 @@ body{
 /* blok fiets */
 .fiets_blok{
     width: 30%;
-    margin-top: 1%;
-    margin-left: 3%;
+    margin-left: 2%;
     height: auto;
     border: 2px solid black;
     border-radius: 5px;
@@ -160,6 +159,7 @@ body{
 
 .fiets_blok h1{
     text-align: center;
+    font-size:2vw;
 }
 
 .fiets_blok a{
@@ -183,6 +183,7 @@ body{
     margin-left: auto;
     margin-right: auto;
     width: 80%;
+    margin-top: 1%;
 
 }
 /* einde blok fiets */
@@ -230,7 +231,8 @@ body{
 #bodyFietsen{
     width: 100%;
     float: right;
+    margin-top: 1%;
     margin-left: auto;
-    margin-right: 1%;
+    margin-right: auto;
 }
 /* hoofdpagina tekst */
