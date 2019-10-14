@@ -27,7 +27,6 @@ if (isset($_SESSION['rol'])) {
 </head>
 <body>
     <div><?php include 'menu.php'; ?></div>
-<<<<<<< Updated upstream
     <button onclick="toggle_visibility('user_div')">Gebruikers</button>
     <button onclick="toggle_visibility('merk_div')">Merk</button>
     <div id="user_div" style="display: none;">
@@ -89,28 +88,6 @@ if (isset($_SESSION['rol'])) {
         </form>
     </div>
     <script src="js/dashboard.js"></script>
-=======
-    <table id="tblData">
-        <tr>
-            <th>Naam</th>
-            <th>Email</th>
-            <th>Id</th>
-        </tr>
-        <?php
-        $sql_userinfo = "select id, naam, email from gebruiker";
-        $resultaat_userinfo = $mysqli->query($sql_userinfo);
-        while ($row = $resultaat_userinfo>fetch_assoc()) {
-            echo "
-            <tr>
-              <td>" . htmlentities($row['naam']) . "</td>
-              <td>" . htmlentities($row['email']) . "</td>
-              <td>" . htmlentities($row['id']) . "</td>
-            </tr>
-            ";
-        }
-        ?>
-    </table>
->>>>>>> Stashed changes
 </body>
 </html>
 <?php
@@ -118,7 +95,6 @@ if (isset($_SESSION['rol'])) {
 } else {
     RedirectToPage('index.php');
 }
-<<<<<<< Updated upstream
 
 // controleren of we de goeie form behandelen
 if (isset($_POST['merk_aanpassing_versturen'])) {
@@ -147,6 +123,4 @@ if (isset($_POST['merk_aanpassing_versturen'])) {
         }
     }
 }
-=======
->>>>>>> Stashed changes
 ?>

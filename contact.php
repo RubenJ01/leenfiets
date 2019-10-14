@@ -64,7 +64,7 @@ if(isset($_GET["Verstuur"])){
     } else {
         echo $error;
     }
-
+    RedirectToPage("contact.php");
 
 }
  ?>
