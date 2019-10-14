@@ -148,12 +148,14 @@ body{
 /* blok fiets */
 .fiets_blok{
     width: 30%;
+    margin-top: 1%;
     margin-left: 3%;
     height: auto;
     border: 2px solid black;
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
+    display: none;
 }
 
 .fiets_blok h1{
@@ -184,3 +186,51 @@ body{
 
 }
 /* einde blok fiets */
+
+/* begin hoofdpagina tekst */
+#tekstHoofdpagina h1{
+    text-align: center;
+}
+#tekstHoofdpagina{
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#buttonLaadMeer {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1%;
+
+}
+#filter{
+    float: left;
+    width: 19%;
+    height: auto;
+    margin-top: 1%;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 1%;
+    margin-right: auto;
+    position: fixed;
+    display: none;
+
+}
+
+#bodyFietsen{
+    width: 100%;
+    float: right;
+    margin-left: auto;
+    margin-right: 1%;
+}
+/* hoofdpagina tekst */

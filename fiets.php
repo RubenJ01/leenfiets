@@ -87,7 +87,7 @@ if (!isset($_SESSION)) {
         <tr><td>Borg</td><td> €<?php echo $borg?></td></tr>
         <tr><td>Huurprijs per dag</td><td> €<?php echo $huurprijs_dag?></td></tr>
         <tr><td>Omschrijving</td><td><?php echo $omschrijving?></td></tr>
-        <tr><td>Deze fiets wordt aangeboden door:</td><td><a href=<?= '\ict-project\profiel.php?gebruikers_id=' .$fiets_gebruikers_id?> ><?= $gebruikersnaam?></a></td></tr>
+        <tr><td>Deze fiets wordt aangeboden door:</td><td><a href=<?= '\profiel.php?gebruikers_id=' .$fiets_gebruikers_id?> ><?= $gebruikersnaam?></a></td></tr>
     </table>
     <?php
     if(!empty($_SESSION['id'])){
