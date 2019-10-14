@@ -68,7 +68,7 @@ if (isset($_POST['aanvragen'])) {
         if ($mysqli->affected_rows == 1) {
            $ontvanger = $email;
            $onderwerp = 'Wachtwoord vergeten.';
-           $body = "<a href=http://leenfiets.antonbonder.nl/nieuw_wachtwoord.php?wachtwoord_code=$wachtwoord_code&email=$email>hier<a/>";
+           $body = "<a href=localhost/ict-project/nieuw_wachtwoord.php?wachtwoord_code=$wachtwoord_code&email=$email>hier<a/>";
            $error = send_email($ontvanger, $onderwerp, $body);
            if ($error == 'false') {
                echo 'Er is een mail verstuurd om je wachtwoord te resetten.';

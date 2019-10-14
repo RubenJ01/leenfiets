@@ -83,7 +83,7 @@ if(isset($_POST['registreer'])){
             $stmt->close();
             $ontvanger = $email;
             $onderwerp = "E-mail verificatie";
-            $body = "Verifieer je account <a href=http://leenfiets.antonbonder.nl//verify.php?verificatie_code=$verificatie_code>hier<a/>. ";
+            $body = "Verifieer je account <a href=localhost/ict-project/verify.php?verificatie_code=$verificatie_code>hier<a/>. ";
             $error = send_email($ontvanger, $onderwerp, $body);
             if ($error == 'false') {
                 header('location: inloggen.php?registratie_succesvol=' . urlencode('true'));

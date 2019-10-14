@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <?php
 include "menu.php";
 include "utils/core_functions.php";
-?>
-<!DOCTYPE html>
+
+
+ ?>
 <html>
 <head><title>Contact</title></head>
 <body>
