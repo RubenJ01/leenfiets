@@ -86,7 +86,7 @@ if(isset($_POST['registreer'])){
             $body = "Verifieer je account <a href=localhost/ict-project/verify.php?verificatie_code=$verificatie_code>hier<a/>. ";
             $error = send_email($ontvanger, $onderwerp, $body);
             if ($error == 'false') {
-                header('location: inloggen.php?registratie_succesvol=' . urlencode('true'));
+                header('location: http://leenfiets.antonbonder.nl/inloggen.php?registratie_succesvol=' . urlencode('true'));
             } else {
                 echo $error;
             }
