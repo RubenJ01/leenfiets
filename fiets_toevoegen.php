@@ -30,7 +30,6 @@ if(isset($_POST['toevoegen'])){
         $target_dir = "fiets_afbeeldingen/" .$uniekePad;
         $target_file = $target_dir . basename($_FILES["foto"]["name"]);
         $uploadOk = 1;
-        $fotoAfmetingen = getimagesize($_FILES["foto"]["tmp_name"]);
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
         $check = getimagesize($_FILES["foto"]["tmp_name"]);
@@ -42,12 +41,6 @@ if(isset($_POST['toevoegen'])){
             echo "Bestand is geen foto";
             $uploadOk = 0;
         }
-        if($fotoAfmetingen[0] != $fotoAfmetingen[1]) {
-            //Foto is geen vierkant
-            echo 'Upload een vierkante foto';
-            $uploadOk = 0;
-        }
-
         if ($uploadOk == 0) {
             echo "Afbeelding niet geupload, probeer het opnieuw.";
         }

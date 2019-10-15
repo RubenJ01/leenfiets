@@ -179,12 +179,21 @@ body{
 }
 
 .fiets_blok img {
-    display: block;
-    margin-left: auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    margin-left:  auto;
     margin-right: auto;
-    width: 80%;
-    margin-top: 1%;
 
+}
+.afbeeldingDiv {
+    width: 80%;
+    padding-bottom: 80%;
+    margin-left:  auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
 }
 /* einde blok fiets */
 

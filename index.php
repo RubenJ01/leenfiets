@@ -69,8 +69,8 @@ require 'utils/database_connection.php';
                     <li>Soort fiets: $row[soort_fiets]</li>
                     <li>Aantal versnellingen $row[versnellingen]</li>
                     <li>Geslacht fiets: $row[geslacht_fiets]</li>
-                    </ul>
-                    <img src = $afbeelding>
+                    </ul><div class='afbeeldingDiv'>
+                    <img src = $afbeelding></div>
                     <a href=fiets.php?fiets_id=$row[id]  >Fiets bekijken</a>
                     </div>";
         }
