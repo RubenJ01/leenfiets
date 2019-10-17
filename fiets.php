@@ -73,7 +73,7 @@ if (!isset($_SESSION)) {
         if (empty($afbeelding)) {
             echo 'fiets_afbeeldingen/default.png';
         }
-        else{echo $afbeelding;}?>
+        else{echo $afbeelding ."?t=" .time();}?>
         ">
     <table>
         <tr><td>Merk</td><td><?php echo $merk?></td></tr>

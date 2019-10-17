@@ -82,7 +82,7 @@ require 'utils/database_connection.php';
                     <li>Aantal versnellingen $row[versnellingen]</li>
                     <li>Geslacht fiets: $row[geslacht_fiets]</li>
                     </ul><div class='afbeeldingDiv'>
-                    <img src = $afbeelding></div>
+                    <img src = $afbeelding?t=time()></div>
                     <a href=fiets.php?fiets_id=$row[id]  >Fiets bekijken</a>
                     </div>";
         }

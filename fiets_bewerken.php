@@ -129,7 +129,7 @@ if(isset($_POST['verwijderen'])){
             if (empty($afbeelding)) {
             echo 'fiets_afbeeldingen/default.png';
             }
-            else{echo $afbeelding;}?>"><br>
+            else{echo $afbeelding ."?t=" .time();}?>"><br>
         <h1>Afbeelding bewerken</h1><br>
         <form method="post" id="fietsenbewerken" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>?fiets_id=<?php echo $fiets_id?>">
             <input type="file" name="foto" value="foto" id="foto"><br>
