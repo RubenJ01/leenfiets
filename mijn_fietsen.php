@@ -6,9 +6,6 @@
  *
  * De gebruikers krijgen een overzicht van de fietsen die ze online hebben staan.
  */
-?>
-
-<?php
 
 if (!isset($_SESSION)) {
     session_start();
@@ -17,11 +14,7 @@ if (!isset($_SESSION)) {
 $id = $_SESSION['id'];
 
 require 'utils/database_connection.php';
-
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -29,7 +22,6 @@ require 'utils/database_connection.php';
     <meta charset="UTF-8">
 </head>
 <body>
-
 <div><?php include 'menu.php'; ?></div>
 <div class='profiel_fiets_text'>
     <h2>Op deze pagina bevinden zich alle fietsen die u heeft geupload!<br> U kunt de fietsen verwijderen en aanpassen met de 'Fiets bekijken' knop</h2>
@@ -41,7 +33,6 @@ $sql = "SELECT f.borg, f.prijs, f.versnellingen, f.id, f.plaats, f.kleur_fiets, 
         JOIN soort_fiets s ON f.id_soort_fiets = s.id
         WHERE f.gebruiker_id = '$id'";
 $result = $mysqli->query($sql);
-
 if ($result->num_rows > 0) {
     //maakt blokjes van sql
     while($row = $result->fetch_assoc()) {
@@ -65,8 +56,5 @@ if ($result->num_rows > 0) {
 }
 else { echo "Je hebt nog geen fietsen geposted"; }
 ?>
-
-
-
 </body>
 </html>
