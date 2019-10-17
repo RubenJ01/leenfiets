@@ -31,6 +31,11 @@ if (isset($_POST['submit'])) {
     $bio_update = $mysqli->query($sql);
     header("Refresh:0");
 }
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -46,8 +51,8 @@ if (isset($_POST['submit'])) {
      <input type="submit" name="toevoegen" value="Toevoegen">
 </form>
 <p><b>Gebruikersnaam: </b> <?php echo $naam;?></p>
-<p><b>Email address: </b><?php echo $email;?></p>
-<p><b>Gebruiker ID: </b> <?php echo $id;?></p>
+<!-- <p><b>Email address: </b><?php echo $email;?></p>
+<p><b>Gebruiker ID: </b> <?php echo $id;?></p> --!>
 <p><b>Bio: </b></br> <?php echo $user_bio;?></p><br/><br/>
 <?php
 if (isset($_SESSION['id'])) {
