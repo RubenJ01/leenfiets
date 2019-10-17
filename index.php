@@ -75,7 +75,7 @@ require 'utils/database_connection.php';
             }
             echo   "<div class='fiets_blok'>
                     <h1>$row[merk_naam] $row[model]</h1>
-                    <h4>€$row[prijs] per dag</h4>
+                    <h4>€$row[prijs] per dag<br/></h4>
                     <ul>
                     <li>Plaats: $row[plaats]</li>
                     <li>Soort fiets: $row[soort_fiets]</li>

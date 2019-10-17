@@ -32,10 +32,6 @@ if (isset($_POST['submit'])) {
     header("Refresh:0");
 }
 
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -45,15 +41,22 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 <div><?php include 'menu.php'; ?></div>
-<form action="" method="post">
-     <b>Profielfoto:</b><br/>
-     <input type="file" name="foto" value="foto" id="foto"><br/>
-     <input type="submit" name="toevoegen" value="Toevoegen">
-</form>
-<p><b>Gebruikersnaam: </b> <?php echo $naam;?></p>
-<!-- <p><b>Email address: </b><?php echo $email;?></p>
-<p><b>Gebruiker ID: </b> <?php echo $id;?></p> --!>
-<p><b>Bio: </b></br> <?php echo $user_bio;?></p><br/><br/>
+
+<div class="profiel_css">
+    <h1>
+        Op deze pagina word u profiel weergegeven!<br/>
+        U kunt hier uw profielfoto wijzigen en uw bio updaten.
+    </h1>
+</div>
+
+    <a href="mijn_fietsen.php">Mijn fietsen bekijken</a>
+    <a href="fiets_toevoegen.php">Fiets toevoegen</a>
+    <a href="wachtwoord_vergeten.php">Wachtwoord vergeten</a>
+    <a href="uitloggen.php">Uitloggen</a>
+
+    <h2><b>Gebruikersnaam: </b> <?php echo $naam;?></h2>
+    <h2><b>Bio: </b> <?php echo $user_bio;?></h2><br/><br/>
+
 <?php
 if (isset($_SESSION['id'])) {
     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
@@ -63,10 +66,12 @@ if (isset($_SESSION['id'])) {
         <textarea name='bio' cols='40' rows='5'></textarea><br/>
         <input type='submit' name='submit' value='Update en verzenden'>
     </form>
-    ";
+  ";
     }
 }
+
 ?>
+
 </body>
 </html>
 

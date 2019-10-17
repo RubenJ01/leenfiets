@@ -24,7 +24,7 @@ require 'utils/database_connection.php';
 <body>
 <div><?php include 'menu.php'; ?></div>
 <div class='profiel_fiets_text'>
-    <h2>Op deze pagina bevinden zich alle fietsen die u heeft geupload!<br> U kunt de fietsen verwijderen en aanpassen met de 'Fiets bekijken' knop</h2>
+    <h2>Op deze pagina bevinden zich alle fietsen die u heeft geupload!<br>U kunt de fietsen verwijderen en aanpassen met de 'Fiets bekijken' knop</h2>
 </div>
 <?php
 $sql = "SELECT f.borg, f.prijs, f.versnellingen, f.id, f.plaats, f.kleur_fiets, f.model, f.geslacht_fiets, f.adres, f.foto, s.soort_fiets, m.merk_naam, f.gebruiker_id 
@@ -42,7 +42,7 @@ if ($result->num_rows > 0) {
         }
         echo   "<div class='profiel_fiets'>
                     <h1>$row[merk_naam] $row[model]</h1>
-                    <h4>€$row[prijs] per dag</h4>
+                    <h4>€$row[prijs] per dag<br/></h4>
                     <ul>
                     <li>Plaats: $row[plaats]</li>
                     <li>Soort fiets: $row[soort_fiets]</li>

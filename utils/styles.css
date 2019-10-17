@@ -162,6 +162,11 @@ body{
     font-size:2vw;
 }
 
+.fiets_blok h4{
+    text-align: center;
+    font-size: large;
+}
+
 .fiets_blok a{
     display: block;
     margin-left: auto;
@@ -197,7 +202,7 @@ body{
 }
 /* einde blok fiets */
 
-/* begin profiel_fietsen */
+/* begin profiel_mijnfietsen */
 
 .profiel_fiets  {
     width: 30%;
@@ -212,12 +217,17 @@ body{
 
 .profiel_fiets h1{
     text-align: center;
-    font-size:2vw;
+    font-size: 3vw;
 }
 
 .profiel_fiets_text h2{
     text-align: center;
     font-size:2vw;
+}
+
+.profiel_fiets h4{
+    text-align: center;
+    font-size: large;
 }
 
 .profiel_fiets a{
@@ -254,7 +264,7 @@ body{
     overflow: hidden;
 }
 
-/* einde profiel_fietsen */
+/* einde profiel_mijnfietsen */
 
 /* begin hoofdpagina tekst */
 #tekstHoofdpagina h1{
