@@ -71,6 +71,17 @@ if (isset($_SESSION['id'])) {
 }
 
 ?>
+<br/>
+<br/>
+
+
+<form action="upload_pfimg.php" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" name="upload" value="Profielfoto uploaden">Profielfoto uploaden
+</form>
+
+
+
 
 </body>
 </html>
