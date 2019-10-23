@@ -303,7 +303,7 @@ body{
     margin-right: auto;
     position: fixed;
     display: none;
-
+    text-align: center;
 }
 
 #bodyFietsen{
@@ -313,4 +313,6 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
+
+
 /* hoofdpagina tekst */

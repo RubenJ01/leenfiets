@@ -5,7 +5,6 @@ if (!isset($_SESSION)) {
 }
 $fiets_id = $_GET['fiets_id'];
 $gebruiker_id  = $_SESSION['id'];
-$borg = 100;
 
 $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.omschrijving,fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
         from fietsen, merk_fiets, soort_fiets   
