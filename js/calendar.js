@@ -132,10 +132,10 @@ function SelectDate2(date) {
 
 function UpdateDates() {
   if (selectedDate1 != null) {
-    var d = ((selectedDate1.getMonth()+1) + "-" + selectedDate1.getDate() + "-" + selectedDate1.getFullYear());
+    var d = (selectedDate1.getFullYear() + "-" + (selectedDate1.getMonth()+1) + "-" + selectedDate1.getDate());
     idCollectionDate.setAttribute("value", d);
     if (selectedDate2 != null) {
-      d = ((selectedDate2.getMonth()+1) + "-" + selectedDate2.getDate() + "-" + selectedDate2.getFullYear());
+      d = (selectedDate2.getFullYear() + "-" + (selectedDate2.getMonth()+1) + "-" + selectedDate2.getDate());
       idReturnDate.setAttribute("value", d);
     }
     else {

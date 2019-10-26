@@ -27,13 +27,14 @@
   <ul class="days" id="days">
    <!-- Will be automaticlly filled by calendar.js -->
   </ul>
-  <form action="reserveren.php?fiets_id=<?php echo $_GET['fiets_id'] ?>" method="post">
+  <form action="reserveren.php" method="get">
+    <input type="text" name="fiets_id" value="<?php echo $_GET['fiets_id'] ?>" style="display:none;">
     <ul class="dates">
-      <li> Ophaaldatum<br><input id="collectionDate" name="collectionDate" value="<?php $date = new DateTime(); echo $date->format('m-d-Y'); ?>" readonly> </li>
-      <li> Terugbrengdatum<br><input id="returnDate" name="returnDate" value="<?php $date = new DateTime(); echo $date->format('m-d-Y'); ?>" readonly> </li>
+      <li> Ophaaldatum<br><input id="collectionDate" name="collectionDate" value="<?php $date = new DateTime(); echo $date->format('Y-m-d'); ?>" readonly> </li>
+      <li> Terugbrengdatum<br><input id="returnDate" name="returnDate" value="<?php $date = new DateTime(); echo $date->format('Y-m-d'); ?>" readonly> </li>
     </ul>
     <ul class="reserve">
-      <li><input type="submit" name="reserve" value="Doorgaan"></li>
+      <li><input type="submit" value="Doorgaan"></li>
     </ul>
   </form>
 
