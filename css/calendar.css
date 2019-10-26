@@ -1,0 +1,134 @@
+/* https://www.w3schools.com/howto/howto_css_calendar.asp */
+
+/* Calendar is the container */
+.calendar {
+  width: 300px;
+  font-family: Verdana, sans-serif;
+}
+
+.calendar ul {
+  list-style-type: none;
+}
+
+/* Month header */
+.month {
+  padding: 10px 0px;
+  width: 100%;
+  background: #1abc9c;
+  text-align: center;
+}
+
+/* Month list */
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+/* Previous button inside month header */
+.month .prev {
+  float: left;
+  padding-top: 10px;
+  padding-left: 25px;
+}
+
+/* Next button */
+.month .next {
+  float: right;
+  padding-top: 10px;
+  padding-right: 25px;
+}
+
+/* Weekdays (Mon-Sun) */
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  background-color:#ddd;
+  letter-spacing: -1em;
+}
+
+.weekdays li {
+  display: inline-block;
+  width: 14.2%;
+  color: #666;
+  text-align: center;
+  letter-spacing: normal;
+}
+
+/* Days (1-31) */
+.days {
+  padding: 10px 0;
+  background: #eee;
+  margin: 0;
+  letter-spacing: -1em;
+}
+
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 14.2%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:12px;
+  color: #777;
+  letter-spacing: normal;
+}
+
+.days .selected {
+  background-color: #1abc9c;
+}
+
+.days .selected li  {
+  color: white;
+}
+
+.days .highLighted {
+  background-color: #bcf6e9;
+}
+
+.days .highLighted li {
+  color: white;
+}
+
+.days .notAvailable {
+  background-color: #9c2d2d;
+}
+
+.days .notAvailable li  {
+  color: white;
+}
+
+.dates {
+  margin: 0;
+  padding: 10px 0;
+  background-color:#ddd;
+  letter-spacing: -1em;
+}
+
+.dates li {
+  display: inline-block;
+  width: 50%;
+  color: #666;
+  text-align: center;
+  letter-spacing: normal;
+}
+
+.reserve {
+  margin: 0;
+  padding: 0px 0;
+  background-color:#eee;
+}
+
+.reserve input {
+  display: inline-block;
+  width: 100%;
+  color: #777;
+  text-align: center;
+  letter-spacing: normal;
+}

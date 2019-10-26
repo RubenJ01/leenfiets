@@ -9,9 +9,9 @@ if (!isset($_SESSION)) {
 
     if(isset($_GET['fiets_id'])){
         //ID meegegeven bijvoorbeeld van overzichtspagina.
-        $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.id, gebruiker.naam, fietsen.omschrijving, fietsen.gebruiker_id, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
-        from fietsen, merk_fiets, soort_fiets, gebruiker   
-        WHERE fietsen.id_soort_fiets = soort_fiets.id 
+        $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.id, gebruiker.naam, fietsen.omschrijving, fietsen.gebruiker_id, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam
+        from fietsen, merk_fiets, soort_fiets, gebruiker
+        WHERE fietsen.id_soort_fiets = soort_fiets.id
         AND fietsen.id_merk_fiets = merk_fiets.id
         AND fietsen.gebruiker_id = gebruiker.id
         AND fietsen.id = " .$_GET['fiets_id'] ."
@@ -19,10 +19,10 @@ if (!isset($_SESSION)) {
     }
     if(isset($_GET['succesvol_toegevoegd'])){
         //Als een fiets is toegevoegd.  DUS laatste toegevpoegde fiets id gebruiker
-        $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.id, gebruiker.naam, fietsen.omschrijving,fietsen.gebruiker_id, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
-        from fietsen, merk_fiets, soort_fiets, gebruiker   
-        WHERE fietsen.id_soort_fiets = soort_fiets.id 
-        AND fietsen.id_merk_fiets = merk_fiets.id 
+        $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.id, gebruiker.naam, fietsen.omschrijving,fietsen.gebruiker_id, fietsen.versnellingen, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam
+        from fietsen, merk_fiets, soort_fiets, gebruiker
+        WHERE fietsen.id_soort_fiets = soort_fiets.id
+        AND fietsen.id_merk_fiets = merk_fiets.id
         AND fietsen.gebruiker_id = gebruiker.id
         AND fietsen.gebruiker_id = " .$_SESSION['id'] ."
         ORDER BY fietsen.id desc
@@ -73,7 +73,7 @@ if (!isset($_SESSION)) {
         if (empty($afbeelding)) {
             echo 'fiets_afbeeldingen/default.png';
         }
-        else{echo $afbeelding;}?>
+        else{echo $afbeelding ."?t=" .time();}?>
         ">
     <table>
         <tr><td>Merk</td><td><?php echo $merk?></td></tr>
@@ -100,6 +100,24 @@ if (!isset($_SESSION)) {
     else{
         echo "<a href=\"inloggen.php\">Log in</a>";
     }?>
+
+    <!-- ___________CALENDAR___________ -->
+
+    <div style="float:right;">
+      <?php
+        include "utils/database_connection.php";
+        include "utils/calendar.php";
+        //$date = new DateTime();
+        //echo $date->format('Y-m-d H:i:s');
+
+        $query = "SELECT * FROM leen_verzoek";
+
+
+
+      ?>
+    </div>
+
+    <!-- ______________________________ -->
+
     </body>
 </html>
-
