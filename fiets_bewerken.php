@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 $fiets_id = $_GET['fiets_id'];
 $gebruiker_id  = $_SESSION['id'];
 
-$sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.omschrijving,fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
+$sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.postcode, fietsen.omschrijving,fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
         from fietsen, merk_fiets, soort_fiets   
         WHERE fietsen.id_soort_fiets = soort_fiets.id 
         AND fietsen.id_merk_fiets = merk_fiets.id 
@@ -27,6 +27,7 @@ if (mysqli_num_rows($query) > 0) {
         $GLOBALS['versnellingen'] = $row['versnellingen'];
         $GLOBALS['soort_fiets'] = $row['soort_fiets'];
         $GLOBALS['huurprijs_dag'] = $row['prijs'];
+        $GLOBALS['postcode'] = $row['postcode'];
         $GLOBALS['omschrijving'] = str_replace("<br>","\n",$row['omschrijving']);
     }
 }
@@ -36,7 +37,7 @@ else {
 <?php
 if(isset($_POST['bewerken'])){
     $omschrijvingnieuw = str_replace("\n","<br>",$_POST['omschrijving']);
-    $sql = "UPDATE fietsen SET borg = ".$_POST['borg'].", prijs = ".$_POST['huur-prijs'].", plaats = '".$_POST['plaats']."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$_POST['adres']."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$_POST['versnellingen']."', model = '".$_POST['model']."', omschrijving = '".$omschrijvingnieuw."' WHERE id = $fiets_id and gebruiker_id = $gebruiker_id ";
+    $sql = "UPDATE fietsen SET postcode = '".$_POST['postcode']."', borg = ".$_POST['borg'].", prijs = ".$_POST['huur-prijs'].", plaats = '".$_POST['plaats']."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$_POST['adres']."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$_POST['versnellingen']."', model = '".$_POST['model']."', omschrijving = '".$omschrijvingnieuw."' WHERE id = $fiets_id and gebruiker_id = $gebruiker_id ";
     $insert_query = $mysqli->query($sql);
     header("Location: fiets.php?fiets_id=$fiets_id");
     die();
@@ -148,6 +149,7 @@ if(isset($_POST['verwijderen'])){
         <tr><td>Model(*)</td><td><input type="text" name="model" placeholder="Model" value="<?php echo $model?>" required></td></tr>
         <tr><td>Plaats(*)</td><td><input type="text" name="plaats" placeholder="Plaats" value="<?php echo $plaats?>" required></td></tr>
         <tr><td>Adres(*)</td><td><input type="text" name="adres" placeholder="Adres" value="<?php echo $adres?>" required></td></tr>
+        <tr><td>Postcode(*)</td><td><input type="text" name="postcode" placeholder="Postcode" value="<?php echo $postcode?>" required></td></tr>
         <tr><td>Kleur fiets(*)</td><td><select name="kleur" >
                     <option value="Geel"<?php if($kleur_fiets == 'Geel'){echo 'selected';}?>>Geel</option>
                     <option value="Oranje"<?php if($kleur_fiets == 'Oranje'){echo 'selected';}?>>Oranje</option>

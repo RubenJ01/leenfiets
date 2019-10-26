@@ -47,7 +47,7 @@ require 'utils/database_connection.php';
 </div>
 <div id= "filter"><h1 style="">Filter</h1>
 <form method="post" id="fietsentoevoegen" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <b>Merk</b><br> <select style="width: 95%" id = "mySelect" name="merk_naam" multiple><?php
+    <b>Merk</b><br> <select style="width: 95%" id = "mySelect" name="merk_naam"><?php
             $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
             $result = $mysqli->query($sql);
         ?><option selected  value="0"> Alle soorten </option><?php
@@ -77,7 +77,7 @@ require 'utils/database_connection.php';
         <option  value="Vrouw" <?php if(isset($_POST['geslacht_fiets'])){ if($_POST['geslacht_fiets'] == 'Vrouw'){echo ' selected';}} ?>>Vrouwen fiets </option>
         <option  value="Onzijdig" <?php if(isset($_POST['geslacht_fiets'])){ if($_POST['geslacht_fiets'] == 'Onzijdig'){echo ' selected';}} ?>>Onzijdige fiets</option>
     </select>
-    <br><b>Kleur fiets</b><br><select style="width: 95%" name="kleur" multiple>
+    <br><b>Kleur fiets</b><br><select style="width: 95%" name="kleur">
             <option selected  value="0"> Alle soorten </option>
             <option value="Geel" <?php if(isset($_POST['kleur'])){ if($_POST['kleur'] == 'Geel'){echo ' selected';}} ?>>Geel</option>
             <option value="Oranje" <?php if(isset($_POST['kleur'])){ if($_POST['kleur'] == 'Oranje'){echo ' selected';}} ?>>Oranje</option>

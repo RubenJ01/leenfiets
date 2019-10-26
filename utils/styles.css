@@ -316,3 +316,55 @@ body{
 
 
 /* hoofdpagina tekst */
+
+#fiets{
+    height: auto;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#fiets h1{
+    text-align: center;
+}
+
+#specificaties{
+    width: 45%;
+    float: left;
+
+}
+
+#ophaallocatie{
+    width: 100%;
+    float: left;
+
+}
+
+#omschrijving_scroll{
+    height: 100px;
+    width: 100%;
+    overflow:auto;
+}
+
+#linksKolom{
+    width: 50%;
+    float: left;
+
+}
+
+#linksKolom img{
+    width:100%;
+    float: left;
+}
+#rechtsKolom{
+    width: 50%;
+    float: right;
+
+}
+
+
+
