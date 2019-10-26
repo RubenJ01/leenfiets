@@ -24,13 +24,44 @@ if (isset($_SESSION['rol'])) {
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script
+          src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous">
+    </script>
 </head>
 <body>
+    <script>
+        // dit zorgt ervoor dat de gebruikertabel paginas kan hebben
+        $(document).ready(function(){
+            $('#data').after('<div id="nav"></div>');
+            var rowsShown = 4;
+            var rowsTotal = $('#data tbody tr').length;
+            var numPages = rowsTotal/rowsShown;
+            for(i = 0;i < numPages;i++) {
+                var pageNum = i + 1;
+                $('#nav').append('<a href="#" rel="'+i+'">'+pageNum+'</a> ');
+            }
+            $('#data tbody tr').hide();
+            $('#data tbody tr').slice(0, rowsShown).show();
+            $('#nav a:first').addClass('active');
+            $('#nav a').bind('click', function(){
+            $('#nav a').removeClass('active');
+            $(this).addClass('active');
+            var currPage = $(this).attr('rel');
+            var startItem = currPage * rowsShown;
+            var endItem = startItem + rowsShown;
+            $('#data tbody tr').css('opacity','0.0').hide().slice(startItem, endItem).
+            css('display','table-row').animate({opacity:1}, 300);
+            });
+        });
+    </script>
     <div><?php include 'menu.php'; ?></div>
     <button onclick="toggle_visibility('user_div')">Gebruikers</button>
     <button onclick="toggle_visibility('merk_div')">Merk</button>
     <div id="user_div" style="display: none;">
-        <table id="user_tabel">
+        <table id="data">
             <tr>
                 <th>Naam</th>
                 <th>Email</th>
@@ -70,7 +101,7 @@ if (isset($_SESSION['rol'])) {
     $result = $mysqli->query($sql);
     ?>
     <div id="merk_div" style="display: none;">
-    <table id="merk_tabel">
+    <table>
             <tr>
                 <th>Merk</th>
                 <th>Id</th>
@@ -98,58 +129,82 @@ if (isset($_SESSION['rol'])) {
         </form>
     </div>
     <script src="js/dashboard.js"></script>
+    <?php
+    if (isset($_POST['merk_aanpassing_versturen'])) {
+        $merk_naam = $_POST['merk_naam'];
+        $aanpassing = $_POST['merk_aanpassen'];
+        if ($aanpassing == 'toevoegen'){
+            $check_bestaan = "select merk_naam from merk_fiets where merk_naam = '$merk_naam'";
+            $result_check = $mysqli->query($check_bestaan);
+            if ($result_check->num_rows == 0){
+                $voeg_toe = "insert into merk_fiets(merk_naam)
+                             values('$merk_naam')";
+                $result = $mysqli->query($voeg_toe);
+                echo "
+                <script>
+                      alert('$merk_naam toevoegd aan de database.');
+                </script>
+                ";
+            } else {
+                echo "
+                <script>
+                      alert('Dat merk bestaat al.');
+                </script>
+                ";
+            }
+        } elseif ($aanpassing == 'verwijderen'){
+            $check_bestaan = "select merk_naam from merk_fiets where merk_naam = '$merk_naam'";
+            $result = $mysqli->query($check_bestaan);
+            if ($result->num_rows == 1){
+                $verwijder = "delete from merk_fiets where merk_naam = '$merk_naam' limit 1";
+                $result = $mysqli->query($verwijder);
+                echo "
+                <script>
+                      alert('$merk_naam verwijdert uit de database.');
+                </script>
+                ";
+            } else {
+                echo "
+                <script>
+                      alert('Dat merk bestaat niet.');
+                </script>
+                ";
+            }
+        }
+    }
+
+    if (isset($_POST['admin_aanpassing_versturen'])) {
+        $email = $_POST['gebruiker_email'];
+        $actie = $_POST['actie'];
+        $zoek_gebruiker = "select rol from gebruiker where email= '$email'";
+        $result = $mysqli->query($zoek_gebruiker);
+        if ($result->num_rows == 1){
+            if ($actie == 'admin_geven'){
+                $sql_update = "update gebruiker set rol = 'admin' where email = '$email'";
+                $result = $mysqli->query($sql_update);
+                echo "
+                <script>
+                      alert('$email heeft nu admin rechten.');
+                </script>
+                ";
+            }
+            elseif ($actie == 'admin_verwijderen') {
+                $sql_update = "update gebruiker set rol = 'standaard' where email = '$email'";
+                $result = $mysqli->query($sql_update);
+                echo "
+                <script>
+                      alert('$email heeft nu geen admin rechten meer.');
+                </script>
+                ";
+            }
+        }
+    }
+    ?>
 </body>
 </html>
 <?php
     }
 } else {
     RedirectToPage('index.php');
-}
-
-// controleren of we de goeie form behandelen
-if (isset($_POST['merk_aanpassing_versturen'])) {
-    $merk_naam = $_POST['merk_naam'];
-    $aanpassing = $_POST['merk_aanpassen'];
-    if ($aanpassing == 'toevoegen'){
-        $check_bestaan = "select merk_naam from merk_fiets where merk_naam = '$merk_naam'";
-        $result_check = $mysqli->query($check_bestaan);
-        if ($result_check->num_rows == 0){
-            $voeg_toe = "insert into merk_fiets(merk_naam)
-                         values('$merk_naam')";
-            $result = $mysqli->query($voeg_toe);
-            echo $merk_naam . " toegevoegd aan de database.";
-        } else {
-            echo "Dat merk bestaat al.";
-        }
-    } elseif ($aanpassing == 'verwijderen'){
-        $check_bestaan = "select merk_naam from merk_fiets where merk_naam = '$merk_naam'";
-        $result = $mysqli->query($check_bestaan);
-        if ($result->num_rows == 1){
-            $verwijder = "delete from merk_fiets where merk_naam = '$merk_naam' limit 1";
-            $result = $mysqli->query($verwijder);
-            echo $merk_naam . " verwijdert uit de database.";
-        } else {
-            echo "Dat merk bestaat al.";
-        }
-    }
-}
-
-if (isset($_POST['admin_aanpassing_versturen'])) {
-    $email = $_POST['gebruiker_email'];
-    $actie = $_POST['actie'];
-    $zoek_gebruiker = "select rol from gebruiker where email= '$email'";
-    $result = $mysqli->query($zoek_gebruiker);
-    if ($result->num_rows == 1){
-        if ($actie == 'admin_geven'){
-            $sql_update = "update gebruiker set rol = 'admin' where email = '$email'";
-            $result = $mysqli->query($sql_update);
-            echo $email .  " heeft nu admin rechten.";
-        }
-        elseif ($actie == 'admin_verwijderen') {
-            $sql_update = "update gebruiker set rol = 'standaard' where email = '$email'";
-            $result = $mysqli->query($sql_update);
-            echo $email .  " heeft nu geen admin rechten meer.";
-        }
-    }
 }
 ?>

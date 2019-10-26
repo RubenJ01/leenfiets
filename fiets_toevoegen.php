@@ -90,7 +90,7 @@ if(isset($_POST['toevoegen'])){
                             <option value="Blauw">Blauw</option>
                             <option value="Grijs">Grijs</option>
                             <option value="Wit">Wit</option>
-                            <option value="Wit">Roze</option>
+                            <option value="Roze">Roze</option>
                         </select></td></tr>
                 <tr><td>Geslacht fiets(*)</td><td><input type="radio" checked="checked" name="geslacht_fiets" value="Man">Mannen fiets
                         <input type="radio" name="geslacht_fiets" value="Vrouw">Vrouwen fiets

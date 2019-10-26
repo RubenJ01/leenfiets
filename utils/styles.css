@@ -162,6 +162,11 @@ body{
     font-size:2vw;
 }
 
+.fiets_blok h4{
+    text-align: center;
+    font-size: large;
+}
+
 .fiets_blok a{
     display: block;
     margin-left: auto;
@@ -196,6 +201,70 @@ body{
     overflow: hidden;
 }
 /* einde blok fiets */
+
+/* begin profiel_mijnfietsen */
+
+.profiel_fiets  {
+    width: 30%;
+    margin-left: 2%;
+    margin-top: 1%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.profiel_fiets h1{
+    text-align: center;
+    font-size: 3vw;
+}
+
+.profiel_fiets_text h2{
+    text-align: center;
+    font-size:2vw;
+}
+
+.profiel_fiets h4{
+    text-align: center;
+    font-size: large;
+}
+
+.profiel_fiets a{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    width: 50%;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.profiel_fiets img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    margin-left:  auto;
+    margin-right: auto;
+
+}
+.afbeeldingDiv {
+    width: 50%;
+    padding-bottom: 50%;
+    margin-left:  auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+/* einde profiel_mijnfietsen */
 
 /* begin hoofdpagina tekst */
 #tekstHoofdpagina h1{
@@ -234,7 +303,7 @@ body{
     margin-right: auto;
     position: fixed;
     display: none;
-
+    text-align: center;
 }
 
 #bodyFietsen{
@@ -244,4 +313,6 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
+
+
 /* hoofdpagina tekst */

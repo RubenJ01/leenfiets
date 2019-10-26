@@ -5,7 +5,6 @@ if (!isset($_SESSION)) {
 }
 $fiets_id = $_GET['fiets_id'];
 $gebruiker_id  = $_SESSION['id'];
-$borg = 100;
 
 $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.omschrijving,fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
         from fietsen, merk_fiets, soort_fiets   
@@ -129,7 +128,7 @@ if(isset($_POST['verwijderen'])){
             if (empty($afbeelding)) {
             echo 'fiets_afbeeldingen/default.png';
             }
-            else{echo $afbeelding;}?>"><br>
+            else{echo $afbeelding ."?t=" .time();}?>"><br>
         <h1>Afbeelding bewerken</h1><br>
         <form method="post" id="fietsenbewerken" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'];?>?fiets_id=<?php echo $fiets_id?>">
             <input type="file" name="foto" value="foto" id="foto"><br>
