@@ -50,7 +50,7 @@ require 'utils/database_connection.php';
     <b>Merk</b><br> <select style="width: 95%" id = "mySelect" name="merk_naam"><?php
             $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
             $result = $mysqli->query($sql);
-        ?><option selected  value="0"> Alle soorten </option><?php
+        ?><option selected  value="0"> Alle merken </option><?php
             while($row = $result->fetch_assoc())
             {
                 ?>
@@ -72,13 +72,13 @@ require 'utils/database_connection.php';
         </select>
     <b>Geslacht fiets</b><br>
     <select name="geslacht_fiets" style="width: 95%">
-        <option selected  value="0"> Alle soorten </option>
+        <option selected  value="0"> Alle geslachten </option>
         <option  value="Man" <?php if(isset($_POST['geslacht_fiets'])){ if($_POST['geslacht_fiets'] == 'Man'){echo ' selected';}} ?>>Mannen fiets</option>
         <option  value="Vrouw" <?php if(isset($_POST['geslacht_fiets'])){ if($_POST['geslacht_fiets'] == 'Vrouw'){echo ' selected';}} ?>>Vrouwen fiets </option>
         <option  value="Onzijdig" <?php if(isset($_POST['geslacht_fiets'])){ if($_POST['geslacht_fiets'] == 'Onzijdig'){echo ' selected';}} ?>>Onzijdige fiets</option>
     </select>
     <br><b>Kleur fiets</b><br><select style="width: 95%" name="kleur">
-            <option selected  value="0"> Alle soorten </option>
+            <option selected  value="0"> Alle kleuren </option>
             <option value="Geel" <?php if(isset($_POST['kleur'])){ if($_POST['kleur'] == 'Geel'){echo ' selected';}} ?>>Geel</option>
             <option value="Oranje" <?php if(isset($_POST['kleur'])){ if($_POST['kleur'] == 'Oranje'){echo ' selected';}} ?>>Oranje</option>
             <option value="Zwart" <?php if(isset($_POST['kleur'])){ if($_POST['kleur'] == 'Zwart'){echo ' selected';}} ?>>Zwart</option>
@@ -94,12 +94,13 @@ require 'utils/database_connection.php';
         Van <input style="width: 25%;" min="0" type="number" name="min_prijs" value="<?php echo (isset($_POST['min_prijs']) ? $_POST['min_prijs'] : ''); ?>">
         tot <input style="width: 25%;" min="0" type="number" name="max_prijs" value="<?php echo (isset($_POST['max_prijs']) ? $_POST['max_prijs'] : ''); ?>">
         <br><b>Plaats</b><br>
-        <input type="text" style="width: 95%" name="plaats" value="<?php echo (isset($_POST['plaats']) ? $_POST['plaats'] : ''); ?>"><br><br>
+        <input type="text" style="width: 95%" name="plaats" value="<?php echo (isset($_POST['plaats']) ? $_POST['plaats'] : ''); ?>"><br>
+    <b>Datum</b><br>
+    Ophaal<input type="date" name="ophaalDatum">
+    Terugbreng<input type="date" name="terugDatum"><br>
     <input type="reset" name="reset" value="Reset">
         <input type="submit" name="filter" value="Filter">
 </form>
-    <p>WORK IN PROGRESS</p>
-
 </div>
 
 <div id= "bodyFietsen">

@@ -107,13 +107,13 @@ if(isset($_POST['verwijderen'])){
     if (empty($afbeelding)) {
         $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
         $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-        header("Location: index.php");
+        header("Location: mijn_fietsen.php");
     }
     else{
         unlink($afbeelding);
         $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
         $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-        header("Location: index.php");
+        header("Location: mijn_fietsen.php");
     }
 }?>
 <!DOCTYPE html>
