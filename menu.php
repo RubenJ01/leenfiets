@@ -36,6 +36,7 @@ if (!isset($_SESSION)) {
                     <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
                     <a href='mijn_fietsen.php'>Mijn fietsen</a>
                     <a href='profiel.php?gebruikers_id=$id'>Mijn profiel</a>
+                    <a href='geld.php'>Geld ophalen/toevoegen</a>
                     <a href='uitloggen.php'>Uitloggen</a>
                     ";
             } else {

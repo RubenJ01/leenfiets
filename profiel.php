@@ -51,6 +51,7 @@ if (isset($_POST['submit'])) {
 
     <a href="mijn_fietsen.php">Mijn fietsen bekijken</a>
     <a href="fiets_toevoegen.php">Fiets toevoegen</a>
+    <a href="geld.php">Geld ophalen/toevoegen</a>
     <a href="wachtwoord_vergeten.php">Wachtwoord vergeten</a>
     <a href="uitloggen.php">Uitloggen</a>
 
@@ -60,7 +61,7 @@ if (isset($_POST['submit'])) {
 <?php
 if (isset($_SESSION['id'])) {
     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
-        echo " 
+        echo "
     <p><b>Bio updaten:</b></p>
     <form action='' method='post'>
         <textarea name='bio' cols='40' rows='5'></textarea><br/>
@@ -85,4 +86,3 @@ if (isset($_SESSION['id'])) {
 
 </body>
 </html>
-
