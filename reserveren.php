@@ -10,7 +10,7 @@ if (isset($_SESSION) === false) {
 }
 // Kijk of de gebruiker is ingelogt anders ga terug naar de hoofdpagina
 if (isset($_SESSION['id']) === false) {
-  RedirectToPage("index.php");
+  RedirectToPage("inloggen.php");
 }
 
 // Check of er een fiets id in de getter staat
@@ -117,7 +117,7 @@ if (isset($_POST['verstuur'])) {
             WHERE NOT EXISTS (
               SELECT v.fiets_id, v.ophaal_moment, v.terugbreng_moment, v.status_
               FROM leen_verzoek v
-              WHERE $fietsId = v.fiets_id AND (v.status_ = 'in_gebruik' OR v.status_ = 'gereserveerd' OR v.status_ = 'in_afwachting')
+              WHERE $fietsId = v.fiets_id AND (v.status_ = 'in_gebruik' OR v.status_ = 'gereserveerd')
               AND (((CAST('$collectionMomement' AS datetime)) >= v.ophaal_moment AND (CAST('$collectionMomement' AS datetime)) <= v.terugbreng_moment)
                   OR ((CAST('$returnMomement' AS datetime)) >= v.ophaal_moment AND (CAST('$returnMomement' AS datetime)) <= v.terugbreng_moment))
             ) LIMIT 1";
