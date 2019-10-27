@@ -12,10 +12,15 @@ var currentDate = todayDate;
 var selectedDate1 = null;
 var selectedDate2 = null;
 
-var idMonthYear = document.getElementById("month+year");
-var idDays = document.getElementById("days");
+var idReservedDates = document.getElementById("reservedDates");
+var reservedDates = [];
+GetAllReservedDates();
+
 var idCollectionDate = document.getElementById("collectionDate");
 var idReturnDate = document.getElementById("returnDate");
+
+var idMonthYear = document.getElementById("month+year");
+var idDays = document.getElementById("days");
 DisplayCurrenMonthYear();
 
 function DisplayCurrenMonthYear() {
@@ -33,6 +38,7 @@ function CreateDays() {
     var li = document.createElement("LI");
     documentFragment.appendChild(li);
   }
+  var reserved = false;
   // Add all of the days in to the calendar
   for (var i=1;i<=daysInMonth;i++) {
     var span = document.createElement("SPAN");
@@ -46,36 +52,48 @@ function CreateDays() {
       documentFragment.appendChild(span);
     }
     else {
-      span.className = "selected";
       var d = new Date(currentYear, currentMonth, i);
-      if (selectedDate1 == null || d < selectedDate1) {
-        span.className = "available";
-        span.setAttribute("onclick", "SelectDate1("+(i)+")");
-      }
-      else if (d.getTime() == selectedDate1.getTime()) {
-        span.className = "selected";
-        span.setAttribute("onclick", "SelectDate1("+(i)+")");
-      }
-      else if (selectedDate2 == null) {
-        span.className = "available";
-        span.setAttribute("onclick", "SelectDate2("+(i)+")");
-      }
-      else if (d > selectedDate1 && d < selectedDate2) {
-        span.className = "highLighted";
-        span.setAttribute("onclick", "SelectDate1("+(i)+")");
-      }
-      else if (d.getTime() == selectedDate2.getTime()) {
-        span.className = "selected";
-        span.setAttribute("onclick", "SelectDate1("+(i)+")");
+      if (IsDateReserved(d)) {
+        span.className = "notAvailable";
+        span.appendChild(li);
+        documentFragment.appendChild(span);
       }
       else {
-        span.className = "available";
-        span.setAttribute("onclick", "SelectDate1("+(i)+")");
+        span.className = "selected";
+        if (selectedDate1 == null || d < selectedDate1) {
+          span.className = "available";
+          span.setAttribute("onclick", "SelectDate1("+(i)+")");
+        }
+        else if (d.getTime() == selectedDate1.getTime()) {
+          span.className = "selected";
+          span.setAttribute("onclick", "SelectDate1("+(i)+")");
+        }
+        else if (reserved == true || IsDateReservedBetween(selectedDate1, d)) {
+          reserved = true;
+          span.className = "available";
+          span.setAttribute("onclick", "SelectDate1("+(i)+")");
+        }
+        else if (selectedDate2 == null) {
+          span.className = "available";
+          span.setAttribute("onclick", "SelectDate2("+(i)+")");
+        }
+        else if (d > selectedDate1 && d < selectedDate2) {
+          span.className = "highLighted";
+          span.setAttribute("onclick", "SelectDate1("+(i)+")");
+        }
+        else if (d.getTime() == selectedDate2.getTime()) {
+          span.className = "selected";
+          span.setAttribute("onclick", "SelectDate1("+(i)+")");
+        }
+        else {
+          span.className = "available";
+          span.setAttribute("onclick", "SelectDate1("+(i)+")");
+        }
+        span.setAttribute("onmouseover", "MouseOverDay("+(i)+")");
+        span.setAttribute("onmouseout", "MouseOutDay("+(i)+")");
+        span.appendChild(li);
+        documentFragment.appendChild(span);
       }
-      span.setAttribute("onmouseover", "MouseOverDay("+(i)+")");
-      span.setAttribute("onmouseout", "MouseOutDay("+(i)+")");
-      span.appendChild(li);
-      documentFragment.appendChild(span);
     }
   }
   idDays.appendChild(documentFragment);
@@ -89,11 +107,20 @@ function SelectDate1(date) {
   const childIndexSelectedDate = (date-1+dayOfWeek);
   idDays.childNodes[childIndexSelectedDate].className = "selected";
   idDays.childNodes[childIndexSelectedDate].setAttribute("onclick", "SelectDate1("+date+")");
-
+  var sd1 = false;
   for (var i = dayOfWeek; i < idDays.childNodes.length; i++) {
-    if (idDays.childNodes[i].className != "notAvailable") {
-      var d = new Date(currentYear, currentMonth, (i+1-dayOfWeek));
+    var d = new Date(currentYear, currentMonth, (i+1-dayOfWeek));
+    if (idDays.childNodes[i].className == "notAvailable") {
+      if (d.getTime() > selectedDate1.getTime()) {
+        sd1 = true;
+      }
+    }
+    else {
       if (d < selectedDate1) {
+        idDays.childNodes[i].className = "available";
+        idDays.childNodes[i].setAttribute("onclick", "SelectDate1("+(i+1-dayOfWeek)+")");
+      }
+      else if (d.getTime() != selectedDate1.getTime() && sd1 == true) {
         idDays.childNodes[i].className = "available";
         idDays.childNodes[i].setAttribute("onclick", "SelectDate1("+(i+1-dayOfWeek)+")");
       }
@@ -155,6 +182,7 @@ function MouseOverDay(date) {
     for (var i = dayOfWeek; i < idDays.childNodes.length; i++) {
       var d = new Date(currentYear, currentMonth, (i+1-dayOfWeek));
       if (d > selectedDate1 && d < selectedDate) {
+        if (idDays.childNodes[i].className == "notAvailable" || IsDateReservedBetween(selectedDate1, d)) { break; }
         idDays.childNodes[i].className = "highLighted";
       }
     }
@@ -222,4 +250,47 @@ function GetDaysInMonth(year, month) {
 // Return day of the week. 0 is for sunday, 1 for monday and so on
 function GetDayOfWeek(year, month, day) {
   return new Date(year, month, day).getDay();
+}
+
+function GetAllReservedDates() {
+  // For some reason is the first and last childNode empty so we need to skip those
+  for (var i = 1; i < idReservedDates.childNodes.length-1; i++) {
+    var row = idReservedDates.childNodes[i];
+    var cMoment = row.childNodes[0].innerHTML;
+    cMoment = cMoment.split("-");
+    cMoment[2] = cMoment[2].split(" ")[0];
+    var cDate = new Date(cMoment[0], cMoment[1]-1, cMoment[2]);
+    var rMoment = row.childNodes[1].innerHTML;
+    rMoment = rMoment.split("-");
+    rMoment[2] = rMoment[2].split(" ")[0];
+    var rDate = new Date(rMoment[0], rMoment[1]-1, rMoment[2]);
+    // Add the reservedDate to array
+    reservedDates.push([cDate, rDate]);
+  }
+}
+
+function IsDateReserved(date) {
+  for (var i = 0; i < reservedDates.length; i++) {
+    // Break if the reservedDate is greater then the givenn date because then it will never be reserved because the reservedDates are ordered
+    if (reservedDates[i][0].getTime() > date.getTime()) {
+      break;
+    }
+    if (date.getTime() >= reservedDates[i][0].getTime() && date.getTime() <= reservedDates[i][1].getTime()) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function IsDateReservedBetween(date1, date2) {
+  for (var i = 0; i < reservedDates.length; i++) {
+    // Break if the reservedDate is greater then the givenn date because then it will never be reserved because the reservedDates are ordered
+    if (reservedDates[i][0].getTime() > date2.getTime()) {
+      break;
+    }
+    if ((reservedDates[i][0].getTime() > date1.getTime() && reservedDates[i][0].getTime() < date2.getTime()) || (reservedDates[i][1].getTime() > date1.getTime() && reservedDates[i][1].getTime() < date2.getTime())) {
+      return true;
+    }
+  }
+  return false;
 }
