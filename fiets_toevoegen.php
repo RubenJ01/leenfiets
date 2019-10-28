@@ -97,6 +97,13 @@ if(isset($_POST['toevoegen'])){
         array_push($error, "Voer een geldig huurprijs in.");
     }
 
+    if(empty($_POST['geslacht_fiets'])){
+        array_push($error, "Selecteer een geslacht.");
+    }
+    else{
+
+    }
+
     if(!empty($error)){
         for ($i = 0; $i < count($error); $i++){
             echo $error[$i] ."<br>";
