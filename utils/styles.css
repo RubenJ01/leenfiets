@@ -202,6 +202,28 @@ body{
 }
 /* einde blok fiets */
 
+/* begin img's css */
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.center1 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding:1px;
+    border:1px solid #021a40;
+    background-color: dimgrey;
+
+}
+
+/* einde img's css */
+
 /* begin profiel.php */
 
 

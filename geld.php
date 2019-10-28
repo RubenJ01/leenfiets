@@ -39,5 +39,7 @@
     Borg voor alle fietsen: <?php echo $depositCosts; ?> <br>
     Beschikbaar geld: <?php echo $money; ?> <br>
 
+    <img src="foto/betaal.jpeg" class="center1" ></a>
+
   </body>
 </html>
