@@ -201,6 +201,23 @@ body{
 }
 /* einde blok fiets */
 
+/* begin profiel.php */
+
+
+
+/* einde profiel.php */
+
+.mijn_profiel_text h2{
+    text-align: center;
+    font-size:2vw;
+}
+
+.mijn_profiel_text a {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
 /* begin profiel_mijnfietsen */
 
 .profiel_fiets  {
@@ -212,6 +229,10 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
+}
+
+.profiel_css h1{
+    text-align: center;
 }
 
 .profiel_fiets h1{
