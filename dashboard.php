@@ -95,6 +95,12 @@ if (isset($_SESSION['rol'])) {
             <input type="radio" name="actie" value="admin_verwijderen"> <br>
             <input type="submit" name="admin_aanpassing_versturen" value="Uitvoeren">
         </form>
+        <form method="post" action="" id="gebruiker_veranderen">
+            <h3>Gebruiker verwijderen</h3>
+            <label for="gebruiker_email">Gebruiker email</label>
+            <input type="text" name="gebruiker_email"> <br />
+            <input type="submit" name="gebruiker_aanpassing_versturen" value="Gebruiker verwijderen">
+        </form>
     </div>
     <?php
     $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
@@ -140,17 +146,9 @@ if (isset($_SESSION['rol'])) {
                 $voeg_toe = "insert into merk_fiets(merk_naam)
                              values('$merk_naam')";
                 $result = $mysqli->query($voeg_toe);
-                echo "
-                <script>
-                      alert('$merk_naam toevoegd aan de database.');
-                </script>
-                ";
+               echo createAlert("$merk_naam toegevoegd aan de database.");
             } else {
-                echo "
-                <script>
-                      alert('Dat merk bestaat al.');
-                </script>
-                ";
+                echo createAlert("Dat merk bestaat al.");
             }
         } elseif ($aanpassing == 'verwijderen'){
             $check_bestaan = "select merk_naam from merk_fiets where merk_naam = '$merk_naam'";
@@ -158,17 +156,9 @@ if (isset($_SESSION['rol'])) {
             if ($result->num_rows == 1){
                 $verwijder = "delete from merk_fiets where merk_naam = '$merk_naam' limit 1";
                 $result = $mysqli->query($verwijder);
-                echo "
-                <script>
-                      alert('$merk_naam verwijdert uit de database.');
-                </script>
-                ";
+                echo createAlert("$merk_naam verwijdert uit de database.");
             } else {
-                echo "
-                <script>
-                      alert('Dat merk bestaat niet.');
-                </script>
-                ";
+                echo createAlert("Dat merk bestaat niet.");
             }
         }
     }
@@ -182,21 +172,25 @@ if (isset($_SESSION['rol'])) {
             if ($actie == 'admin_geven'){
                 $sql_update = "update gebruiker set rol = 'admin' where email = '$email'";
                 $result = $mysqli->query($sql_update);
-                echo "
-                <script>
-                      alert('$email heeft nu admin rechten.');
-                </script>
-                ";
+                echo createAlert("$email heeft nu admin rechten.");
             }
             elseif ($actie == 'admin_verwijderen') {
                 $sql_update = "update gebruiker set rol = 'standaard' where email = '$email'";
                 $result = $mysqli->query($sql_update);
-                echo "
-                <script>
-                      alert('$email heeft nu geen admin rechten meer.');
-                </script>
-                ";
+                echo createAlert("$email heeft nu geen admin rechten meer.");
             }
+        }
+    }
+    if (isset($_POST['gebruiker_aanpassing_versturen'])) {
+        $email = $_POST['gebruiker_email'];
+        $sql = "select email from gebruiker where email = '$email'";
+        $result = $mysqli->query($sql);
+        if ($result->num_rows == 1) {
+            $sql = "delete from gebruiker where email = '$email' limit 1";
+            $result = $mysqli->query($sql);
+            echo createAlert("Gebruiker met $email is verwijdert uit de database.");
+        } else {
+            echo createAlert("Gebruiker met $email is niet gevonden.");
         }
     }
     ?>

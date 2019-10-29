@@ -102,7 +102,6 @@ body{
 }
 
 .afbeelding_foto_bewerken{
-    background-color: red;
     float: left;
 
 }
@@ -202,6 +201,45 @@ body{
 }
 /* einde blok fiets */
 
+/* begin img's css */
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.center1 {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding:1px;
+    border:1px solid #021a40;
+    background-color: dimgrey;
+
+}
+
+/* einde img's css */
+
+/* begin profiel.php */
+
+
+
+/* einde profiel.php */
+
+.mijn_profiel_text h2{
+    text-align: center;
+    font-size:2vw;
+}
+
+.mijn_profiel_text a {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
 /* begin profiel_mijnfietsen */
 
 .profiel_fiets  {
@@ -213,6 +251,10 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
+}
+
+.profiel_css h1{
+    text-align: center;
 }
 
 .profiel_fiets h1{
@@ -314,7 +356,6 @@ body{
     margin-right: auto;
 }
 
-
 /* hoofdpagina tekst */
 
 #fiets{
@@ -322,7 +363,6 @@ body{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-
     margin-top: 10px;
     overflow: hidden;
     margin-bottom: 10px;
@@ -366,5 +406,11 @@ body{
 
 }
 
-
-
+#sorteren{
+    float: right;
+    display:block;
+    width: 50%;
+    text-align: right;
+    margin-right: 2%;
+    display: none;
+}

@@ -13,7 +13,7 @@ if (!isset($_SESSION)) {
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <link rel="stylesheet" href="utils/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
 </head>
@@ -36,6 +36,7 @@ if (!isset($_SESSION)) {
                     <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
                     <a href='mijn_fietsen.php'>Mijn fietsen</a>
                     <a href='profiel.php?gebruikers_id=$id'>Mijn profiel</a>
+                    <a href='geld.php'>Geld ophalen/toevoegen</a>
                     <a href='uitloggen.php'>Uitloggen</a>
                     ";
             } else {
