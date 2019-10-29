@@ -45,25 +45,41 @@ if (isset($_POST['submit'])) {
 
 <br/>
 
-<div class="mijn_profiel_text">
+<?php //tekst bezoeken profiel
+if (isset($_SESSION['id'])) {
+    if ($_SESSION['id'] == $_GET['gebruikers_id']) {
+        echo "
+<div class='mijn_profiel_text'>
     <h2>
         Op deze pagina word u profiel weergegeven!<br/>
         U kunt hier uw profielfoto wijzigen en uw bio updaten.
     </h2>
-</div>
+</div>";
+        }
+}
 
-<div class="mijn_profiel_text">
-    <a href="mijn_fietsen.php"><p style="text-align:center">Mijn fietsen bekijken</a>
-    <a href="fiets_toevoegen.php"><p style="text-align:center">Fiets toevoegen</a>
-    <a href="geld.php"><p style="text-align:center">Geld ophalen/toevoegen</a>
-    <a href="wachtwoord_vergeten.php"><p style="text-align:center">Wachtwoord vergeten</a>
-    <a href="uitloggen.php"><p style="text-align:center">Uitloggen</a>
-</div>
+//Knoppen
+if (isset($_SESSION['id'])) {
+    if ($_SESSION['id'] == $_GET['gebruikers_id']) {
+        echo "
+<div class='mijn_profiel_links'>
+    <a href='mijn_fietsen.php'>Mijn fietsen bekijken</a>
+    <a href='fiets_toevoegen.php'>Fiets toevoegen</a>
+    <a href='geld.php'>Geld ophalen/toevoegen</a>
+    <a href='wachtwoord_vergeten.php'>Wachtwoord vergeten</a>
+    <a href='uitloggen.php'>Uitloggen</a>
+</div>";
+    }
+}
+?>
 
 <br/>
 <br/>
 
-<div class="mijn_profiel_text">
+
+
+
+<div class="mijn_profiel_text_2">
     <h2><b>Gebruikersnaam: </b> <?php echo $naam;?></h2>
     <h2><b>Bio: </b> <?php echo $user_bio;?></h2><br/><br/>
 </div>
