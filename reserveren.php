@@ -58,7 +58,7 @@ $amountOfDays = ($later->diff($earlier)->format("%a") + 1);
 $prijs *= $amountOfDays;
 // Het aantal gehuurde dagen mag nooit lager zijn dan 0 en je mag ook niet huren als die dag al is geweest of als de returnDate lager is dan de collectionDate
 $dateNow = new DateTime();
-if ($amountOfDays <= 0 || $earlier > $later || $earlier < $dateNow) {
+if ($earlier > $later) {
   RedirectToPage("fiets.php?fiets_id={$_GET['fiets_id']}");
 }
 
