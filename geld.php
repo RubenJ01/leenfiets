@@ -12,9 +12,10 @@
   }
 
   $userId = $_SESSION['id'];
-  $money = GetMoneyFromUser($userId);
+  $money = GetMoney($userId);
   $borrowingCosts = GetBorrowingCosts($userId);
   $depositCosts = GetDepositCosts($userId);
+  $spendableMoney = GetSpendableMoney($userId);
 
 ?>
 
@@ -37,7 +38,7 @@
     Totaal geld: <?php echo $money; ?> <br>
     Leenkosten voor alle fietsen: <?php echo $borrowingCosts ?> <br>
     Borg voor alle fietsen: <?php echo $depositCosts; ?> <br>
-    Beschikbaar geld: <?php echo $money; ?> <br>
+    Beschikbaar geld(Om op te halen of om meer fietsen mee te lenen): <?php echo $spendableMoney; ?> <br>
 
     <img src="foto/betaal.jpeg" class="center1" ></a>
 
