@@ -426,11 +426,3 @@ body{
 
 }
 
-#sorteren{
-    float: right;
-    display:block;
-    width: 50%;
-    text-align: right;
-    margin-right: 2%;
-    display: none;
-}

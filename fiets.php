@@ -116,7 +116,7 @@ if(isset($_GET['succesvol_toegevoegd'])){
 
     <!-- ___________CALENDAR___________ -->
 
-    <div style="float:right;   width: 50%;">
+    <div style="float:right;">
         <?php
         include "utils/database_connection.php";
         include "utils/calendar.php";
@@ -124,10 +124,7 @@ if(isset($_GET['succesvol_toegevoegd'])){
         //echo $date->format('Y-m-d H:i:s');
 
         $query = "SELECT * FROM leen_verzoek";
-
-
-
-        ?>
+                ?>
     </div>
 
     <!-- ______________________________ -->
