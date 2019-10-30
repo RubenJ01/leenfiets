@@ -18,6 +18,7 @@ include "utils/core_functions.php";
      $review_update = $mysqli->query($sql);
      header("Refresh:0");
  }
+ //werkt nog niet
  ?>
 
 

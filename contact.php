@@ -35,7 +35,6 @@ echo    '<fieldset>
  <br>
  <input type="submit" name= "Verstuur">
 </form>
-
 <img src="foto/socials.jpeg" height="250" width="248"></a>
 
 </body>
