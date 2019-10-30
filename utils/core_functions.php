@@ -83,3 +83,16 @@ function RedirectToPage($page, $keepGetters = false) {
   }
   header($header);
 }
+
+
+/// @brief Deze functie maakt het maken van een alert message makkelijker.
+/// @param $alertMessage dit is het bericht wat daadwerkelijk in de alert word gezet.
+/// @return Stuurt de alert terug in een variabele.
+function CreateAlert($alertMessage) {
+  $alert = "
+    <script>
+      alert('$alertMessage');
+    </script>
+  ";
+  return $alert;
+}

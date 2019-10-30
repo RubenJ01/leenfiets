@@ -38,27 +38,54 @@ if (isset($_POST['submit'])) {
 <head>
     <title><?php $GLOBALS['id'] = $_GET['gebruikers_id']; echo $naam;?></title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <div><?php include 'menu.php'; ?></div>
 
-<div class="profiel_css">
-    <h1>
+<br/>
+
+<?php //tekst bezoeken profiel
+if (isset($_SESSION['id'])) {
+    if ($_SESSION['id'] == $_GET['gebruikers_id']) {
+        echo "
+<div class='mijn_profiel_text'>
+    <h2>
         Op deze pagina word u profiel weergegeven!<br/>
         U kunt hier uw profielfoto wijzigen en uw bio updaten.
-    </h1>
-</div>
+    </h2>
+</div>";
+        }
+}
 
-    <a href="mijn_fietsen.php">Mijn fietsen bekijken</a>
-    <a href="fiets_toevoegen.php">Fiets toevoegen</a>
-    <a href="geld.php">Geld ophalen/toevoegen</a>
-    <a href="wachtwoord_vergeten.php">Wachtwoord vergeten</a>
-    <a href="uitloggen.php">Uitloggen</a>
+//Knoppen
+if (isset($_SESSION['id'])) {
+    if ($_SESSION['id'] == $_GET['gebruikers_id']) {
+        echo "
+<div class='mijn_profiel_links'>
+    <a href='mijn_fietsen.php'>Mijn fietsen bekijken</a>
+    <a href='fiets_toevoegen.php'>Fiets toevoegen</a>
+    <a href='geld.php'>Geld ophalen/toevoegen</a>
+    <a href='wachtwoord_vergeten.php'>Wachtwoord vergeten</a>
+    <a href='uitloggen.php'>Uitloggen</a>
+</div>";
+    }
+}
+?>
 
+<br/>
+<br/>
+
+
+
+
+<div class="mijn_profiel_text_2">
     <h2><b>Gebruikersnaam: </b> <?php echo $naam;?></h2>
     <h2><b>Bio: </b> <?php echo $user_bio;?></h2><br/><br/>
+</div>
 
-<?php
+
+<?php //bio
 if (isset($_SESSION['id'])) {
     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
         echo "
@@ -70,16 +97,12 @@ if (isset($_SESSION['id'])) {
   ";
     }
 }
-
 ?>
+
 <br/>
 <br/>
 
 
-<form action="upload_pfimg.php" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file">
-    <input type="submit" name="upload" value="Profielfoto uploaden">Profielfoto uploaden
-</form>
 
 
 

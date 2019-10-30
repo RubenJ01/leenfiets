@@ -36,11 +36,108 @@ else {
 }?>
 <?php
 if(isset($_POST['bewerken'])){
-    $omschrijvingnieuw = str_replace("\n","<br>",$_POST['omschrijving']);
-    $sql = "UPDATE fietsen SET postcode = '".$_POST['postcode']."', borg = ".$_POST['borg'].", prijs = ".$_POST['huur-prijs'].", plaats = '".$_POST['plaats']."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$_POST['adres']."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$_POST['versnellingen']."', model = '".$_POST['model']."', omschrijving = '".$omschrijvingnieuw."' WHERE id = $fiets_id and gebruiker_id = $gebruiker_id ";
-    $insert_query = $mysqli->query($sql);
-    header("Location: fiets.php?fiets_id=$fiets_id");
-    die();
+    $error = array();
+    //Alle post data controleren en eventueel eenpassen
+    $omschrijvingnieuw = $GLOBALS['mysqli']->real_escape_string(str_replace("\n","<br>",$_POST['omschrijving']));
+
+    //Checken of model niet langer is dan 20 teken
+    if (strlen($_POST['model']) > 20){
+        //Model te lang
+        array_push($error, "Model mag niet langer dan 20 tekens zijn.");
+    }
+    if (strlen($_POST['model']) < 1){
+        //Model te kort
+        array_push($error, "Voer een model in.");
+    }
+    else{
+        //Maakt nette modelnaam
+        $GLOBALS['model'] = ucfirst(strtolower($GLOBALS['mysqli']->real_escape_string($_POST['model'])));
+    }
+
+    //Checken of woonplaats niet langer is dan 30 teken
+    if (strlen($_POST['plaats']) > 30){
+        //woonplaats te lang
+        array_push($error, "Plaats mag niet langer dan 30 tekens zijn");
+    }
+    if (strlen($_POST['plaats']) < 1){
+        //Plaats te kort
+        array_push($error, "Voer een plaats in.");
+    }
+    else{
+        //maakt nette plaatsnaam
+        $GLOBALS['plaats'] = ucfirst(strtolower($GLOBALS['mysqli']->real_escape_string($_POST['plaats'])));
+    }
+
+    //Checken of adres niet langer is dan 30 teken
+    if (strlen($_POST['adres']) > 30){
+        //woonplaats te lang
+        array_push($error, "Adres mag niet langer dan 30 tekens zijn");
+    }
+    if (strlen($_POST['adres']) < 1){
+        //Adres te kort
+        array_push($error, "Voer een adres in.");
+    }
+    else{
+        //maakt nette adres
+        $GLOBALS['adres'] = ucfirst(strtolower($GLOBALS['mysqli']->real_escape_string($_POST['adres'])));
+    }
+
+    if (strlen($_POST['postcode']) < 1){
+        //postcode te kort
+        array_push($error, "Voer een postcode in.");
+    }
+    else{
+        $remove = str_replace(" ","", $_POST['postcode']);
+        $upper = strtoupper($remove);
+        if( preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
+            $GLOBALS['postcode'] = $GLOBALS['mysqli']->real_escape_string($upper);
+        } else {
+            array_push($error, "Voer een geldige postcode in.");
+        }
+    }
+
+    if(is_numeric($_POST['versnellingen'])){
+        $GLOBALS['versnellingen'] = $GLOBALS['mysqli']->real_escape_string($_POST['versnellingen']);
+    }
+    else{
+        array_push($error, "Voer een geldig aantal versnellingen in.");
+    }
+
+    if(is_numeric($_POST['borg'])){
+        $GLOBALS['borg'] = $GLOBALS['mysqli']->real_escape_string($_POST['borg']);
+    }
+    else{
+        array_push($error, "Voer een geldig aantal borg in.");
+    }
+
+    if(is_numeric($_POST['huur-prijs'])){
+        $GLOBALS['huurPrijs'] = $GLOBALS['mysqli']->real_escape_string($_POST['huur-prijs']);
+    }
+    else{
+        array_push($error, "Voer een geldig huurprijs in.");
+    }
+
+    if(empty($_POST['geslacht_fiets'])){
+        array_push($error, "Selecteer een geslacht.");
+    }
+    else{
+
+    }
+
+    if(!empty($error)){
+        for ($i = 0; $i < count($error); $i++){
+            echo $error[$i] ."<br>";
+        }
+    }
+    else{
+        $sql = "UPDATE fietsen SET postcode = '".$postcode."', borg = ".$borg.", prijs = ".$huurPrijs.", plaats = '".$plaats."', id_soort_fiets = ".$_POST['soort_fiets'].", id_merk_fiets = ".$_POST['merk_naam'].", adres = '".$adres."', geslacht_fiets = '".$_POST['geslacht_fiets']."', kleur_fiets = '".$_POST['kleur']."', versnellingen = '".$versnellingen."', model = '".$model."', omschrijving = '".$omschrijvingnieuw."' WHERE id = $fiets_id and gebruiker_id = $gebruiker_id ";
+        $insert_query = $mysqli->query($sql);
+        header("Location: fiets.php?fiets_id=$fiets_id");
+        die();
+    }
+
+
+
 }
 
 if(isset($_POST['foto_bewerken'])){
@@ -107,13 +204,13 @@ if(isset($_POST['verwijderen'])){
     if (empty($afbeelding)) {
         $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
         $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-        header("Location: index.php");
+        header("Location: mijn_fietsen.php");
     }
     else{
         unlink($afbeelding);
         $sql = "DELETE FROM fietsen where id = $fiets_id and gebruiker_id = $gebruiker_id;";
         $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-        header("Location: index.php");
+        header("Location: mijn_fietsen.php");
     }
 }?>
 <!DOCTYPE html>

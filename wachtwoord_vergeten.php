@@ -7,13 +7,6 @@
  * Vanuit deze pagina word een verzoek gestuurd om het wachtwoord van het opgegeven account te veranderen.
  */
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'plugins/PHPMailer/src/Exception.php';
-require 'plugins/PHPMailer/src/PHPMailer.php';
-require 'plugins/PHPMailer/src/SMTP.php';
-
 require 'utils/database_connection.php';
 require 'utils/core_functions.php';
 

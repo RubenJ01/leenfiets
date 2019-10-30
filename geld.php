@@ -42,5 +42,7 @@
 
     <img src="foto/betaal.jpeg" class="center1" ></a>
 
+    <img src="foto/betaal.jpeg" class="center1" ></a>
+
   </body>
 </html>

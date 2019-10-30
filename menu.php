@@ -13,7 +13,7 @@ if (!isset($_SESSION)) {
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <link rel="stylesheet" href="utils/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
 </head>
@@ -48,7 +48,16 @@ if (!isset($_SESSION)) {
            ?>
         </div>
     </div>
-    <a href="contact.php">Contact</a>
+
+    <div class="dropdown">
+        <button class="dropbtn">Contact</button>
+        <div class="dropdown-content">
+            <a href="contactgegevens.php">Contactgegevens</a>
+            <a href="contact.php">Stel ons een vraag</a>
+            <a href='review.php'>Reviews</a>
+        </div>
+    </div>
+
     <a href="faq.php">FAQ</a>
 </div>
 </body>

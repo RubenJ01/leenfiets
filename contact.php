@@ -8,6 +8,11 @@ include "utils/core_functions.php";
 <html>
 <head><title>Contact</title></head>
 <body>
+
+<div class='profiel_fiets_text'>
+    <h2>Als u vragen heeft over onze website kunt u ons altijd bereiken!<br> Doormiddel van onderstaand formulier kunt u contact met ons opnemen.</h2>
+</div>
+
 <form method="GET">
   <?php
   if(!isset($_SESSION["email"])){
@@ -30,6 +35,8 @@ echo    '<fieldset>
  <br>
  <input type="submit" name= "Verstuur">
 </form>
+<img src="foto/socials.jpeg" height="250" width="248"></a>
+
 </body>
 </html>
 <?php
