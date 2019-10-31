@@ -153,8 +153,8 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
-    display: none;
-}
+    display: block;
+    }
 
 .fiets_blok h1{
     text-align: center;
@@ -270,6 +270,11 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
+
+}
+
+#profiel_fiets_button{
+    text-align: center;
 }
 
 .profiel_css h1{
@@ -286,6 +291,10 @@ body{
     font-size:2vw;
 }
 
+.profiel_fiets_text h1{
+    text-align: center;
+    }
+
 .profiel_fiets h4{
     text-align: center;
     font-size: large;
@@ -297,7 +306,8 @@ body{
     margin-right: auto;
     margin-bottom: 5%;
     margin-top: 5%;
-    width: 50%;
+    width: 25%;
+    display:inline-block;
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
@@ -367,6 +377,21 @@ body{
     margin-bottom: 1%;
 
 }
+#buttonPage{
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border: 2px solid white;
+    width: 22%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1%;
+}
+
 #filter{
     float: left;
     width: 19%;
@@ -387,6 +412,10 @@ body{
     margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
+    }
+
+#homepagina_button{
+    text-align: center;
 }
 
 /* hoofdpagina tekst */

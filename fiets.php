@@ -86,9 +86,7 @@ if(isset($_GET['succesvol_toegevoegd'])){
                     if($fiets_gebruikers_id == $_SESSION['id'] ){
                         echo "<a href=\"fiets_bewerken.php?fiets_id=" .$fiets_id ."\">Fiets bewerken</a>";
                     }
-                    else{
-                        echo "<a href=\"#" .$fiets_id ."\">Fiets huren</a>";
-                    }}
+                    }
                 else{
                     echo "<a href=\"inloggen.php\">Log in</a>";
                 }?>
