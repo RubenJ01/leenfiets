@@ -255,24 +255,23 @@ where
 
 </div>
 <div style="margin-bottom: 0;">
-    <?php
-    if(!isset($_GET['page_id'])){
-        $laadMeer  = "'" ."index.php?page_id=0"  ."'";
-        echo '<button  id="buttonPage" onclick="window.location.href = ' .$laadMeer .';">Laad meer</button>';
-                    }
-    else{
-        $test = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $vorigePage = "'" . str_replace("page_id=" .$_GET['page_id'] , "page_id=" .($_GET['page_id'] -1), $test) ."'";
-        $volgendePage = "'" .str_replace("page_id=" .$_GET['page_id'] , "page_id=" .($_GET['page_id'] +1), $test) ."'";
-        }
-    ?>
+
 
 
 
 </div>
 <div id="homepagina_button">
-<?php
-if (isset($_GET['page_id'])){
+    <?php
+    if(!isset($_GET['page_id'])){
+        $laadMeer  = "'" ."index.php?page_id=0"  ."'";
+        echo '<button  id="buttonPage" onclick="window.location.href = ' .$laadMeer .';">Laad meer</button>';
+    }
+    else{
+        $test = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $vorigePage = "'" . str_replace("page_id=" .$_GET['page_id'] , "page_id=" .($_GET['page_id'] -1), $test) ."'";
+        $volgendePage = "'" .str_replace("page_id=" .$_GET['page_id'] , "page_id=" .($_GET['page_id'] +1), $test) ."'";
+    }
+    if (isset($_GET['page_id'])){
     if ($_GET['page_id'] != 0){
         echo '<button  id="buttonPage" onclick="window.location.href = ' .$vorigePage .';">Vorige pagina</button>';
     }
