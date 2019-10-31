@@ -270,6 +270,7 @@ where
 
 
 </div>
+<div id="homepagina_button">
 <?php
 if (isset($_GET['page_id'])){
     if ($_GET['page_id'] != 0){
@@ -281,6 +282,7 @@ if (isset($_GET['page_id'])){
 
 }
 ?>
+</div>
 </body>
 
 </html>
