@@ -56,5 +56,10 @@ if ($result->num_rows > 0) {
 }
 else { echo "Je hebt nog geen fietsen geposted"; }
 ?>
+
+<div class="footer">
+    <p>Dit is de footer</p>
+</div>
+
 </body>
 </html>

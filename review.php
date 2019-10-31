@@ -19,6 +19,7 @@ if (!isset($_SESSION)) {
       <h2>Op deze pagina kunt u een review achterlaten over de wesite.<br> Wat vind u van de website?<br></h2>
   </div>
   <br>
+
   <div class="formpje">
      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
          <input type="text" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : ''); ?>" required placeholder="Uw naam"><br>
@@ -37,7 +38,7 @@ if (!isset($_SESSION)) {
       header("location: review_bedankt.php");
   }
 
-    $sql_result ="SELECT `name`, `comment` FROM `comments` WHERE 1";
+    $sql_result ="SELECT `name`, `comment` FROM `comments` WHERE 1 order by id DESC";
     $result_comment = $mysqli->query($sql_result);
 
     while ($row = $result_comment->fetch_assoc()){
