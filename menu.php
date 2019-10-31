@@ -20,7 +20,7 @@ if (!isset($_SESSION)) {
 <body>
 <div class="navbar">
     <a href="index.php"><img src="foto/foto_home.png" height="24" width="24"></a>
-    <a href="#">Nieuws</a>
+    <a href="nieuwspagina.php">Nieuws</a>
     <div class="dropdown">
         <button class="dropbtn">Mijn account</button>
         <div class="dropdown-content">
