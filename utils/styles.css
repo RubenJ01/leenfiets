@@ -102,6 +102,7 @@ body{
 }
 
 .afbeelding_foto_bewerken{
+    background-color: red;
     float: left;
 
 }
@@ -153,8 +154,8 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
-    display: block;
-    }
+    display: none;
+}
 
 .fiets_blok h1{
     text-align: center;
@@ -201,64 +202,6 @@ body{
 }
 /* einde blok fiets */
 
-/* begin img's css */
-
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-}
-
-.center1 {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    padding:1px;
-    border:1px solid #021a40;
-    background-color: dimgrey;
-
-}
-
-/* einde img's css */
-
-/* begin profiel.php */
-.mijn_profiel_text  {
-    text-align: center;
-}
-
-
-.mijn_profiel_links a:link, a:visited {
-    background-color: #4CAF50;
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border: black;
-    border-style: solid;
-    border-width: 2px;
-    border-color: lightgreen;
-
-}
-
-.mijn_profiel_links a:hover, a:active {
-    background-color: lightgreen;
-}
-
-.mijn_profiel_links {
-    width: 58%;
-    padding: 10px;
-    position: absolute;
-    margin: auto;
-    right: 0;
-    left: 0;
-    color: white;
-
-}
-
-/* einde profiel.php */
-
 /* begin profiel_mijnfietsen */
 
 .profiel_fiets  {
@@ -270,10 +213,6 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
-}
-
-.profiel_css h1{
-    text-align: center;
 }
 
 .profiel_fiets h1{
@@ -327,20 +266,6 @@ body{
 
 /* einde profiel_mijnfietsen */
 
-/* begin reviews */
-
-.comment p  {
-    text-decoration: underline;
-    border-color: black;
-    text-align: center;
-}
-
-.formpje form   {
-    text-align: center;
-}
-
-/* einde reviews */
-
 /* begin hoofdpagina tekst */
 #tekstHoofdpagina h1{
     text-align: center;
@@ -367,22 +292,6 @@ body{
     margin-bottom: 1%;
 
 }
-#buttonPage{
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    width: 22%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1%;
-}
-
 #filter{
     float: left;
     width: 19%;
@@ -403,7 +312,8 @@ body{
     margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
-    }
+}
+
 
 /* hoofdpagina tekst */
 
@@ -412,6 +322,7 @@ body{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+
     margin-top: 10px;
     overflow: hidden;
     margin-bottom: 10px;
@@ -454,12 +365,6 @@ body{
     float: right;
 
 }
-
-.titel {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  text-align: center;
+.nieuwsbericht{
+  border: 2px solid black;
 }
-
