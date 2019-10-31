@@ -15,37 +15,36 @@ if (!isset($_SESSION)) {
   </head>
   <body>
 
- <?php
+  <div class='profiel_fiets_text'>
+      <h2>Op deze pagina kunt u een review achterlaten over de wesite.<br> Wat vind u van de website?<br></h2>
+  </div>
+  <br>
+  <div class="formpje">
+     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+         <input type="text" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : ''); ?>" required placeholder="Uw naam"><br>
+         <textarea name="comment" cols="50" rows="5" value="<?php echo (isset($_POST['comment']) ? $_POST['comment'] : ''); ?>" required placeholder="Review"></textarea><br>
+         <input type="submit" name="submit" value="Laat review achter!">
+     </form>
+  </div>
+  <br>
+  <?php
 
+  if(isset($_POST['submit'])) {
+      $name = $_POST['name'];
+      $comment = $_POST['comment'];
+      $sql = "INSERT INTO comments(`name`, `comment`) VALUES ('$name', '$comment')";
+      $result = $mysqli->query($sql);
+      header("location: review_bedankt.php");
+  }
 
+    $sql_result ="SELECT `name`, `comment` FROM `comments` WHERE 1";
+    $result_comment = $mysqli->query($sql_result);
 
- ?>
-
- <div class='profiel_fiets_text'>
-     <h2>Op deze pagina kunt u een review achterlaten over de wesite.<br> Wat vind u van de website?<br></h2>
- </div>
-
-
-
-  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-      <input type="text" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : ''); ?>" required placeholder="Uw naam"><br>
-      <textarea name="comment" cols="50" rows="5" value="<?php echo (isset($_POST['comment']) ? $_POST['comment'] : ''); ?>" required placeholder="Review"></textarea><br>
-      <input type="submit" name="submit" value="Laat review achter!">
-  </form>
-
-<?php
-
-if(isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $comment = $_POST['comment'];
-}
-
-$sql = "INSERT INTO `comments`(`name`, `comment`) VALUES ('$name', '$comment')";
-$result = $mysqli->query($sql);
-
-
+    while ($row = $result_comment->fetch_assoc()){
+        $comment_name = $row['name'];
+        $comment = $row['comment'];
+        echo "<div class='comment'><p><b>{$comment_name}</b> - {$comment}<br><br></p></div>";
+    }
 ?>
-
-
   </body>
 </html>

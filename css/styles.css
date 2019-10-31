@@ -327,6 +327,20 @@ body{
 
 /* einde profiel_mijnfietsen */
 
+/* begin reviews */
+
+.comment p  {
+    text-decoration: underline;
+    border-color: black;
+    text-align: center;
+}
+
+.formpje form   {
+    text-align: center;
+}
+
+/* einde reviews */
+
 /* begin hoofdpagina tekst */
 #tekstHoofdpagina h1{
     text-align: center;
@@ -432,3 +446,4 @@ body{
   width: 50%;
   text-align: center;
 }
+
