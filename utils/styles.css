@@ -1,0 +1,370 @@
+/**
+ * @file styles.css
+ *
+ * @brief deze pagina zorgt voor de style van de website.
+ *
+ * Het menu hoeft maar één keer bewerkt te worden, dan wordt hij overal aangepast.
+ */
+
+/*Begin Navigatiebar boven aan de website*/
+
+.navbar {
+    overflow: hidden;
+    background-color: grey;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    margin: 0;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: darkgrey;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: bold;
+}
+/*Einde Navigatiebar boven aan de website*/
+
+body{
+    margin: 0;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+
+}
+
+#fietsentoevoegen{
+    margin: 10px;
+}
+
+#fietsenbewerken{
+    float: left;
+}
+
+.afbeelding_foto_bewerken{
+    background-color: red;
+    float: left;
+
+}
+
+/* Begin faq css */
+.page .page-part {
+    overflow: hidden;
+    padding: 5px 20px;
+    background-color: lightgrey;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+}
+
+.page p{
+    display: block;
+    margin: 20px 10px;
+    color: black;
+    font-size: 18px;
+}
+
+.content p, .page .Answer {
+    -webkit-transition: height 	0.5s;
+    -moz-transition:    height 	0.5s;
+    -ms-transition:     height 	0.5s;
+    -o-transition:      height 	0.5s;
+    transition:         height 	0.5s;
+}
+
+.page .Answer {
+    display: block;
+    overflow: hidden;
+    background-color: lightgrey;
+    margin: 0px 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.page .vraag {
+    color: dodgerblue;
+    font-size: 15px;
+}
+/*einde faq css*/
+
+/* blok fiets */
+.fiets_blok{
+    width: 30%;
+    margin-left: 2%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    float: left;
+    display: none;
+}
+
+.fiets_blok h1{
+    text-align: center;
+    font-size:2vw;
+}
+
+.fiets_blok h4{
+    text-align: center;
+    font-size: large;
+}
+
+.fiets_blok a{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    width: 50%;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.fiets_blok img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    margin-left:  auto;
+    margin-right: auto;
+
+}
+.afbeeldingDiv {
+    width: 80%;
+    padding-bottom: 80%;
+    margin-left:  auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+}
+/* einde blok fiets */
+
+/* begin profiel_mijnfietsen */
+
+.profiel_fiets  {
+    width: 30%;
+    margin-left: 2%;
+    margin-top: 1%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.profiel_fiets h1{
+    text-align: center;
+    font-size: 3vw;
+}
+
+.profiel_fiets_text h2{
+    text-align: center;
+    font-size:2vw;
+}
+
+.profiel_fiets h4{
+    text-align: center;
+    font-size: large;
+}
+
+.profiel_fiets a{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    width: 50%;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.profiel_fiets img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    margin-left:  auto;
+    margin-right: auto;
+
+}
+.afbeeldingDiv {
+    width: 50%;
+    padding-bottom: 50%;
+    margin-left:  auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+/* einde profiel_mijnfietsen */
+
+/* begin hoofdpagina tekst */
+#tekstHoofdpagina h1{
+    text-align: center;
+}
+#tekstHoofdpagina{
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#buttonLaadMeer {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1%;
+
+}
+#filter{
+    float: left;
+    width: 19%;
+    height: auto;
+    margin-top: 1%;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 1%;
+    margin-right: auto;
+    position: fixed;
+    display: none;
+    text-align: center;
+}
+
+#bodyFietsen{
+    width: 100%;
+    float: right;
+    margin-top: 1%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* hoofdpagina tekst */
+
+#fiets{
+    height: auto;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#fiets h1{
+    text-align: center;
+}
+
+#specificaties{
+    width: 45%;
+    float: left;
+
+}
+
+#ophaallocatie{
+    width: 100%;
+    float: left;
+
+}
+
+#omschrijving_scroll{
+    height: 100px;
+    width: 100%;
+    overflow:auto;
+}
+
+#linksKolom{
+    width: 50%;
+    float: left;
+
+}
+
+#linksKolom img{
+    width:100%;
+    float: left;
+}
+#rechtsKolom{
+    width: 50%;
+    float: right;
+
+}
+.nieuwsbericht{
+  border: 2px solid black;
+}
