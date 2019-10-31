@@ -339,8 +339,13 @@ body{
 
 /* begin reviews */
 
+.date {
+    border-color: black;
+    text-align: center;
+}
+
 .comment p  {
-    text-decoration: underline;
+
     border-color: black;
     text-align: center;
 }

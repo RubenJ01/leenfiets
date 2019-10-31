@@ -44,7 +44,8 @@ if (!isset($_SESSION)) {
     while ($row = $result_comment->fetch_assoc()){
         $comment_name = $row['name'];
         $comment = $row['comment'];
-        echo "<div class='comment'><p><b>{$comment_name}</b> - {$comment}<br><br></p></div>";
+        $date = date("Y/m/d");
+        echo "<div class='comment'><p><b>{$comment_name} op <b>{$date}</b></b> - <i>{$comment}</i><br><br></p></div>";
     }
 ?>
   </body>
