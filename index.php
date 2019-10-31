@@ -17,7 +17,12 @@ if(isset($_GET['sorteren_value'])) {
 else{
     $sorteren = "order by datum desc";
 }
+
+$geenFietsen = false;
 require 'utils/database_connection.php';
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -28,16 +33,7 @@ require 'utils/database_connection.php';
 <body class="hoofdpagina">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    $(function(){
-        $(".fiets_blok").slice(0, 3).show(); // pakt de eerste 3 fietsen
-        $("#buttonLaadMeer").click(function(e){
-            e.preventDefault();
-            if($(".fiets_blok:hidden").length == 0){ // kijkt of er nog fietsen zijn
-                alert("Er zijn geen fietsen meer");
-            }
-            $(".fiets_blok:hidden").slice(0, 6).show(); // Pak 6 nieuwe fietsen
-        });
-    });
+
     function laadMeer() {
         document.getElementById("tekstHoofdpagina").style.display = "none";
         document.getElementById("filter").style.display = "block";
@@ -68,6 +64,7 @@ require 'utils/database_connection.php';
 </div>
 <div id= "filter"><h3 style="margin-top: 0px; margin-bottom: 0px;">Filter</h3>
     <form method="get" id="fietsentoevoegen" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <input type="hidden" name="page_id" value="0">
     <b>Merk</b><br> <select style="width: 95%" id = "merk_naam" name="merk_naam"><?php
             $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
             $result = $mysqli->query($sql);
@@ -135,6 +132,9 @@ require 'utils/database_connection.php';
 </form>
 </div>
 
+
+
+
 <div id= "bodyFietsen">
     <?php
     if(isset($_GET['filter'])){
@@ -191,7 +191,7 @@ where
     or ('".$_GET['terugDatum'] ."' between CAST(ophaal_moment AS DATE) and CAST(terugbreng_moment AS DATE)  
 	AND status_ = 'gereserveerd'))";
         }
-        $sql .= $sorteren ;
+        $sql .= " " .$sorteren ;
             }
     else{
         $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.id, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
@@ -200,6 +200,18 @@ where
                 AND fietsen.id_merk_fiets = merk_fiets.id 
                  $sorteren";
     }
+
+    if (!isset($_GET['page_id'])) {
+        $sql .= " limit 3";
+    }
+    else{
+        $begin = $_GET['page_id'] * 9 ;
+        $sql .= " limit ".$begin.",9";
+
+
+    }
+
+
     $result = $mysqli->query($sql);
     if ($result->num_rows > 0) {
         //maakt blokjes van sql
@@ -222,7 +234,8 @@ where
                     </div>";
         }
     }
-    else { echo "Er zijn momenteel geen fietsen beschikbaar"; }
+    else { echo "Er zijn niet meer fietsen beschikbaar";
+    $geenFietsen = true;}
 
     if(isset($_GET['reset'])){
         echo "<script> laadMeer(); </script>";
@@ -231,10 +244,45 @@ where
     if(isset($_GET['sorteren'])){
         echo "<script> laadMeer(); </script>";
     }
+
+    if(isset($_GET['page_id'])){
+        echo "<script> laadMeer(); </script>";
+    }
+
     ?>
+
+
+
 </div>
-<button id="buttonLaadMeer" onclick="laadMeer()">Laad meer</button>
+<div style="margin-bottom: 0;">
+    <?php
+    if(!isset($_GET['page_id'])){
+        $laadMeer  = "'" ."index.php?page_id=0"  ."'";
+        echo '<button  id="buttonPage" onclick="window.location.href = ' .$laadMeer .';">Laad meer</button>';
+                    }
+    else{
+        $test = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $vorigePage = "'" . str_replace("page_id=" .$_GET['page_id'] , "page_id=" .($_GET['page_id'] -1), $test) ."'";
+        $volgendePage = "'" .str_replace("page_id=" .$_GET['page_id'] , "page_id=" .($_GET['page_id'] +1), $test) ."'";
+        }
+    ?>
+
+
+
+</div>
+<?php
+if (isset($_GET['page_id'])){
+    if ($_GET['page_id'] != 0){
+        echo '<button  id="buttonPage" onclick="window.location.href = ' .$vorigePage .';">Vorige pagina</button>';
+    }
+    if($geenFietsen == false){
+        echo '<button  id="buttonPage" onclick="window.location.href = ' .$volgendePage .';">Volgende pagina</button>\'';
+    }
+
+}
+?>
 </body>
+
 </html>
 
 
