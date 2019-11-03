@@ -425,6 +425,16 @@ body{
 
 }
 
+.wrapper {
+  margin-right: auto;
+  margin-left:  auto;
+
+  max-width: 960px;
+
+  padding-right: 10px;
+  padding-left:  10px;
+}
+
 .titel {
   display: block;
   margin-left: auto;
@@ -432,3 +442,36 @@ body{
   width: 50%;
   text-align: center;
 }
+
+/* Begin leen_verzoek */
+
+#leen_verzoeken table {
+  width: 100%;
+  border: 1px solid black;
+  table-layout: fixed;
+}
+
+#leen_verzoeken tr {
+  width: 100%;
+}
+
+#leen_verzoeken th {
+  border: 1px solid black;
+  vertical-align: middle;
+  width: 14.28%;
+  word-wrap: break-word;
+}
+
+#leen_verzoeken td {
+  border: 1px solid black;
+  vertical-align: middle;
+  width: 14.28%;
+  word-wrap: break-word;
+}
+
+#leen_verzoek td img {
+  width: 10px;
+  height: auto;
+}
+
+/* Einde leen_verzoek */
