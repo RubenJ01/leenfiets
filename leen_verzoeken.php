@@ -37,9 +37,6 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
   }
 }
 
-// Het kan zijn dat een fiets verlopen is dus daarom roepen we de functie Updatebicycles aan die checkt of er ook iets verlopen is
-UpdateBicycles($_SESSION['id']);
-
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +47,11 @@ UpdateBicycles($_SESSION['id']);
   <body>
     <div class="wrapper">
       <div id="leen_verzoeken">
+
+        <?php
+          // Het kan zijn dat een fiets verlopen is dus daarom roepen we de functie Updatebicycles aan die checkt of er ook iets verlopen is
+          UpdateBicycles($_SESSION['id']);
+        ?>
 
 
         <!-- GEKREGEN LEENVERZOEKEN -->
