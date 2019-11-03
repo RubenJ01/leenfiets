@@ -55,7 +55,6 @@ $returnDate = $GLOBALS['mysqli']->real_escape_string($_GET['returnDate']);
 $earlier = new DateTime($collectionDate);
 $later = new DateTime($returnDate);
 $amountOfDays = ($later->diff($earlier)->format("%a") + 1);
-$prijs *= $amountOfDays;
 // Het aantal gehuurde dagen mag nooit lager zijn dan 0 en je mag ook niet huren als die dag al is geweest of als de returnDate lager is dan de collectionDate
 $dateNow = new DateTime();
 if ($earlier > $later) {
@@ -86,7 +85,7 @@ if ($earlier > $later) {
   <select name="returnTime">
     <?php echo $timeStamps; ?>
   </select><br>
-  Totale huurprijs: €<?php echo $prijs ?><br>
+  Totale huurprijs: €<?php echo $prijs * $amountOfDays ?><br>
   Borg: <?php echo $borg ?><br>
   Eventueele bericht aan de eigenaar(<?php echo $eigenaarNaam ?>) van de fiets:<br>
   <textarea name="message" style="width:300px;height:200px;resize:none"></textarea><br>
@@ -127,7 +126,7 @@ if (isset($_POST['verstuur'])) {
     trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
   }
   else {
-    $stmt->bind_param('iisssii', $fietsId, $eigenaarId, $collectionMomement, $returnMomement, $message, $prijs, $borg);
+    $stmt->bind_param('iisssii', $fietsId, $_SESSION['id'], $collectionMomement, $returnMomement, $message, $prijs, $borg);
     if (!$stmt->execute() || $GLOBALS['mysqli']->affected_rows == 0) {
       echo "Helaas kon het vezoek tot lenen niet worden voltooid wellicht was er net iemand voor u die de fiets heeft gereserveerd";
       return;
