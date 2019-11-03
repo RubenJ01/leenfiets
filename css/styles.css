@@ -540,4 +540,9 @@ body{
   height: auto;
 }
 
+.wordBreakDownButton {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
 /* Einde leen_verzoek */
