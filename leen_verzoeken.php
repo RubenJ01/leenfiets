@@ -103,9 +103,10 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
               else if ($status === "gereserveerd" || $status === "in_gebruik") {
                 if ($leenVerzoekToken === NULL) { $token = GetToken();$qrTokens["{$leenVerzoekId}"] = $token; }
                 else { $token = $leenVerzoekToken; }
-                echo $token;
+                $g = false;
+                if ($status === "gereserveerd") { $g = true; }
                 $status .= ": <a href='qr.php?leen_verzoek=$leenVerzoekId&token=$token'> Klik op deze link en laat de qr code scannen door de lener </a>";
-                if ($status === "gereserveerd") {
+                if ($g === true) {
                   $status .= "<form method='post' action='utils/process_leen_verzoek.php'>
                                 <input type='submit' name='geannuleerd' value='of klik hier om te annuleren' class='wordBreakDownButton'>
                                 <input type='number' name='id' value='$leenVerzoekId' style='display: none;'>
