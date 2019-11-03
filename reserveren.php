@@ -18,9 +18,10 @@ if (isset($_GET['fiets_id']) === false) {
   RedirectToPage("index.php");
 }
 // Check of de gebruiker wel een datum heeft geselecteert
-if (isset($_GET['collectionDate']) === false || isset($_GET['returnDate']) === false) {
+if (isset($_GET['collectionDate']) === false || isset($_GET['returnDate']) === false || $_GET['collectionDate'] == "Selecteer een datum") {
   RedirectToPage("fiets.php?fiets_id={$_GET['fiets_id']}");
 }
+echo $_GET['collectionDate'];
 // Haal wat data op over de fiets
 $fietsId = $_GET['fiets_id'];
 $query = "SELECT f.id, f.borg, f.prijs, f.gebruiker_id, f.foto, g.naam
