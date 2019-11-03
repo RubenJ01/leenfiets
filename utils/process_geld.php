@@ -203,7 +203,7 @@ if(isset($_POST['toevoegen'])) {
   if (isset($_SESSION['id']) === false) {
     RedirectToPage("inloggen.php");
   }
-  $geld =  ((float)$_POST['geld']);
+  $geld =  $GLOBALS['mysqli']->real_escape_string((float)$_POST['geld']);
   AddMoney($_SESSION['id'], abs($geld));
   header("Location: ../geld.php");
 }

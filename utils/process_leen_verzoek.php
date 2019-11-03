@@ -108,7 +108,7 @@
    if (isset($_SESSION['id']) === false) {
      RedirectToPage("inloggen.php");
    }
-   AcceptRequest($_SESSION['id'], $_POST['id']);
+   AcceptRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
    header("Location: ../leen_verzoeken.php");
   }
 
@@ -122,7 +122,7 @@
    if (isset($_SESSION['id']) === false) {
      RedirectToPage("inloggen.php");
    }
-   DenyRequest($_SESSION['id'], $_POST['id']);
+   DenyRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
    header("Location: ../leen_verzoeken.php");
   }
 
