@@ -15,6 +15,12 @@ if(isset($_GET['sorteren_value'])) {
 else{
     $sorteren = "order by datum desc";
 }
+if(isset($_SESSION['id'])){
+    $sessionId = " AND fietsen.gebruiker_id != " .$_SESSION['id'];
+}
+else{
+    $sessionId = "";
+}
 
 $geenFietsen = false;
 require 'utils/database_connection.php';
@@ -131,8 +137,7 @@ if(isset($_GET['filter'])){
     $sql = "    SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.id, fietsen.plaats, fietsen.kleur_fiets, fietsen.model, fietsen.geslacht_fiets, fietsen.adres, fietsen.foto, soort_fiets.soort_fiets, merk_fiets.merk_naam 
                 FROM fietsen, merk_fiets, soort_fiets   
                 WHERE fietsen.id_soort_fiets = soort_fiets.id 
-                AND fietsen.id_merk_fiets = merk_fiets.id
-                AND fietsen.gebruiker_id != " .$_SESSION['id'];
+                AND fietsen.id_merk_fiets = merk_fiets.id $sessionId";
 
     if($_GET['min_versnelling'] > $_GET['max_versnelling']){
         echo 'Let op het minimale versnellingen is hoger dan maximaal aantal versnellingen.';
@@ -198,8 +203,7 @@ else{
                 from fietsen, merk_fiets, soort_fiets   
                 WHERE fietsen.id_soort_fiets = soort_fiets.id 
                 AND fietsen.id_merk_fiets = merk_fiets.id 
-                AND fietsen.gebruiker_id != " .$_SESSION['id'] ." "
-                 .$sorteren;
+               $sessionId $sorteren";
 }
 ?>
 
