@@ -102,11 +102,11 @@ function GetMoney($id) {
 /// @param $id Het id van de gebruiker waar we het geld van willen ophalen
 /// @return return false als er iets mis gaat tijdens ophalen van borg anders return de borgkosten
 function GetDepositCosts($id) {
-  $query = "SELECT sum(l.borg)
+  $query = "SELECT COALESCE(sum(l.borg), 0)
             FROM (
                 SELECT borg
                 FROM leen_verzoek
-                WHERE lener_id = ?
+                WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
                 GROUP BY fiets_id, lener_id, borg
             ) AS l";
   $stmt = $GLOBALS['mysqli']->prepare($query);
@@ -131,7 +131,7 @@ function GetDepositCosts($id) {
 /// @param $id Het id van de gebruiker waar we het geld van willen ophalen
 /// @return return false als er iets mis gaat tijdens ophalen van leenkosten anders return de leenkosten
 function GetBorrowingCosts($id) {
-  $query = "SELECT SUM((DATEDIFF(terugbreng_moment, ophaal_moment)+1)*prijs)
+  $query = "SELECT COALESCE(SUM((DATEDIFF(terugbreng_moment, ophaal_moment)+1)*prijs), 0)
             FROM leen_verzoek
             WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')";
   $stmt = $GLOBALS['mysqli']->prepare($query);
@@ -158,15 +158,15 @@ function GetBorrowingCosts($id) {
 function GetSpendableMoney($id) {
   $query = "SELECT IF((g.geld-k.kosten)>0, g.geld-k.kosten, 0)
             FROM gebruiker g JOIN (
-              SELECT (SUM((DATEDIFF(terugbreng_moment, ophaal_moment)+1)*prijs) + (
-                SELECT sum(b.borg)
+              SELECT IFNULL((SELECT COALESCE(SUM((DATEDIFF(terugbreng_moment, ophaal_moment)+1)*prijs), 0) + (
+                SELECT COALESCE(sum(b.borg), 0)
                 FROM (
                     SELECT borg
                     FROM leen_verzoek
-                    WHERE lener_id = ?
+                    WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
                     GROUP BY fiets_id, lener_id, borg
                 ) AS b
-              )) as kosten
+              )), 0) as kosten
               FROM leen_verzoek
               WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
             ) AS k
