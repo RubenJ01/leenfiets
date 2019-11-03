@@ -13,8 +13,7 @@ if (!isset($_SESSION)) {
 if (!isset($_SESSION['email'])) {
     header('location: inloggen.php?niet_ingelogd='. urlencode('true'));
 }
-?>
-<?php
+
 if(isset($_POST['toevoegen'])){
     $error = array();
     //Alle post data controleren en eventueel eenpassen
@@ -82,6 +81,9 @@ if(isset($_POST['toevoegen'])){
     else{
         array_push($error, "Voer een geldig aantal versnellingen in.");
     }
+    if ($_POST['versnellingen'] > 27){
+        array_push($error, "Het maximale aantal voor versnellingen is 27.");
+    }
 
     if(is_numeric($_POST['borg'])){
         $GLOBALS['borg'] = $GLOBALS['mysqli']->real_escape_string($_POST['borg']);
@@ -89,19 +91,28 @@ if(isset($_POST['toevoegen'])){
     else{
         array_push($error, "Voer een geldig aantal borg in.");
     }
+    if($_POST['borg'] > 1000){
+        array_push($error, "Borg mag niet meer dan 1000 euro zijn.");
+    }
+    if($_POST['borg'] < 0){
+        array_push($error, "Borg mag niet lager zijn dan 0 euro.");
+    }
 
     if(is_numeric($_POST['huur-prijs'])){
         $GLOBALS['huurPrijs'] = $GLOBALS['mysqli']->real_escape_string($_POST['huur-prijs']);
     }
-    else{
+    else {
         array_push($error, "Voer een geldig huurprijs in.");
+    }
+    if($_POST['huur-prijs'] > 200){
+        array_push($error, "Huurprijs mag niet meer dan 200 euro zijn.");
+    }
+    if($_POST['huur-prijs'] < 0){
+        array_push($error, "Huurprijs mag niet minder dan 0 euro zijn.");
     }
 
     if(empty($_POST['geslacht_fiets'])){
         array_push($error, "Selecteer een geslacht.");
-    }
-    else{
-
     }
 
     if(!empty($error)){
@@ -112,7 +123,7 @@ if(isset($_POST['toevoegen'])){
     else{
         //geen fouten in input
         if (!$_FILES["foto"]["name"]){
-            //geen foto
+            //geen foto toegevoegd
             $sql = "INSERT INTO fietsen
                     (borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model, omschrijving, postcode) 
                     VALUES (" . $borg . "," . $huurPrijs . ",'" . $_SESSION['id'] . "','" . $plaats . "'," . $_POST['soort_fiets'] . "," . $_POST['merk_naam'] . ",'" . $adres . "','','" . $_POST['geslacht_fiets'] . "','" . $_POST['kleur'] . "','" . $versnellingen . "','" . $model . "','".$omschrijving."','" . $postcode . "');";
@@ -125,22 +136,30 @@ if(isset($_POST['toevoegen'])){
             $target_file = $target_dir . basename($_FILES["foto"]["name"]);
             $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-            // Check if image file is a actual image or fake image
+            // Checkt of er echt een afbeelding geupload is
             $check = getimagesize($_FILES["foto"]["tmp_name"]);
-            if($check !== false) {
-                //bestand is een foto
+            if ($_FILES["foto"]["size"] < 1000000) {
                 $uploadOk = 1;
+                if($check !== false) {
+                    //bestand is een foto
+                    $uploadOk = 1;
+                }
+                else {
+                    echo "Bestand is geen foto";
+                    $uploadOk = 0;
+                }
             }
-            else {
-                echo "Bestand is geen foto";
+            else{
+                //afbeelding is te groot
+                echo "Bestand mag niet groter dan 1 mb zijn.";
                 $uploadOk = 0;
             }
             if ($uploadOk == 0) {
-                echo "Afbeelding niet geupload, probeer het opnieuw.";
+                echo "<br>Afbeelding niet geupload, probeer het opnieuw.";
             }
-            else {// if everything is ok, try to upload file
+            else {// geen fouten, afbeeldingen proberen te uploaden
                 if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-                    //echo Is geupload
+                    //Afbeelding is succesvol geupload
                     $sql = "INSERT INTO fietsen
                             (borg, prijs, gebruiker_id, plaats, id_soort_fiets, id_merk_fiets, adres, foto, geslacht_fiets, kleur_fiets, versnellingen, model, omschrijving, postcode) 
                             VALUES (".$borg.",".$huurPrijs.",'".$_SESSION['id']."','".$plaats."',".$_POST['soort_fiets'].",".$_POST['merk_naam'].",'".$adres."','$target_file','".$_POST['geslacht_fiets']."','".$_POST['kleur']."','".$versnellingen."','".$model."','".$omschrijving."','".$postcode."');";
@@ -152,9 +171,7 @@ if(isset($_POST['toevoegen'])){
                 }
             }
         }
-
     }
-
 }
 ?>
 <!DOCTYPE html>
@@ -204,13 +221,12 @@ if(isset($_POST['toevoegen'])){
                             }
                             ?>
                         </select></td></tr>
-                <tr><td>Borg(*)</td><td><input type="number" min="0" step="0.01" name="borg" max="1000" placeholder="Borg" value="<?php echo (isset($_POST['borg']) ? $_POST['borg'] : ''); ?>" required></td></tr>
-                <tr><td>Huurprijs per dag(*)</td><td><input type="number" step="0.01" min="0" max="200" name="huur-prijs" placeholder="Huurprijs" value="<?php echo (isset($_POST['huur-prijs']) ? $_POST['huur-prijs'] : ''); ?>" required></td></tr>
+                <tr><td>Borg(*)</td><td><input type="number" min="0" step="1.0" name="borg" max="1000" placeholder="Borg" value="<?php echo (isset($_POST['borg']) ? $_POST['borg'] : ''); ?>" required></td></tr>
+                <tr><td>Huurprijs per dag(*)</td><td><input type="number" step="1.0" min="0" max="200" name="huur-prijs" placeholder="Huurprijs" value="<?php echo (isset($_POST['huur-prijs']) ? $_POST['huur-prijs'] : ''); ?>" required></td></tr>
                 <tr><td>Omschrijving</td><td><textarea style="resize: none;"name="omschrijving" rows="5" cols="50"><?php echo (isset($_POST['omschrijving']) ? $_POST['omschrijving'] : ''); ?></textarea></td></tr>
                 <tr><td>Afbeelding:</td><td><input type="file" name="foto" value="foto" id="foto"></td></tr>
                 <tr><td><input type="submit" name="toevoegen" value="Toevoegen"></td></tr>
             </table>
         </form>
-
     </body>
 </html>
