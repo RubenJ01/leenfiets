@@ -15,7 +15,13 @@ if (!isset($_SESSION)) {
 }
 // Als de gebruiker al is ingelogt redirect de gebruiker dan naar de hoofdpagina
 if (isset($_SESSION['email'])) {
-  RedirectToPage("index.php", true); // Dit is geen standaar functie maar een functie die in core_functions.php staat
+  // Als er een qr code is gescant redirect dan naar leen_verzoeken.php
+  if (isset($_GET['leen_verzoek'])) {
+    RedirectToPage("leen_verzoeken.php", true);
+    return;
+  }
+  RedirectToPage("index.php", true);
+  return;
 }
 
 ?>
@@ -28,6 +34,9 @@ if (isset($_SESSION['email'])) {
 <body>
 <div><?php include 'menu.php'; ?></div>
 <?php
+if(isset($_GET['leen_verzoek'])){
+    echo "<p>Log in om de fiets te lenen.</p>";
+}
 if(isset($_GET['registratie_succesvol'])){
     echo "<p>Check je mailbox om je email te verifieren.</p>";
 }
@@ -43,7 +52,7 @@ if(isset($_GET['wachtwoord_reset'])){
     echo "<p>Je wachtwoord is met succes gerest. je kunt nu inloggen.</p>";
 }
 ?>
-<form method="post" id="LoginForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+<form method="post" id="LoginForm">
     <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
     <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord"> <br />
     <input type="submit" name="login" value="Inloggen!">
@@ -80,7 +89,13 @@ if(isset($_POST['login'])){
                 while ($row = $sql_password->fetch_assoc()) {
                     if (password_verify($wachtwoord, $row['wachtwoord'])) {
                         $_SESSION['email'] = $email;
-                        header('location: index.php');
+                        // Als er een qr code is gescant redirect dan naar leen_verzoeken.php
+                        if (isset($_GET['leen_verzoek'])) {
+                          RedirectToPage("leen_verzoeken.php", true);
+                          return;
+                        }
+                        RedirectToPage("index.php", true);
+                        return;
                     } else {
                         echo 'Wachtwoord incorrect.';
                     }

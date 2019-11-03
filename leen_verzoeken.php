@@ -1,6 +1,6 @@
 <?php
 include "menu.php";
-require_once "utils/database_connection.php";
+require_once "utils/qrcode.php";
 
 if (!isset($_SESSION)) {
     session_start();
@@ -8,6 +8,30 @@ if (!isset($_SESSION)) {
 // Kijk of de gebruiker is ingelogt anders ga terug naar de hoofdpagina
 if (isset($_SESSION['id']) === false) {
   RedirectToPage("inloggen.php");
+}
+// Kijk of er een leen_verzoek is gescant
+if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
+  $query = "UPDATE leen_verzoek
+            SET token = NULL, status_ = IF(status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht')
+            WHERE id = ? AND lener_id = ? AND token = ?";
+  $stmt = $GLOBALS['mysqli']->prepare($query);
+  if (!$stmt) {
+    trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
+  }
+  else {
+    $stmt->bind_param('iis', $_GET['leen_verzoek'], $_SESSION['id'], $_GET['token']);
+    if (!$stmt->execute()) {
+      trigger_error($stmt->error, E_USER_ERROR);
+    }
+    if ($GLOBALS['mysqli']->affected_rows == 0) {
+      echo "Er ging iets mis tijdens het ophalen of terugbregen van de fiets, bent u ingelogt op uw account?.";
+    }
+    else {
+      DeleteQR($_GET['leen_verzoek'], $_GET['token']);
+      echo "U heeft de fiets met succes opgehaalt of teruggebracht.";
+    }
+    $stmt->close();
+  }
 }
 ?>
 
@@ -32,11 +56,11 @@ if (isset($_SESSION['id']) === false) {
             <th> Lener </th>
           </tr>
           <?php
-          $query = "SELECT l.id, g.id, f.id, f.foto, m.merk_naam, f.model, l.status_, l.bericht, l.prijs, l.ophaal_moment, l.terugbreng_moment, g.naam
+          $query = "SELECT l.id, l.token, g.id, f.id, f.foto, m.merk_naam, f.model, l.status_, l.bericht, l.prijs, l.ophaal_moment, l.terugbreng_moment, g.naam
                     FROM leen_verzoek l
-                    JOIN fietsen f ON f.id = l.fiets_id
-                    JOIN merk_fiets m ON f.id_merk_fiets = m.id
-                    JOIN gebruiker g ON g.id = l.lener_id
+                    LEFT JOIN fietsen f ON f.id = l.fiets_id
+                    LEFT JOIN merk_fiets m ON f.id_merk_fiets = m.id
+                    LEFT JOIN gebruiker g ON g.id = l.lener_id
                     WHERE f.gebruiker_id = ? AND (l.status_ = 'in_afwachting' OR l.status_ = 'gereserveerd' OR l.status_ = 'in_gebruik')";
           $stmt = $GLOBALS['mysqli']->prepare($query);
           if (!$stmt) {
@@ -49,7 +73,9 @@ if (isset($_SESSION['id']) === false) {
               return;
             }
             // Echo all de opgehaalde rijen
-            $stmt->bind_result($leenVerzoekId, $gebruikerId, $fietsId, $foto, $merk_naam, $model, $status, $bericht, $prijs, $ophaal_moment, $terugbreng_moment, $lener);
+            $stmt->bind_result($leenVerzoekId, $leenVerzoekToken, $gebruikerId, $fietsId, $foto, $merk_naam, $model, $status, $bericht, $prijs, $ophaal_moment, $terugbreng_moment, $lener);
+            $token = "";
+            $qrTokens = array();
             while ($stmt->fetch()) {
               if (empty($foto)) { $foto = 'fiets_afbeeldingen/default.png'; }
               else { $foto .= "?t=" .time(); }
@@ -59,6 +85,11 @@ if (isset($_SESSION['id']) === false) {
                             <input type='submit' name='geweigerd' value='weiger'>
                             <input type='number' name='id' value='$leenVerzoekId' style='display: none;'>
                           </form>";
+              }
+              else if ($status === "gereserveerd" || $status === "in_gebruik") {
+                if ($leenVerzoekToken === NULL) { $qrTokens["{$leenVerzoekId}"] = $token;$token = GetToken(); }
+                else { $token = $leenVerzoekToken; }
+                $status .= ": <a href='qr.php?leen_verzoek=$leenVerzoekId&token=$token'> Klik op deze link en laat de qr code scannen door de lener </a>";
               }
               echo "
               <tr>
@@ -73,6 +104,10 @@ if (isset($_SESSION['id']) === false) {
               </tr>";
             }
             $stmt->close();
+            // Genereer de qr's mochten die nog niet bestaan
+            foreach ($qrTokens as $key => $value) {
+             GenerateQR($key, $value);
+            }
           }
           ?>
         </table>
@@ -91,9 +126,9 @@ if (isset($_SESSION['id']) === false) {
           <?php
           $query = "SELECT f.foto, m.merk_naam, f.model, l.status_, l.bericht, l.prijs, l.ophaal_moment, l.terugbreng_moment, g.naam
                     FROM leen_verzoek l
-                    JOIN fietsen f ON f.id = l.fiets_id
-                    JOIN merk_fiets m ON f.id_merk_fiets = m.id
-                    JOIN gebruiker g ON f.gebruiker_id = g.id
+                    LEFT JOIN fietsen f ON f.id = l.fiets_id
+                    LEFT JOIN merk_fiets m ON f.id_merk_fiets = m.id
+                    LEFT JOIN gebruiker g ON f.gebruiker_id = g.id
                     WHERE l.lener_id = ? AND (l.status_ = 'in_afwachting' OR l.status_ = 'gereserveerd' OR l.status_ = 'in_gebruik')";
           $stmt = $GLOBALS['mysqli']->prepare($query);
           if (!$stmt) {
