@@ -99,13 +99,16 @@ UpdateBicycles($_SESSION['id']);
                           </form>";
               }
               else if ($status === "gereserveerd" || $status === "in_gebruik") {
-                if ($leenVerzoekToken === NULL) { $qrTokens["{$leenVerzoekId}"] = $token;$token = GetToken(); }
+                if ($leenVerzoekToken === NULL) { $token = GetToken();$qrTokens["{$leenVerzoekId}"] = $token; }
                 else { $token = $leenVerzoekToken; }
+                echo $token;
                 $status .= ": <a href='qr.php?leen_verzoek=$leenVerzoekId&token=$token'> Klik op deze link en laat de qr code scannen door de lener </a>";
-                $status .= "<form method='post' action='utils/process_leen_verzoek.php'>
-                              <input type='submit' name='geannuleerd' value='of klik hier om te annuleren' class='wordBreakDownButton'>
-                              <input type='number' name='id' value='$leenVerzoekId' style='display: none;'>
-                            </form>";
+                if ($status === "gereserveerd") {
+                  $status .= "<form method='post' action='utils/process_leen_verzoek.php'>
+                                <input type='submit' name='geannuleerd' value='of klik hier om te annuleren' class='wordBreakDownButton'>
+                                <input type='number' name='id' value='$leenVerzoekId' style='display: none;'>
+                              </form>";
+                }
               }
               echo "
               <tr>

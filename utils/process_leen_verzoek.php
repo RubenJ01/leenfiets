@@ -15,7 +15,10 @@
  }
  require_once $db_conn_file;
 
- function UpdateBicycles($eigenaarId) {
+ /// @brief Deze functie update alle fietsen waar de gebruiker mee te maken heeft. Hij zorgt ervoor dat fietsen die verlopen zijn de status verlopen krijgen
+ /// @param $gebruikerId de id van de gebruiker waarvan de fietsen willen updaten
+ /// @return bool true als de query goed ging anders false
+ function UpdateBicycles($gebruikerId) {
    $query = "UPDATE leen_verzoek l
              SET l.status_ = 'verlopen'
              WHERE (l.fiets_id IN (
@@ -29,7 +32,7 @@
      trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
    }
    else {
-     $stmt->bind_param('ii', $eigenaarId, $eigenaarId);
+     $stmt->bind_param('ii', $gebruikerId, $gebruikerId);
      if (!$stmt->execute()) {
        trigger_error($stmt->error, E_USER_ERROR);
      }
@@ -39,6 +42,10 @@
    return false;
  }
 
+ /// @brief Deze functie accepteert een leen verzoek die de status in_afwachting heeft.
+ /// @param $eigenaarId alleen de eigenaar van de fiets kan de fiets accepteren daarom willen we weten wie de eigenaar is
+ /// @param $verzoekId is het id van de leen_verzoek
+ /// @return bool true als de query goed ging anders false
  function AcceptRequest($eigenaarId, $vezoekId) {
    $query = "UPDATE leen_verzoek l
              SET l.status_ = 'gereserveerd'
@@ -63,6 +70,10 @@
    return false;
  }
 
+ /// @brief Deze functie annuleert een leen verzoek die de status in_afwachting of gereserveerd heeft.
+ /// @param $gebruikerId alleen de eigenaar of de lener van de fiets kan de fiets annuleren
+ /// @param $verzoekId is het id van de leen_verzoek
+ /// @return bool true als de query goed ging anders false
  function DenyRequest($gebruikerId, $vezoekId) {
    $query = "UPDATE leen_verzoek l
              SET l.status_ = 'geannuleerd'
