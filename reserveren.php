@@ -134,7 +134,7 @@ if (isset($_POST['verstuur'])) {
     }
     $stmt->close();
     echo "U heeft met succes een leen verzoek gestuurd<br>";
-    echo "<a href='index.php'>Klik op deze link om terug te gaan</a> ";
+    echo "<a href='fiets.php?fiets_id=$fietsId'>Klik op deze link om terug te gaan</a> ";
   }
 
 }
