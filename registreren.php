@@ -6,7 +6,6 @@
  *
  * Gebruikers kunnen op deze pagina een nieuw account registreren en die worden dan opgeslagen in de database.
  */
-
 require 'utils/database_connection.php';
 include 'utils/core_functions.php';
 ?>
@@ -21,16 +20,16 @@ include 'utils/core_functions.php';
 <form method="post" id="registreerForm" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <div class="wrapper">
         <h1>Registreren</h1>
-        <hr>
-        <label for="gebruikersnaam">Gebruikersnaam</label>
-        <input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="Gebruikersnaam"> <br />
+        <label for="gebruikersnaam">Naam</label>
+        <input type="text" name="gebruikersnaam" id="gebruikersnaam" placeholder="Gebruikersnaam" 
+        value="<?php if(isset($_POST['gebruikersnaam'])) { echo $_POST['gebruikersnaam']; } else { echo ""; } ?>"> <br />
         <label for="email">E-mail adres</label>
-        <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
+        <input type="email" name="email" id="email" placeholder="E-Mail adres"
+        value="<?php if(isset($_POST['email'])) { echo $_POST['email']; } else { echo ""; } ?>"> <br />
         <label for name="wachtwoord">Wachtwoord</label>
         <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord"> <br />
         <label for="wachtwoord_twee">Wachtwoord herhalen</label>
         <input type="password" name="wachtwoord_twee" id="wachtwoord_twee" placeholder="Wachtwoord Herhalen"> <br />
-        </hr>
         <input type="submit" name="registreer" value="Registreer!" class="registreerknop">
         <p>Heb je al een account? Log <a href="inloggen.php">hier.</a> in.</p>
     </div>

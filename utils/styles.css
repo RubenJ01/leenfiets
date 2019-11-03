@@ -102,6 +102,7 @@ body{
 }
 
 .afbeelding_foto_bewerken{
+    background-color: red;
     float: left;
 
 }
@@ -153,8 +154,8 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
-    display: block;
-    }
+    display: none;
+}
 
 .fiets_blok h1{
     text-align: center;
@@ -201,64 +202,6 @@ body{
 }
 /* einde blok fiets */
 
-/* begin img's css */
-
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-}
-
-.center1 {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    padding:1px;
-    border:1px solid #021a40;
-    background-color: dimgrey;
-
-}
-
-/* einde img's css */
-
-/* begin profiel.php */
-.mijn_profiel_text  {
-    text-align: center;
-}
-
-
-.mijn_profiel_links a:link, a:visited {
-    background-color: #4CAF50;
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border: black;
-    border-style: solid;
-    border-width: 2px;
-    border-color: lightgreen;
-
-}
-
-.mijn_profiel_links a:hover, a:active {
-    background-color: lightgreen;
-}
-
-.mijn_profiel_links {
-    width: 58%;
-    padding: 10px;
-    position: absolute;
-    margin: auto;
-    right: 0;
-    left: 0;
-    color: white;
-
-}
-
-/* einde profiel.php */
-
 /* begin profiel_mijnfietsen */
 
 .profiel_fiets  {
@@ -270,15 +213,6 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
     float: left;
-
-}
-
-#profiel_fiets_button{
-    text-align: center;
-}
-
-.profiel_css h1{
-    text-align: center;
 }
 
 .profiel_fiets h1{
@@ -291,10 +225,6 @@ body{
     font-size:2vw;
 }
 
-.profiel_fiets_text h1{
-    text-align: center;
-    }
-
 .profiel_fiets h4{
     text-align: center;
     font-size: large;
@@ -306,8 +236,7 @@ body{
     margin-right: auto;
     margin-bottom: 5%;
     margin-top: 5%;
-    width: 25%;
-    display:inline-block;
+    width: 50%;
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
@@ -337,25 +266,6 @@ body{
 
 /* einde profiel_mijnfietsen */
 
-/* begin reviews */
-
-.date {
-    border-color: black;
-    text-align: center;
-}
-
-.comment p  {
-
-    border-color: black;
-    text-align: center;
-}
-
-.formpje form   {
-    text-align: center;
-}
-
-/* einde reviews */
-
 /* begin hoofdpagina tekst */
 #tekstHoofdpagina h1{
     text-align: center;
@@ -382,21 +292,6 @@ body{
     margin-bottom: 1%;
 
 }
-#buttonPage{
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border: 2px solid white;
-    width: 22%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1%;
-}
-
 #filter{
     float: left;
     width: 19%;
@@ -417,11 +312,8 @@ body{
     margin-top: 1%;
     margin-left: auto;
     margin-right: auto;
-    }
-
-#homepagina_button{
-    text-align: center;
 }
+
 
 /* hoofdpagina tekst */
 
@@ -430,6 +322,7 @@ body{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+
     margin-top: 10px;
     overflow: hidden;
     margin-bottom: 10px;
@@ -472,72 +365,6 @@ body{
     float: right;
 
 }
-
-.wrapper {
-  margin-right: auto;
-  margin-left:  auto;
-
-  max-width: 960px;
-
-  padding-right: 10px;
-  padding-left:  10px;
+.nieuwsbericht{
+  border: 2px solid black;
 }
-
-.titel {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  text-align: center;
-}
-
-.wrapper {
-  margin-right: auto;
-  margin-left:  auto;
-
-  max-width: 960px;
-
-  padding-right: 10px;
-  padding-left:  10px;
-}
-
-.titel {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  text-align: center;
-}
-
-/* Begin leen_verzoek */
-
-#leen_verzoeken table {
-  width: 100%;
-  border: 1px solid black;
-  table-layout: fixed;
-}
-
-#leen_verzoeken tr {
-  width: 100%;
-}
-
-#leen_verzoeken th {
-  border: 1px solid black;
-  vertical-align: middle;
-  width: 14.28%;
-  word-wrap: break-word;
-}
-
-#leen_verzoeken td {
-  border: 1px solid black;
-  vertical-align: middle;
-  width: 14.28%;
-  word-wrap: break-word;
-}
-
-#leen_verzoek td img {
-  width: 10px;
-  height: auto;
-}
-
-/* Einde leen_verzoek */
