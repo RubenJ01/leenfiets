@@ -23,9 +23,11 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
     if (!$stmt->execute()) {
       trigger_error($stmt->error, E_USER_ERROR);
     }
+    // Geef een error als het leen verzoek niet is aangepast
     if ($GLOBALS['mysqli']->affected_rows == 0) {
       echo "Er ging iets mis tijdens het ophalen of terugbregen van de fiets, bent u ingelogt op uw account?.";
     }
+    // Anders verwijder de qr en geef een bericht aan de gebruiker
     else {
       DeleteQR($_GET['leen_verzoek'], $_GET['token']);
       echo "U heeft de fiets met succes opgehaalt of teruggebracht.";
@@ -94,13 +96,13 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
               echo "
               <tr>
                 <td> <img src='$foto' style='width:100%; height: auto;'> </td>
-                <td> $merk_naam $model </td>
+                <td> <a href='fiets.php?fiets_id=$fietsId'> $merk_naam $model </a> </td>
                 <td> $status </td>
                 <td> $bericht </td>
                 <td> € $prijs </td>
                 <td> $ophaal_moment </td>
                 <td> $terugbreng_moment </td>
-                <td> $lener </td>
+                <td> <a href='profiel.php?gebruikers_id=$gebruikerId'> $lener </a></td>
               </tr>";
             }
             $stmt->close();
@@ -124,7 +126,7 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
             <th> Eigenaar </th>
           </tr>
           <?php
-          $query = "SELECT f.foto, m.merk_naam, f.model, l.status_, l.bericht, l.prijs, l.ophaal_moment, l.terugbreng_moment, g.naam
+          $query = "SELECT f.foto, m.merk_naam, f.model, l.status_, l.bericht, l.prijs, l.ophaal_moment, l.terugbreng_moment, g.naam, g.id
                     FROM leen_verzoek l
                     LEFT JOIN fietsen f ON f.id = l.fiets_id
                     LEFT JOIN merk_fiets m ON f.id_merk_fiets = m.id
@@ -141,27 +143,27 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
               return;
             }
             // Echo all de opgehaalde rijen
-            $stmt->bind_result($foto, $merk_naam, $model, $status, $bericht, $prijs, $ophaal_moment, $terugbreng_moment, $lener);
+            $stmt->bind_result($foto, $merk_naam, $model, $status, $bericht, $prijs, $ophaal_moment, $terugbreng_moment, $eigenaar, $eigenaarId);
             while ($stmt->fetch()) {
               if (empty($foto)) { $foto = 'fiets_afbeeldingen/default.png'; }
               else { $foto .= "?t=" .time(); }
               echo "
               <tr>
                 <td> <img src='$foto' style='width:100%; height: auto;'> </td>
-                <td> $merk_naam $model </td>
+                <td> <a href='fiets.php?fiets_id=$fietsId'> $merk_naam $model </a> </td>
                 <td> $status </td>
                 <td> $bericht </td>
                 <td> € $prijs </td>
                 <td> $ophaal_moment </td>
                 <td> $terugbreng_moment </td>
-                <td> $lener </td>
+                <td> <a href='profiel.php?gebruikers_id=$eigenaarId'> $eigenaar </td>
               </tr>";
             }
             $stmt->close();
           }
           ?>
         </table>
-        <!--<h1 class="titel">Geschiedenis</h1>
+        <h3 class="titel">Geschiedenis</h3>
         <table>
           <tr>
             <th> Afbeelding </th>
@@ -173,7 +175,7 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
             <th> Terugbrengmoment </th>
             <th> Eigenaar </th>
           </tr>
-        </table>-->
+        </table>
       </div>
     </div>
   </body>
