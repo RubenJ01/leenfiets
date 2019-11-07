@@ -31,6 +31,7 @@ if (!isset($_SESSION)) {
     }
 }
 
+include 'menu.php';
 ?>
 <?php
 $query = $mysqli->query($sql);
@@ -69,7 +70,6 @@ if(isset($_GET['succesvol_toegevoegd'])){
         <meta charset="UTF-8">
     </head>
     <body>
-        <div><?php include 'menu.php';?></div>
         <div id="fiets">
             <h1><?php echo $merk?> <?php echo $model?></h1>
             <div id="linksKolom">

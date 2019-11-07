@@ -9,11 +9,11 @@
  */
 
  // Voeg de database_connection.php toe. Als we process_leen_verzoek includen in een van de root bestanden dan moeten we in de utils folder kijken en anders niet
- $db_conn_file = "database_connection.php";
- if (file_exists("database_connection.php") == false) {
-   $db_conn_file = ("utils/".$db_conn_file);
+ $qr_code_file = "qrcode.php";
+ if (file_exists($qr_code_file) == false) {
+   $qr_code_file = ("utils/".$qr_code_file);
  }
- require_once $db_conn_file;
+ require_once $qr_code_file;
 
  /// @brief Deze functie update alle fietsen waar de gebruiker mee te maken heeft. Hij zorgt ervoor dat fietsen die verlopen zijn de status verlopen krijgen
  /// @param $gebruikerId de id van de gebruiker waarvan de fietsen willen updaten
@@ -98,15 +98,52 @@
    return false;
  }
 
+ /// @brief Naar het scan van een qr of na het invoeren van de token moet geverified worden of het om de juiste lener gaat en om de juiste token gaat
+ /// @param $gebruikerId is de persoon die de fiets wil lenen of terugbrengen
+ /// @param $verzoekId is het id van de leen_verzoek
+ /// @return string met of een error message of een success message
+ function TokenInput($gebruikerId, $verzoekId, $token) {
+   $query = "UPDATE leen_verzoek
+             SET token = NULL, status_ = IF(status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht')
+             WHERE id = ? AND lener_id = ? AND token = ?";
+   $stmt = $GLOBALS['mysqli']->prepare($query);
+   if (!$stmt) {
+     trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
+   }
+   else {
+     $stmt->bind_param('iis', $verzoekId, $gebruikerId, $token);
+     if (!$stmt->execute()) {
+       trigger_error($stmt->error, E_USER_ERROR);
+     }
+     // Geef een error als het leen verzoek niet is aangepast
+     if ($GLOBALS['mysqli']->affected_rows == 0) {
+       $stmt->close();
+       return "Er ging iets mis tijdens het ophalen of terugbregen van de fiets, bent u ingelogt op uw account?.";
+     }
+     // Anders verwijder de qr en geef een bericht aan de gebruiker
+     else {
+       $stmt->close();
+       DeleteQR($verzoekId, $token);
+       return "U heeft de fiets met succes opgehaalt of teruggebracht.";
+     }
+     $stmt->close();
+   }
+   return "Er ging iets mis tijdens het ophalen of terugbregen van de fiets, bent u ingelogt op uw account?.";
+ }
+
+  // Kijk of de gebruiker is ingelogt anders ga terug naar de inlog pagina
+  if (isset($_SESSION) === false) {
+      session_start();
+  }
+  if (isset($_SESSION['id']) === false) {
+    header("Location: ../inloggen.php");
+  }
+
   // Check of er op geaccepteerd is geklikt
   if(isset($_POST['geaccepteerd'])) {
    // Start de sessie mocht dat nog niet gedaan zijn
    if (isset($_SESSION) === false) {
        session_start();
-   }
-   // Kijk of de gebruiker is ingelogt anders ga terug naar de inlog pagina
-   if (isset($_SESSION['id']) === false) {
-     RedirectToPage("inloggen.php");
    }
    AcceptRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
    header("Location: ../leen_verzoeken.php");
@@ -118,12 +155,18 @@
    if (isset($_SESSION) === false) {
        session_start();
    }
-   // Kijk of de gebruiker is ingelogt anders ga terug naar de inlog pagina
-   if (isset($_SESSION['id']) === false) {
-     RedirectToPage("inloggen.php");
-   }
    DenyRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
    header("Location: ../leen_verzoeken.php");
+  }
+
+  // Check of de gebruiker een code probeert in te voeren
+  if (isset($_POST['token']) && isset($_POST['code'])) {
+    // Start de sessie mocht dat nog niet gedaan zijn
+    if (isset($_SESSION) === false) {
+        session_start();
+    }
+    $message = TokenInput($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']), $GLOBALS['mysqli']->real_escape_string($_POST['code']));
+    header("Location: ../leen_verzoeken.php?message=$message");
   }
 
 ?>

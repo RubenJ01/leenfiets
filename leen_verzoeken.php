@@ -8,8 +8,9 @@ if (!isset($_SESSION)) {
 }
 // Kijk of de gebruiker is ingelogt anders ga terug naar de hoofdpagina
 if (isset($_SESSION['id']) === false) {
-  RedirectToPage("inloggen.php");
+  header("Location: inloggen.php");
 }
+
 // Kijk of er een leen_verzoek is gescant
 if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
   $query = "UPDATE leen_verzoek
@@ -51,6 +52,11 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
         <?php
           // Het kan zijn dat een fiets verlopen is dus daarom roepen we de functie Updatebicycles aan die checkt of er ook iets verlopen is
           UpdateBicycles($_SESSION['id']);
+
+          //Check of er een bericht in de getter staat
+          if (isset($_GET['message'])) {
+            echo $_GET['message'];
+          }
         ?>
 
 
@@ -229,11 +235,23 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
             while ($stmt->fetch()) {
               if (empty($foto)) { $foto = 'fiets_afbeeldingen/default.png'; }
               else { $foto .= "?t=" .time(); }
+              $codeForm = "";
+              if ($status === "gereserveerd" || $status === "in_gebruik") {
+                $codeForm = ".<form method='post' action='utils/process_leen_verzoek.php'>
+                                Voer hier je code in die je hebt gekregen van de eigenaar of scan zijn qr: <input type='text' name='code' class='wordBreakDownButton' style='width:90%'>
+                                <input type='submit' name='token' value='submit' class='wordBreakDownButton'>
+                                <input type='number' name='id' value='$leenVerzoekId' style='display: none;'>
+                              </form>";
+              }
               if ($status === "in_afwachting" || $status === "gereserveerd") {
+                $status .= $codeForm;
                 $status .= "<form method='post' action='utils/process_leen_verzoek.php'>
                             <input type='submit' name='geannuleerd' value='of klik hier om te annuleren' class='wordBreakDownButton'>
                             <input type='number' name='id' value='$leenVerzoekId' style='display: none;'>
                           </form>";
+              }
+              else {
+                $status .= $codeForm;
               }
               echo "
               <tr>
