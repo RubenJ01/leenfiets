@@ -102,7 +102,7 @@
  /// @param $gebruikerId is de persoon die de fiets wil lenen of terugbrengen
  /// @param $verzoekId is het id van de leen_verzoek
  /// @return string met of een error message of een success message
- function TokenInput($gebruikerId, $verzoekId, $token) {
+ function CollectReturnBike($gebruikerId, $verzoekId, $token) {
    $query = "UPDATE leen_verzoek l, gebruiker g, gebruiker e
              SET l.token = NULL,
                  l.status_ = IF(l.status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht'),
@@ -139,12 +139,19 @@
    return "Er ging iets mis tijdens het ophalen of terugbregen van de fiets, bent u ingelogt op uw account?.";
  }
 
+
+ // Check of we in de root folder zit
+ $dir_ = "";
+ if (file_exists("index.php") == false) {
+   $dir = "../";
+ }
+
   // Kijk of de gebruiker is ingelogt anders ga terug naar de inlog pagina
   if (isset($_SESSION) === false) {
       session_start();
   }
   if (isset($_SESSION['id']) === false) {
-    header("Location: ../inloggen.php");
+    header("Location: {$dir}inloggen.php");
   }
 
   // Check of er op geaccepteerd is geklikt
@@ -154,7 +161,7 @@
        session_start();
    }
    AcceptRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
-   header("Location: ../leen_verzoeken.php");
+   header("Location: {$dir}leen_verzoeken.php");
   }
 
   // Check of er op geannuleerd is geklikt
@@ -164,7 +171,7 @@
        session_start();
    }
    DenyRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
-   header("Location: ../leen_verzoeken.php");
+   header("Location: {$dir}leen_verzoeken.php");
   }
 
   // Check of de gebruiker een code probeert in te voeren
@@ -173,8 +180,8 @@
     if (isset($_SESSION) === false) {
         session_start();
     }
-    $message = TokenInput($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']), $GLOBALS['mysqli']->real_escape_string($_POST['code']));
-    header("Location: ../leen_verzoeken.php?message=$message");
+    $message = CollectReturnBike($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']), $GLOBALS['mysqli']->real_escape_string($_POST['code']));
+    header("Location: {$dir}leen_verzoeken.php?message=$message");
   }
 
 ?>

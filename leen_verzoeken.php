@@ -11,33 +11,6 @@ if (isset($_SESSION['id']) === false) {
   header("Location: inloggen.php");
 }
 
-// Kijk of er een leen_verzoek is gescant
-if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
-  $query = "UPDATE leen_verzoek
-            SET token = NULL, status_ = IF(status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht')
-            WHERE id = ? AND lener_id = ? AND token = ?";
-  $stmt = $GLOBALS['mysqli']->prepare($query);
-  if (!$stmt) {
-    trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
-  }
-  else {
-    $stmt->bind_param('iis', $_GET['leen_verzoek'], $_SESSION['id'], $_GET['token']);
-    if (!$stmt->execute()) {
-      trigger_error($stmt->error, E_USER_ERROR);
-    }
-    // Geef een error als het leen verzoek niet is aangepast
-    if ($GLOBALS['mysqli']->affected_rows == 0) {
-      echo "Er ging iets mis tijdens het ophalen of terugbregen van de fiets, bent u ingelogt op uw account?.";
-    }
-    // Anders verwijder de qr en geef een bericht aan de gebruiker
-    else {
-      DeleteQR($_GET['leen_verzoek'], $_GET['token']);
-      echo "U heeft de fiets met succes opgehaalt of teruggebracht.";
-    }
-    $stmt->close();
-  }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +29,10 @@ if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
           //Check of er een bericht in de getter staat
           if (isset($_GET['message'])) {
             echo $_GET['message'];
+          }
+          // Kijk of er een leen_verzoek is gescant
+          if (isset($_GET['leen_verzoek']) && isset($_GET['token'])) {
+            echo CollectReturnBike($_SESSION['id'], $_GET['leen_verzoek'], $_GET['token']);
           }
         ?>
 
