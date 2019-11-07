@@ -28,11 +28,11 @@ include 'menu.php';
         </div>
         <a onclick="hideOrShow(2)">> Hoe werkt het lenen/uitlenen?</a>
         <div class="Answer">
-            <p>Stap1: Laat de qr code scannen door de lener vervolgens wordt het geld overgemaakt naar uw account<br>
-            Stap2: Wanneer de lener de fiets heeft teruggebracht laat hem opnieuw een qr code scannen zodat de fiets weer gemarkeerd staat als teruggebracht in het systeem. De lener krijgt dan vervolgens zijn borg terug.<br>
+            <p>Hoe werkt het?<br>
+            Stap1: Laat de qr code scannen door de lener vervolgens wordt het geld overgemaakt naar uw account ook kunt u de code sturen naar de lener deze kan hij vervolgens zelf invoeren om de fiets te lenen. <br>
+            Stap2: Wanneer de lener de fiets heeft teruggebracht laat hem opnieuw een qr code scannen (of laat de lener weer zelf de code invullen) zodat de fiets weer gemarkeerd staat als teruggebracht in het systeem. De lener krijgt dan vervolgens zijn borg terug.<br>
             <br>
             Neem <a href="contact.php">contact</a> met ons op in de volgende gevallen:<br>
-            - Wanneer stap 2 niet wordt uitgevoerd kan je niet de fiets uitlenen aan de volgende lener. <br>
             - Mocht er schade zijn gemaakt aan de fiets, dan kijken wij hoe erg de schade is en krijg je een gedeelte van de borg die de lener bij ons heeft staan.<br>
             - Mocht de fiets gestolen zijn neem contact met ons op zodat wij dit kunnen uitzoeken. En als die daadwerkelijk gestolen is krijgt u de volledige borg van ons.<br></p>
         </div>
