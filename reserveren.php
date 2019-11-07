@@ -21,7 +21,7 @@ if (isset($_GET['fiets_id']) === false) {
 if (isset($_GET['collectionDate']) === false || isset($_GET['returnDate']) === false || $_GET['collectionDate'] == "Selecteer een datum") {
   RedirectToPage("fiets.php?fiets_id={$_GET['fiets_id']}");
 }
-echo $_GET['collectionDate'];
+
 // Haal wat data op over de fiets
 $fietsId = $_GET['fiets_id'];
 $query = "SELECT f.id, f.borg, f.prijs, f.gebruiker_id, f.foto, g.naam
@@ -63,35 +63,37 @@ if ($earlier > $later) {
 }
 
 ?>
-<form method="post">
-  Reservatie van <?php echo $collectionDate ?> tot en met <?php echo $returnDate ?>.<br>
-  <!-- TODO: Fix dat je geen lagere terugbrengtijd kan kiezen dan de ophaaltijd -->
-  <?php
-    $timeStamps = "";
-    for ($i=0; $i < 24; $i++) {
-      $h = "$i";
-      if ($i < 10) { $h = "0$h"; }
-      for ($j=0; $j < 4; $j++) {
-        $m = ($j*15);
-        if ($m<10) { $m = "0$m"; }
-        $timeStamps .= "<option value='$h:$m'>$h:$m</option>";
+<div class="wrapper">
+  <form method="post">
+    Reservatie van <?php echo $collectionDate ?> tot en met <?php echo $returnDate ?>.<br>
+    <!-- TODO: Fix dat je geen lagere terugbrengtijd kan kiezen dan de ophaaltijd -->
+    <?php
+      $timeStamps = "";
+      for ($i=0; $i < 24; $i++) {
+        $h = "$i";
+        if ($i < 10) { $h = "0$h"; }
+        for ($j=0; $j < 4; $j++) {
+          $m = ($j*15);
+          if ($m<10) { $m = "0$m"; }
+          $timeStamps .= "<option value='$h:$m'>$h:$m</option>";
+        }
       }
-    }
-  ?>
-  Ophaaltijd
-  <select name="collectionTime">
-    <?php echo $timeStamps; ?>
-  </select>
-  Terugbrengtijd
-  <select name="returnTime">
-    <?php echo $timeStamps; ?>
-  </select><br>
-  Totale huurprijs: €<?php echo $prijs * $amountOfDays ?><br>
-  Borg: <?php echo $borg ?><br>
-  Eventueele bericht aan de eigenaar(<?php echo $eigenaarNaam ?>) van de fiets:<br>
-  <textarea name="message" style="width:300px;height:200px;resize:none"></textarea><br>
-  <input type="submit" name="verstuur" value="Verstuur verzoek voor het lenen van fiets">
-</form>
+    ?>
+    Ophaaltijd
+    <select name="collectionTime">
+      <?php echo $timeStamps; ?>
+    </select>
+    Terugbrengtijd
+    <select name="returnTime">
+      <?php echo $timeStamps; ?>
+    </select><br>
+    Totale huurprijs: €<?php echo $prijs * $amountOfDays ?><br>
+    Borg: <?php echo $borg ?><br>
+    Eventueele bericht aan de eigenaar(<?php echo $eigenaarNaam ?>) van de fiets:<br>
+    <textarea name="message" style="width:300px;height:200px;resize:none"></textarea><br>
+    <input type="submit" name="verstuur" value="Verstuur verzoek voor het lenen van fiets">
+  </form>
+</div>
 
 <?php
 
