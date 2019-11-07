@@ -247,7 +247,7 @@ body{
 }
 
 .mijn_profiel_links {
-    width: 58%;
+    width: 60%;
     padding: 10px;
     position: absolute;
     margin: auto;
@@ -351,8 +351,10 @@ body{
 }
 
 .formpje form   {
-    text-align: center;
-}
+     text-align: center;
+ }
+
+
 
 /* einde reviews */
 
@@ -546,3 +548,7 @@ body{
 }
 
 /* Einde leen_verzoek */
+
+.knoppen  a{
+    color: white;
+}
