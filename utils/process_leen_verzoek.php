@@ -103,15 +103,23 @@
  /// @param $verzoekId is het id van de leen_verzoek
  /// @return string met of een error message of een success message
  function TokenInput($gebruikerId, $verzoekId, $token) {
-   $query = "UPDATE leen_verzoek
-             SET token = NULL, status_ = IF(status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht')
-             WHERE id = ? AND lener_id = ? AND token = ?";
+   $query = "UPDATE leen_verzoek l, gebruiker g, gebruiker e
+             SET l.token = NULL,
+                 l.status_ = IF(l.status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht'),
+                 g.geld = IF(l.status_ = 'teruggebracht', (g.geld-(l.borg+((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs))), g.geld),
+                 e.geld = IF(l.status_ = 'teruggebracht', (e.geld+(l.borg+((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs))), e.geld)
+             WHERE l.id = ? AND g.id = ? AND l.token = ? AND e.id = (
+               SELECT f.gebruiker_id
+               FROM fietsen f
+               WHERE l.id = ?  AND f.id = l.fiets_id
+             )
+             ";
    $stmt = $GLOBALS['mysqli']->prepare($query);
    if (!$stmt) {
      trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
    }
    else {
-     $stmt->bind_param('iis', $verzoekId, $gebruikerId, $token);
+     $stmt->bind_param('iisi', $verzoekId, $gebruikerId, $token, $verzoekId);
      if (!$stmt->execute()) {
        trigger_error($stmt->error, E_USER_ERROR);
      }
