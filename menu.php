@@ -33,11 +33,11 @@ if (!isset($_SESSION)) {
                         ";
                 }
                 echo "
-                    <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
-                    <a href='mijn_fietsen.php'>Mijn fietsen</a>
                     <a href='profiel.php?gebruikers_id=$id'>Mijn profiel</a>
-                    <a href='geld.php'>Geld ophalen/toevoegen</a>
+                    <a href='mijn_fietsen.php'>Mijn fietsen</a>
+                    <a href='fiets_toevoegen.php'>Fietsen toevoegen</a>
                     <a href='leen_verzoeken.php'>Leen verzoeken</a>
+                    <a href='geld.php'>Geld ophalen/toevoegen</a>
                     <a href='uitloggen.php'>Uitloggen</a>
                     ";
             } else {
@@ -53,7 +53,7 @@ if (!isset($_SESSION)) {
     <div class="dropdown">
         <button class="dropbtn">Contact</button>
         <div class="dropdown-content">
-            <a href="contactgegevens.php">Contactgegevens</a>
+            <a href="contactgegevens.php">Social Media</a>
             <a href="contact.php">Stel ons een vraag</a>
             <a href='review.php'>Reviews</a>
         </div>
