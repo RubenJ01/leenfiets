@@ -9,6 +9,7 @@
 
 include 'utils/core_functions.php';
 include 'utils/database_connection.php';
+include 'menu.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -57,7 +58,6 @@ if (isset($_SESSION['rol'])) {
             });
         });
     </script>
-    <div><?php include 'menu.php'; ?></div>
     <button onclick="toggle_visibility('user_div')">Gebruikers</button>
     <button onclick="toggle_visibility('merk_div')">Merk</button>
     <div id="user_div" style="display: none;">

@@ -13,6 +13,7 @@ if (!isset($_SESSION)) {
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <link rel="icon" href="foto/icon.png" />
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
