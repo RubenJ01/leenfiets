@@ -6,6 +6,7 @@
 *
 * De faq bestaat uit veel gevraagde vragen over onze website.
 */
+include 'menu.php';
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -14,7 +15,6 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div><?php include 'menu.php'; ?></div>
 <div class="page">
     <div class="page-part">
         <h1>FAQ</h1>

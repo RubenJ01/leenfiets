@@ -1,5 +1,6 @@
 <?php
 require 'utils/database_connection.php';
+include 'menu.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -41,7 +42,7 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
-<div><?php include 'menu.php'; ?></div>
+
 
 <br/>
 
