@@ -8,8 +8,18 @@
      * Dit script is bedoelt om qr codes te generen die een link bevat naar de login pagina. Als de gebruiker inlogt wordt de fiets aan hem geleent of teruggebracht naar de eigenaar.
     */
 
-    require_once('plugins/phpqrcode/qrlib.php');
-    require_once('utils/database_connection.php');
+    // Voeg de qrlib.php een keer toe
+    $qr_lib_file = "plugins/phpqrcode/qrlib.php";
+    if (file_exists($qr_lib_file) == false) {
+      $qr_lib_file = ("../".$qr_lib_file);
+    }
+    require_once $qr_lib_file;
+    // Voeg de database_connection.php toe. Als we process_leen_verzoek includen in een van de root bestanden dan moeten we in de utils folder kijken en anders niet
+    $db_conn_file = "database_connection.php";
+    if (file_exists("database_connection.php") == false) {
+      $db_conn_file = ("utils/".$db_conn_file);
+    }
+    require_once $db_conn_file;
 
     /// @brief Deze functie genereert een QRcode voor een leen_verzoek met daarin een link. In de link staat informatie over het leen_verzoek ID en de token van de fiets.
     /// @param $leen_verzoekId De id van het leen_verzoek waar je een QRcode voor wilt maken.
@@ -46,7 +56,11 @@
     /// @param $token de token die bij het leen verzoek hoort
     /// @return void
     function DeleteQR($leen_verzoekId, $token) {
-      unlink("qr/$leen_verzoekId"."_"."$token.svg");
+      $svg_file = "qr/$leen_verzoekId"."_"."$token.svg";
+      if (file_exists($svg_file) == false) {
+        $svg_file = ("../".$svg_file);
+      }
+      unlink($svg_file);
     }
 
     // Goeie links voor meer informatie over random_bytes.
