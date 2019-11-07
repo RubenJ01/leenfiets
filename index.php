@@ -8,7 +8,7 @@
  */
 
 include 'menu.php';
-
+require 'utils/database_connection.php';
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -26,7 +26,7 @@ else{
 }
 
 $geenFietsen = false;
-require 'utils/database_connection.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -35,7 +35,6 @@ require 'utils/database_connection.php';
     <meta charset="UTF-8">
 </head>
 <body class="hoofdpagina">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
 
         function laadMeer() {
@@ -58,9 +57,10 @@ require 'utils/database_connection.php';
             document.getElementById("terugDatum").value="";
         }
     </script>
+
     <div id="tekstHoofdpagina">
         <a href="index.php"><img src="foto/leenfiets_logo.jpeg" class="center" ></a>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec ex convallis, ultricies enim non, vestibulum dui. Fusce nec dui ac leo pharetra eleifend. Praesent lacus ante, gravida vitae purus id, dignissim egestas odio. Nulla in aliquet ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris sagittis mattis risus, a congue nulla aliquam ac. Donec ac ante fringilla, sollicitudin lorem non, interdum arcu. Vivamus tempor eget libero blandit fermentum. Proin consequat viverra felis sit amet dapibus. Sed at erat lacinia, dictum diam nec, pulvinar diam. Vestibulum pharetra volutpat rhoncus.</p>
+        <p>U kent het waarschijnlijk wel u bent in de stad en u hebt zin om even naar de McDonalds te gaan, maar de dichtstbijzijnde McDonalds is 2 kilometer verderop. Lopen duurt eigenlijk net te lang, maar de stad staat vol met ongebruikte fietsen. Leenfiets is een website waar particulieren fietsen veilig aan elkaar kunnen lenen. Om ervoor te zorgen dat de verlener de fiets in goede staat terugkrijgt, wordt er gebruik gemaakt van een borg. De verhuurder krijgt een vergoeding voor het uitlenen van zijn fiets. Op de website kan gekozen worden voor verschillende soorten fietsen doormiddel van een filter.  </p>
     </div>
 
     <div id= "filter"><h3 style="margin-top: 0px; margin-bottom: 0px;">Filter</h3>

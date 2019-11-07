@@ -1,8 +1,11 @@
 <?php
 require 'utils/database_connection.php';
+include 'menu.php';
+
 if (!isset($_SESSION)) {
     session_start();
 }
+
 $fiets_id = $_GET['fiets_id'];
 $gebruiker_id  = $_SESSION['id'];
 
@@ -13,6 +16,7 @@ $sql = "SELECT fietsen.borg, fietsen.prijs, fietsen.versnellingen, fietsen.postc
         AND fietsen.id = $fiets_id 
         AND fietsen.gebruiker_id = $gebruiker_id 
         limit 1 ";
+
 $query = $mysqli->query($sql);
 if (mysqli_num_rows($query) > 0) {
     while ($row = mysqli_fetch_assoc($query)) {
@@ -33,8 +37,7 @@ if (mysqli_num_rows($query) > 0) {
 }
 else {
     header('location: index.php');
-}?>
-<?php
+}
 if(isset($_POST['bewerken'])){
     $error = array();
     //Alle post data controleren en eventueel eenpassen
@@ -135,9 +138,6 @@ if(isset($_POST['bewerken'])){
         header("Location: fiets.php?fiets_id=$fiets_id");
         die();
     }
-
-
-
 }
 
 if(isset($_POST['foto_bewerken'])){
@@ -220,7 +220,7 @@ if(isset($_POST['verwijderen'])){
     <meta charset="UTF-8">
 </head>
 <body>
-    <div><?php include 'menu.php';?></div>
+<h1 style="text-align: center">Fiets bewerken</h1>
     <div class="afbeelding_foto_bewerken">
         <img style="width: 300px;" src="<?php
             if (empty($afbeelding)) {

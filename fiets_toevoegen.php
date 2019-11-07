@@ -7,9 +7,12 @@
  * Gebruikers kunnen hier hun fiets toevoegen.
  */
 require 'utils/database_connection.php';
+include 'menu.php';
+
 if (!isset($_SESSION)) {
     session_start();
 }
+
 if (!isset($_SESSION['email'])) {
     header('location: inloggen.php?niet_ingelogd='. urlencode('true'));
 }
@@ -181,8 +184,8 @@ if(isset($_POST['toevoegen'])){
         <meta charset="UTF-8">
     </head>
     <body>
-        <div><?php include 'menu.php'; ?></div>
         <form method="post" id="fietsentoevoegen" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <h1>Fiets toevoegen</h1>
             <table>
                 <tr><td>Merk (*)</td><td><select name="merk_naam"><?php
                             $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
