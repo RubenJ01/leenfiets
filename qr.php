@@ -57,6 +57,8 @@ else {// Alleen de eigenaar mag zijn eigen qr codes bekijken
       Neem <a href="contact.php">contact</a> met ons op in de volgende gevallen:<br>
       - Mocht er schade zijn gemaakt aan de fiets, dan kijken wij hoe erg de schade is en krijg je een gedeelte van de borg die de lener bij ons heeft staan.<br>
       - Mocht de fiets gestolen zijn neem contact met ons op zodat wij dit kunnen uitzoeken. En als die daadwerkelijk gestolen is krijgt u de volledige borg van ons.<br>
+      <br>
+      <a href="leen_verzoeken.php">Klik hier om terug te gaan.</a>
 
       <h2 style="text-align: center;">CODE: <?php echo $_GET['token']; ?></h2>
 
