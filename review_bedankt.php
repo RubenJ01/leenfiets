@@ -17,26 +17,12 @@ if (!isset($_SESSION)) {
   <body>
 
  <div class='profiel_fiets_text'>
-     <h2><br>Bedankt voor uw review!<br>Klik <a href="index.php">hier</a> om terug te gaan naar de homepagina.<br></h2>
+     <h2><br>Bedankt voor uw review!<br>Klik <a href="review.php">hier</a> om terug te gaan naar de homepagina.<br></h2>
  </div>
 
 
 
- <?php //form reviews.
-/*
 
- if (isset($_SESSION['id'])) {
-     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
-         echo "<div class='formpje'>
-                    <form action='' method='post'>
-                        <input type='text' name='name' value=' ' required placebolder='Uw naam'><br>
-                        <textarea name='comment' cols='50' rows='5' value='' required placeholder='Review'></textarea><br>
-                        <input type='sumit' name='submit' value='Laat review achter!'>
-                    </form>
-               </div>";
-     }
- }*/
- ?>
 
 
 

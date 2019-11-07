@@ -14,6 +14,7 @@ if (!isset($_SESSION)) {
 $id = $_SESSION['id'];
 
 require 'utils/database_connection.php';
+include 'menu.php';
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -22,7 +23,6 @@ require 'utils/database_connection.php';
     <meta charset="UTF-8">
 </head>
 <body>
-<div><?php include 'menu.php'; ?></div>
 <div class='profiel_fiets_text'>
     <h1>Mijn fietsen</h1>
 </div>

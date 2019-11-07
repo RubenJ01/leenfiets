@@ -6,6 +6,9 @@
  *
  * Gebruikers kunnen hier zoeken naar fietsen.
  */
+
+include 'menu.php';
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -55,8 +58,6 @@ require 'utils/database_connection.php';
             document.getElementById("terugDatum").value="";
         }
     </script>
-
-    <div><?php include 'menu.php'; ?></div>
     <div id="tekstHoofdpagina">
         <a href="index.php"><img src="foto/leenfiets_logo.jpeg" class="center" ></a>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec ex convallis, ultricies enim non, vestibulum dui. Fusce nec dui ac leo pharetra eleifend. Praesent lacus ante, gravida vitae purus id, dignissim egestas odio. Nulla in aliquet ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris sagittis mattis risus, a congue nulla aliquam ac. Donec ac ante fringilla, sollicitudin lorem non, interdum arcu. Vivamus tempor eget libero blandit fermentum. Proin consequat viverra felis sit amet dapibus. Sed at erat lacinia, dictum diam nec, pulvinar diam. Vestibulum pharetra volutpat rhoncus.</p>
@@ -206,7 +207,6 @@ else{
                $sessionId $sorteren";
 }
 ?>
-
 
     <div id= "bodyFietsen">
         <?php
