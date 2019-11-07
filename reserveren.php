@@ -121,34 +121,34 @@ if (isset($_POST['verstuur'])) {
               SELECT v.fiets_id, v.ophaal_moment, v.terugbreng_moment, v.status_
               FROM leen_verzoek v
               WHERE (
-                  $fietsId = v.fiets_id AND (v.status_ = 'in_gebruik' OR v.status_ = 'gereserveerd')
+                  ? = v.fiets_id AND (v.status_ = 'in_gebruik' OR v.status_ = 'gereserveerd')
                   AND (
-                    ((CAST('$collectionMomement' AS datetime)) >= v.ophaal_moment AND (CAST('$collectionMomement' AS datetime)) <= v.terugbreng_moment)
-                    OR ((CAST('$returnMomement' AS datetime)) >= v.ophaal_moment AND (CAST('$returnMomement' AS datetime)) <= v.terugbreng_moment)
+                    ((CAST(? AS datetime)) >= v.ophaal_moment AND (CAST(? AS datetime)) <= v.terugbreng_moment)
+                    OR ((CAST(? AS datetime)) >= v.ophaal_moment AND (CAST(? AS datetime)) <= v.terugbreng_moment)
                   )
                 )
                 OR (
-                  ((CAST('$collectionMomement' AS datetime)) <= NOW()
+                  ((CAST(? AS datetime)) <= NOW()
                 )
                 OR (
                   (
-                    SELECT COALESCE(SUM((DATEDIFF(terugbreng_moment, ophaal_moment)+1)*prijs), 0) + $borg + $totalePrijs + (
+                    SELECT COALESCE(SUM((DATEDIFF(terugbreng_moment, ophaal_moment)+1)*prijs), 0) + ? + ? + (
                       SELECT COALESCE(sum(b.borg), 0)
                       FROM (
                           SELECT borg
                           FROM leen_verzoek
-                          WHERE lener_id = {$_SESSION['id']} AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
+                          WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
                           GROUP BY fiets_id, lener_id, borg
                       ) AS b
                     )
                     FROM leen_verzoek
-                    WHERE lener_id = {$_SESSION['id']} AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
+                    WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
                   )
                   >=
                   (
                     SELECT geld
                     FROM gebruiker
-                    WHERE id = {$_SESSION['id']}
+                    WHERE id = ?
                   )
                 )
               )
@@ -159,7 +159,7 @@ if (isset($_POST['verstuur'])) {
     trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
   }
   else {
-    $stmt->bind_param('iisssii', $fietsId, $_SESSION['id'], $collectionMomement, $returnMomement, $message, $prijs, $borg);
+    $stmt->bind_param('iisssddisssssddiii', $fietsId, $_SESSION['id'], $collectionMomement, $returnMomement, $message, $prijs, $borg, $fietsId, $collectionMomement, $collectionMomement, $returnMomement, $returnMomement, $collectionMomement, $borg, $totalePrijs, $_SESSION['id'], $_SESSION['id'], $_SESSION['id']);
     if (!$stmt->execute() || $GLOBALS['mysqli']->affected_rows == 0) {
       echo "Helaas kon het vezoek tot lenen niet worden voltooid wellicht was er net iemand voor u die de fiets heeft gereserveerd of heeft u niet voldoende geld op uw account staan, <a href='geld.php'>klik dan op deze link.</a>";
       return;
