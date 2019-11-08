@@ -52,13 +52,18 @@ if(isset($_GET['wachtwoord_reset'])){
     echo "<p>Je wachtwoord is met succes gerest. je kunt nu inloggen.</p>";
 }
 ?>
+<br><br><br><br><br><br><br><br><br><br>
+<div class="formpje">
 <form method="post" id="LoginForm">
     <input type="email" name="email" id="email" placeholder="E-Mail adres"> <br />
     <input type="password" name="wachtwoord" id="wachtwoord" placeholder="Wachtwoord"> <br />
     <input type="submit" name="login" value="Inloggen!">
 </form>
-<p>Nog niet geregistreerd? Registreer je <a href="registreren.php">hier.</a></p>
-<p>Wachtwoord vergeten? Vraag een nieuwe <a href="wachtwoord_vergeten.php">aan.</a></p>
+</div>
+
+<p style="text-align: center">Nog niet geregistreerd? Registreer je <a href="registreren.php">hier.</a></p>
+<p style="text-align: center">Wachtwoord vergeten? Vraag een nieuwe <a href="wachtwoord_vergeten.php">aan.</a></p>
+
 </body>
 </html>
 <?php
