@@ -27,7 +27,9 @@ if (!isset($_SESSION)) {
          <input type="submit" name="submit" value="Laat review achter!">
      </form>
   </div>
-  <br>
+  <br><br>
+
+
   <?php
 
   if(isset($_POST['submit'])) {
