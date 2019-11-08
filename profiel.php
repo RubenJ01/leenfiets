@@ -63,30 +63,30 @@ echo "<br>";
 if (isset($_SESSION['id'])) {
     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
         echo "
-<div class='mijn_profiel_links'>
-    <a href='mijn_fietsen.php'>Mijn fietsen bekijken</a>
-    <a href='fiets_toevoegen.php'>Fiets toevoegen</a>
-    <a href='geld.php'>Mijn geld</a>
-    <a href='wachtwoord_vergeten.php'>Wachtwoord vergeten</a>
-    <a href='uitloggen.php'>Log uit</a>
-</div>";
+   <div class=\"knoppen\" style=\"text-align:center;\">
+        <button class=\"knop\"><a class=\"linkpro\" href=\"index.php\" color=\"white\">Mijn Fietsen bekijken</a></button>
+        <button class=\"knop\"><a class=\"linkpro\"  href=\"fiets_toevoegen.php\">Fiets toevoegen</a></button>
+        <button class=\"knop\"><a class=\"linkpro\"  href=\"geld.php\">Mijn geld</a></button>
+        <button class=\"knop\"><a class=\"linkpro\"  href=\"wachtwoord_vergeten.php\">Wachtwoord wijzigen</a></button>
+        <button class=\"knop\"><a class=\"linkpro\"  href=\"uitloggen.php\">Uitloggen</a></button>
+    </div>";
     }
 }
 ?>
 
-<br><br><br><br><br><br>
+<br><br>
 
 
 <div class="mijn_profiel_text_2">
     <h2 align="center"><b>Gebruikersnaam: </b> <?php echo $naam;?></h2>
     <h2 align="center"><b>Bio: </b> <?php echo $user_bio;?></h2><br/><br/>
 </div>
-<hr>
+
 <div class="formpje">
 <?php //bio
 if (isset($_SESSION['id'])) {
     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
-        echo "
+        echo "<hr>
     <p align='center'><b>Bio updaten:</b></p>
     <form action='' method='post'>
         <textarea name='bio' cols='40' rows='5'></textarea><br/>
@@ -99,18 +99,6 @@ if (isset($_SESSION['id'])) {
 
 
 ?>
-</div>
-
-<br/>
-<br/>jnj
-
-<div class="knoppen" style="text-align:center;">
-    <button style="background-color: #4CAF50" class="button9 button10"><a href="index.php" color="white">Mijn Fietsen bekijken</a></button>
-    <button style="background-color: #4CAF50" class="button9 button10"><a href="index.php">Fiets toevoegen</a></button>
-    <button style="background-color: #4CAF50" class="button9 button10"><a href="index.php">Mijn geld</a></button>
-    <button style="background-color: #4CAF50" class="button9 button10"><a href="index.php">Wachtwoord vergeten</a></button>
-    <button style="background-color: #4CAF50" class="button9 button10"><a href="index.php">Uitloggen</a></button>
-</div>
 
 
 
