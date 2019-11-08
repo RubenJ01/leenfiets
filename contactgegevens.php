@@ -19,11 +19,11 @@ require 'utils/core_functions.php';
 <br>
 <br>
 
-<div style="text-align: center"><a href="https://www.facebook.com"><img src="icons/fb.png"/></a></div>
+<div style="text-align: center"><a href="https://www.facebook.com"><img src="icon/fb.png"/></a></div>
 <br>
-<div style="text-align: center"><a href="https://www.twitter.com"><img src="icons/twitter.png"/></a></div>
+<div style="text-align: center"><a href="https://www.twitter.com"><img src="icon/twitter.png"/></a></div>
 <br>
-<div style="text-align: center"><a href="https://www.instagram.com"><img src="icons/ig.png"/></a></div>
+<div style="text-align: center"><a href="https://www.instagram.com"><img src="icon/ig.png"/></a></div>
 
 
 </body>
