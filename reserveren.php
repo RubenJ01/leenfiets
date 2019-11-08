@@ -56,6 +56,7 @@ $returnDate = $GLOBALS['mysqli']->real_escape_string($_GET['returnDate']);
 $earlier = new DateTime($collectionDate);
 $later = new DateTime($returnDate);
 $amountOfDays = ($later->diff($earlier)->format("%a") + 1);
+$totalePrijs = $amountOfDays * $prijs;
 // Het aantal gehuurde dagen mag nooit lager zijn dan 0 en je mag ook niet huren als die dag al is geweest of als de returnDate lager is dan de collectionDate
 $dateNow = new DateTime();
 if ($earlier > $later) {
@@ -87,13 +88,13 @@ if ($earlier > $later) {
     <select name="returnTime">
       <?php echo $timeStamps; ?>
     </select><br>
-    Totale huurprijs: €<?php echo $prijs * $amountOfDays ?><br>
+    Totale huurprijs: €<?php echo $totalePrijs ?><br>
     Borg: <?php echo $borg ?><br>
     Eventueele bericht aan de eigenaar(<?php echo $eigenaarNaam ?>) van de fiets:<br>
     <textarea name="message" style="width:300px;height:200px;resize:none"></textarea><br>
     <input type="submit" name="verstuur" value="Verstuur verzoek voor het lenen van fiets">
   </form>
-</div>
+  <a href='fiets.php?fiets_id=$fietsId'>Klik op deze link om terug te gaan</a><br>
 
 <?php
 
@@ -112,16 +113,45 @@ if (isset($_POST['verstuur'])) {
   }
   // Voeg leenverzoek toe
   // Meer informatie over Dual: https://www.w3resource.com/sql/sql-dual-table.php
-  // In de query word gecheckt of die datum en tijd beschikbaar is
+  // In de query word gecheckt of die datum en tijd beschikbaar is of de tijd niet in het verleden is en of de gebruiker voldoende geld heeft
   $query = "INSERT INTO leen_verzoek (fiets_id, lener_id, ophaal_moment, terugbreng_moment, bericht, prijs, borg)
             SELECT ?, ?, ?, ?, ?, ?, ?
             FROM Dual
             WHERE NOT EXISTS (
               SELECT v.fiets_id, v.ophaal_moment, v.terugbreng_moment, v.status_
               FROM leen_verzoek v
-              WHERE $fietsId = v.fiets_id AND (v.status_ = 'in_gebruik' OR v.status_ = 'gereserveerd')
-              AND (((CAST('$collectionMomement' AS datetime)) >= v.ophaal_moment AND (CAST('$collectionMomement' AS datetime)) <= v.terugbreng_moment)
-                  OR ((CAST('$returnMomement' AS datetime)) >= v.ophaal_moment AND (CAST('$returnMomement' AS datetime)) <= v.terugbreng_moment))
+              WHERE (
+                  ? = v.fiets_id AND (v.status_ = 'in_gebruik' OR v.status_ = 'gereserveerd')
+                  AND (
+                    ((CAST(? AS datetime)) >= v.ophaal_moment AND (CAST(? AS datetime)) <= v.terugbreng_moment)
+                    OR ((CAST(? AS datetime)) >= v.ophaal_moment AND (CAST(? AS datetime)) <= v.terugbreng_moment)
+                  )
+                )
+                OR (
+                  ((CAST(? AS datetime)) <= NOW()
+                )
+                OR (
+                  (
+                    SELECT COALESCE(SUM((DATEDIFF(terugbreng_moment, ophaal_moment)+1)*prijs), 0) + ? + ? + (
+                      SELECT COALESCE(sum(b.borg), 0)
+                      FROM (
+                          SELECT borg
+                          FROM leen_verzoek
+                          WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
+                          GROUP BY fiets_id, lener_id, borg
+                      ) AS b
+                    )
+                    FROM leen_verzoek
+                    WHERE lener_id = ? AND (status_ = 'in_afwachting' OR status_ = 'in_gebruik' OR status_ = 'gereserveerd')
+                  )
+                  >=
+                  (
+                    SELECT geld
+                    FROM gebruiker
+                    WHERE id = ?
+                  )
+                )
+              )
             ) LIMIT 1";
 
   $stmt = $GLOBALS['mysqli']->prepare($query);
@@ -129,15 +159,16 @@ if (isset($_POST['verstuur'])) {
     trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
   }
   else {
-    $stmt->bind_param('iisssii', $fietsId, $_SESSION['id'], $collectionMomement, $returnMomement, $message, $prijs, $borg);
+    $stmt->bind_param('iisssddisssssddiii', $fietsId, $_SESSION['id'], $collectionMomement, $returnMomement, $message, $prijs, $borg, $fietsId, $collectionMomement, $collectionMomement, $returnMomement, $returnMomement, $collectionMomement, $borg, $totalePrijs, $_SESSION['id'], $_SESSION['id'], $_SESSION['id']);
     if (!$stmt->execute() || $GLOBALS['mysqli']->affected_rows == 0) {
-      echo "Helaas kon het vezoek tot lenen niet worden voltooid wellicht was er net iemand voor u die de fiets heeft gereserveerd";
+      echo "Helaas kon het vezoek tot lenen niet worden voltooid wellicht was er net iemand voor u die de fiets heeft gereserveerd of heeft u niet voldoende geld op uw account staan, <a href='geld.php'>klik dan op deze link.</a>";
       return;
     }
     $stmt->close();
-    echo "U heeft met succes een leen verzoek gestuurd<br>";
-    echo "<a href='fiets.php?fiets_id=$fietsId'>Klik op deze link om terug te gaan</a> ";
+    echo "U heeft met succes een leen verzoek gestuurd, <a href='leen_verzoeken.php'>bekijk hier al je leenverzoeken.</a>";
   }
 
 }
 ?>
+
+</div>

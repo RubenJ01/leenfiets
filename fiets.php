@@ -116,9 +116,14 @@ if(isset($_GET['succesvol_toegevoegd'])){
 
     <div style="float:right;">
         <?php
+        if(isset($_SESSION['id'])) {
           if($fiets_gebruikers_id != $_SESSION['id'] ) {
             include "utils/calendar.php";
           }
+        }
+        else {
+          echo "Wil je de fiets lenen? <a href='inloggen.php'>Klik dan hier om in te loggen.</a>";
+        }
         ?>
     </div>
 

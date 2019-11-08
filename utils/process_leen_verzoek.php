@@ -102,16 +102,24 @@
  /// @param $gebruikerId is de persoon die de fiets wil lenen of terugbrengen
  /// @param $verzoekId is het id van de leen_verzoek
  /// @return string met of een error message of een success message
- function TokenInput($gebruikerId, $verzoekId, $token) {
-   $query = "UPDATE leen_verzoek
-             SET token = NULL, status_ = IF(status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht')
-             WHERE id = ? AND lener_id = ? AND token = ?";
+ function CollectReturnBike($gebruikerId, $verzoekId, $token) {
+   $query = "UPDATE leen_verzoek l, gebruiker g, gebruiker e
+             SET l.token = NULL,
+                 l.status_ = IF(l.status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht'),
+                 g.geld = IF(l.status_ = 'teruggebracht', (g.geld-(l.borg+((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs))), g.geld),
+                 e.geld = IF(l.status_ = 'teruggebracht', (e.geld+(l.borg+((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs))), e.geld)
+             WHERE l.id = ? AND g.id = ? AND l.token = ? AND e.id = (
+               SELECT f.gebruiker_id
+               FROM fietsen f
+               WHERE l.id = ?  AND f.id = l.fiets_id
+             )
+             ";
    $stmt = $GLOBALS['mysqli']->prepare($query);
    if (!$stmt) {
      trigger_error($GLOBALS['mysqli']->error, E_USER_ERROR);
    }
    else {
-     $stmt->bind_param('iis', $verzoekId, $gebruikerId, $token);
+     $stmt->bind_param('iisi', $verzoekId, $gebruikerId, $token, $verzoekId);
      if (!$stmt->execute()) {
        trigger_error($stmt->error, E_USER_ERROR);
      }
@@ -131,12 +139,19 @@
    return "Er ging iets mis tijdens het ophalen of terugbregen van de fiets, bent u ingelogt op uw account?.";
  }
 
+
+ // Check of we in de root folder zit
+ $dir_ = "";
+ if (file_exists("index.php") == false) {
+   $dir = "../";
+ }
+
   // Kijk of de gebruiker is ingelogt anders ga terug naar de inlog pagina
   if (isset($_SESSION) === false) {
       session_start();
   }
   if (isset($_SESSION['id']) === false) {
-    header("Location: ../inloggen.php");
+    header("Location: {$dir}inloggen.php");
   }
 
   // Check of er op geaccepteerd is geklikt
@@ -146,7 +161,7 @@
        session_start();
    }
    AcceptRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
-   header("Location: ../leen_verzoeken.php");
+   header("Location: {$dir}leen_verzoeken.php");
   }
 
   // Check of er op geannuleerd is geklikt
@@ -156,7 +171,7 @@
        session_start();
    }
    DenyRequest($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']));
-   header("Location: ../leen_verzoeken.php");
+   header("Location: {$dir}leen_verzoeken.php");
   }
 
   // Check of de gebruiker een code probeert in te voeren
@@ -165,8 +180,8 @@
     if (isset($_SESSION) === false) {
         session_start();
     }
-    $message = TokenInput($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']), $GLOBALS['mysqli']->real_escape_string($_POST['code']));
-    header("Location: ../leen_verzoeken.php?message=$message");
+    $message = CollectReturnBike($_SESSION['id'], $GLOBALS['mysqli']->real_escape_string($_POST['id']), $GLOBALS['mysqli']->real_escape_string($_POST['code']));
+    header("Location: {$dir}leen_verzoeken.php?message=$message");
   }
 
 ?>
