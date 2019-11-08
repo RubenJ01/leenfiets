@@ -67,26 +67,13 @@ if ($earlier > $later) {
 <div class="wrapper">
   <form method="post">
     Reservatie van <?php echo $collectionDate ?> tot en met <?php echo $returnDate ?>.<br>
-    <!-- TODO: Fix dat je geen lagere terugbrengtijd kan kiezen dan de ophaaltijd -->
-    <?php
-      $timeStamps = "";
-      for ($i=0; $i < 24; $i++) {
-        $h = "$i";
-        if ($i < 10) { $h = "0$h"; }
-        for ($j=0; $j < 4; $j++) {
-          $m = ($j*15);
-          if ($m<10) { $m = "0$m"; }
-          $timeStamps .= "<option value='$h:$m'>$h:$m</option>";
-        }
-      }
-    ?>
     Ophaaltijd
-    <select name="collectionTime">
-      <?php echo $timeStamps; ?>
+    <select id="collectionTime" name="collectionTime">
+      <!-- De inhoud word gevult door selectTime.js -->
     </select>
     Terugbrengtijd
-    <select name="returnTime">
-      <?php echo $timeStamps; ?>
+    <select id="returnTime" name="returnTime">
+      <!-- De inhoud word gevult door selectTime.js -->
     </select><br>
     Totale huurprijs: €<?php echo $totalePrijs ?><br>
     Borg: <?php echo $borg ?><br>
@@ -172,3 +159,7 @@ if (isset($_POST['verstuur'])) {
 ?>
 
 </div>
+<script src="js/selectTime.js"></script>
+<script>
+  Init("<?php echo $collectionDate; ?>", "<?php echo $returnDate; ?>");
+</script>
