@@ -106,8 +106,8 @@
    $query = "UPDATE leen_verzoek l, gebruiker g, gebruiker e
              SET l.token = NULL,
                  l.status_ = IF(l.status_ = 'gereserveerd', 'in_gebruik', 'teruggebracht'),
-                 g.geld = IF(l.status_ = 'teruggebracht', (g.geld-(l.borg+((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs))), g.geld),
-                 e.geld = IF(l.status_ = 'teruggebracht', (e.geld+(l.borg+((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs))), e.geld)
+                 g.geld = IF(l.status_ = 'teruggebracht', (g.geld-((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs)), g.geld),
+                 e.geld = IF(l.status_ = 'teruggebracht', (e.geld+((DATEDIFF(l.terugbreng_moment, l.ophaal_moment)+1)*l.prijs)), e.geld)
              WHERE l.id = ? AND g.id = ? AND l.token = ? AND e.id = (
                SELECT f.gebruiker_id
                FROM fietsen f
