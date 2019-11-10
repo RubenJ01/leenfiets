@@ -9,18 +9,23 @@ if (!isset($_SESSION)) {
   if(isset($_POST['verwijderen'])){
           $sql = "DELETE FROM nieuws where id={$_POST['id']}";
           $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
+      header("Location: nieuwspagina.php?verwijderd=true");
     }
 ?>
 <html>
+<title>Nieuws</title>
+<meta charset="UTF-8">
 <head>
 <style>
 
 .nieuwsbericht{
   border: 2px solid black;
+    border-radius: 5px;
   background-color: #4CAF50;
   width: 80%;
   margin-left:auto;
   margin-right:auto;
+    padding: 5px;
 }
 .nieuwstitel{
   font-size:24px;
@@ -36,8 +41,14 @@ if (!isset($_SESSION)) {
 <body>
 
 <?php
+if(isset($_GET['toegevoegd'])){
+    echo "<h5 style='text-align: center'>Je nieuwsbericht is toegevoegd op de website</h5>";
+}
+if(isset($_GET['verwijderd'])){
+    echo "<h5 style='text-align: center'>Je nieuwsbericht is verwijderd van de website</h5>";
+}
 $sql_code = "SELECT g.naam, n.titel, n.beschrijving,
-                         n.datum, n.schrijver, n.id, g.id
+                         n.datum, n.schrijver, n.id, g.id as gebruiker
              FROM gebruiker g
              JOIN  nieuws n
              ON n.schrijver = g.id
@@ -47,10 +58,10 @@ if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
         echo "<br><div class='nieuwsbericht'>
         <table><tr>
-               <div class = 'nieuwstitel'>". $row["titel"], "<br>","</div>".
-               $row["beschrijving"], "<br>".
-              "schrijver: " . $row['naam'], "<br>".
-               $row["datum"],
+               <div class = 'nieuwstitel' style='text-align: center'>" ."<b>" .$row["titel"], "</b>","</div>".
+               $row["beschrijving"], "<br><br>".
+              "Schrijver: " . $row['naam'], "<br>".
+               "Geschreven op ".$row["datum"],
        "</tr></table>","</div>";
         if (isset($_SESSION['rol'])) {
             if ($_SESSION['rol'] == 'admin') {
@@ -64,7 +75,7 @@ if (mysqli_num_rows($result) > 0) {
     else {
     echo "0 results";
 }
-$nieuwTekst = str_replace("\n","<br>",$_POST['beschrijving']);
+
 ?>
 <body>
 <?php
@@ -88,6 +99,7 @@ if (isset($_SESSION['rol'])) {
 </html>
 <?php
 if(isset($_POST["Verstuur"])){
+    $nieuwTekst = str_replace("\n","<br>",$_POST['beschrijving']);
   $titel = NULL;
   $beschrijving = NULL;
   $schrijver = $_SESSION["id"];
@@ -107,13 +119,13 @@ if(isset($_POST["Verstuur"])){
       echo "vul een beschrijving in";
       return;
     }
-    $sql = "INSERT INTO nieuws (schrijver,titel,beschrijving) VALUES ('$schrijver','$titel','$beschrijving')";
+    $sql = "INSERT INTO nieuws (schrijver,titel,beschrijving) VALUES ('$schrijver','$titel','$nieuwTekst')";
 
     if(!mysqli_query($mysqli,$sql)){
       echo 'niet toegevoegd';
     }
     else{
-      echo 'toegevoegd';
+        header("Location: nieuwspagina.php?toegevoegd=true");
     }
 
   }
