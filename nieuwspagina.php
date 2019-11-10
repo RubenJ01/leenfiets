@@ -18,9 +18,16 @@ if (!isset($_SESSION)) {
 .nieuwsbericht{
   border: 2px solid black;
   background-color: #4CAF50;
+  width: 80%;
+  margin-left:auto;
+  margin-right:auto;
 }
 .nieuwstitel{
   font-size:24px;
+}
+.verwijderen{
+  margin-left:auto;
+  margin-right:auto;
 }
 </style>
 <title>nieuws</title>
@@ -29,12 +36,12 @@ if (!isset($_SESSION)) {
 <body>
 
 <?php
-$sql = "SELECT * FROM nieuws";
 $sql_code = "SELECT g.naam, n.titel, n.beschrijving,
                          n.datum, n.schrijver, n.id, g.id
              FROM gebruiker g
              JOIN  nieuws n
-             ON n.schrijver = g.id";
+             ON n.schrijver = g.id
+             ORDER BY Datum DESC";
 $result = $mysqli->query($sql_code);
 if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
@@ -47,7 +54,7 @@ if (mysqli_num_rows($result) > 0) {
        "</tr></table>","</div>";
         if (isset($_SESSION['rol'])) {
             if ($_SESSION['rol'] == 'admin') {
-            echo "<form method = 'post'><input type='submit' name='verwijderen' value='Verwijderen'> <input type='number' name='id' value='{$row['id']}' style='display:none;'> </form>"."<br>";
+            echo "<div style= 'text-align:center;'><form method = 'post'><input type='submit' name='verwijderen' value='Verwijderen'> <input type='number' name='id' value='{$row['id']}' style='display:none;'> </form>"."<br>","</div>";
           }
 
     }
@@ -57,21 +64,22 @@ if (mysqli_num_rows($result) > 0) {
     else {
     echo "0 results";
 }
+$nieuwTekst = str_replace("\n","<br>",$_POST['beschrijving']);
 ?>
 <body>
 <?php
 if (isset($_SESSION['rol'])) {
     if ($_SESSION['rol'] == 'admin') {
       echo '<form method = "POST">
-        titel
+          <div style= "text-align:center;">titel</div>
         <br>
-        <input type="text" name="titel" value="">
+          <div style= "text-align:center;"><input type="text" name="titel" value=""></div>
         <br>
-        beschrijving
+          <div style= "text-align:center;">beschrijving</div>
         <br>
-        <textarea style="resize: none;"name="beschrijving" rows="5" cols="60"></textarea>
+          <div style= "text-align:center;"><textarea style="resize: none;"name="beschrijving" rows="5" cols="60"></textarea></div>
       <br>
-      <input type="submit" name= "Verstuur">
+      <div style= "text-align:center;"><input type="submit" name= "Verstuur"></div>
       </form>';
     }
   }
