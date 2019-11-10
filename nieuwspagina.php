@@ -6,28 +6,54 @@ if (!isset($_SESSION)) {
     session_start();
   }
 
-if(isset($_POST['verwijderen'])){
-        $sql = "DELETE FROM nieuws where id={$_POST['id']}";
-        $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
-        //header("Location: nieuwspagina.php");
+  if(isset($_POST['verwijderen'])){
+          $sql = "DELETE FROM nieuws where id={$_POST['id']}";
+          $delete_query = $mysqli->query($sql) or trigger_error("Query Failed! SQL: $sql - Error: ".mysqli_error(), E_USER_ERROR);
     }
 ?>
 <html>
 <head>
+<style>
+
+.nieuwsbericht{
+  border: 2px solid black;
+  background-color: #4CAF50;
+}
+.nieuwstitel{
+  font-size:24px;
+}
+</style>
 <title>nieuws</title>
-<link rel="stylesheet" href="./utils/styles.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
 <?php
 $sql = "SELECT * FROM nieuws";
-$result = mysqli_query($mysqli, $sql);
+$sql_code = "SELECT g.naam, n.titel, n.beschrijving,
+                         n.datum, n.schrijver, n.id, g.id
+             FROM gebruiker g
+             JOIN  nieuws n
+             ON n.schrijver = g.id";
+$result = $mysqli->query($sql_code);
 if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
-        echo "<div class='nieuwsbericht'> titel: " . $row["titel"]. " - beschrijving: " . $row["beschrijving"]. "schrijver: " . $row["schrijver"]. "datum: " . $row["datum"].
-             "<form method = 'post'><input type='submit' name='verwijderen' value='Verwijderen'> <input type='number' name='id' value='{$row['id']}' style='display:none;'> </form>"."</div><br>";
+        echo "<br><div class='nieuwsbericht'>
+        <table><tr>
+               <div class = 'nieuwstitel'>". $row["titel"], "<br>","</div>".
+               $row["beschrijving"], "<br>".
+              "schrijver: " . $row['naam'], "<br>".
+               $row["datum"],
+       "</tr></table>","</div>";
+        if (isset($_SESSION['rol'])) {
+            if ($_SESSION['rol'] == 'admin') {
+            echo "<form method = 'post'><input type='submit' name='verwijderen' value='Verwijderen'> <input type='number' name='id' value='{$row['id']}' style='display:none;'> </form>"."<br>";
+          }
+
     }
   }
+
+}
     else {
     echo "0 results";
 }
@@ -46,22 +72,13 @@ if (isset($_SESSION['rol'])) {
         <textarea style="resize: none;"name="beschrijving" rows="5" cols="60"></textarea>
       <br>
       <input type="submit" name= "Verstuur">
-      
       </form>';
     }
   }
 ?>
-<div class = "nieuwsartikel">
-<div class = "nieuwstitel">
-</div>
-<div class = "nieuwsomschrijving">
-</div>
-</div>
 </body>
 </html>
 <?php
-//echo $schrijver, $titel, $beschrijving;
-
 if(isset($_POST["Verstuur"])){
   $titel = NULL;
   $beschrijving = NULL;
@@ -90,6 +107,6 @@ if(isset($_POST["Verstuur"])){
     else{
       echo 'toegevoegd';
     }
-    //RedirectToPage("contact.php");
+
   }
 ?>
