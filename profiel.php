@@ -64,7 +64,7 @@ if (isset($_SESSION['id'])) {
     if ($_SESSION['id'] == $_GET['gebruikers_id']) {
         echo "
    <div class=\"knoppen\" style=\"text-align:center;\">
-        <button class=\"knop\"><a class=\"linkpro\" href=\"index.php\" color=\"white\">Mijn Fietsen bekijken</a></button>
+        <button class=\"knop\"><a class=\"linkpro\" href=\"mijn_fietsen.php\" color=\"white\">Mijn Fietsen bekijken</a></button>
         <button class=\"knop\"><a class=\"linkpro\"  href=\"fiets_toevoegen.php\">Fiets toevoegen</a></button>
         <button class=\"knop\"><a class=\"linkpro\"  href=\"geld.php\">Mijn geld</a></button>
         <button class=\"knop\"><a class=\"linkpro\"  href=\"wachtwoord_vergeten.php\">Wachtwoord wijzigen</a></button>

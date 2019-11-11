@@ -17,7 +17,7 @@ if (!isset($_SESSION)) {
   <body>
 
  <div class='profiel_fiets_text'>
-     <h2><br>Bedankt voor uw review!<br>Klik <a href="review.php">hier</a> om terug te gaan naar de homepagina.<br></h2>
+     <h2><br>Bedankt voor uw review!<br>Klik <a href="review.php">hier</a> om terug te gaan naar de reviewpagina!<br></h2>
  </div>
 
 
