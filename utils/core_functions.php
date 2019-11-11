@@ -41,11 +41,11 @@ function send_email($ontvanger, $onderwerp, $body){
     $mail = new PHPMailer(true);
     try {
         $mail->IsSMTP();
-        $mail->Host = "smtp.gmail.com";
-        $mail->SMTPAuth = true;
-        $mail->Username = 'leenfiets2019@gmail.com';
+        $mail->SMTPDebug = 1;
+        $mail->Host = "smtp.ziggo.nl";
+        $mail->Username = 'leenfiets@antonbonder.nl';
         $mail->Password = 'ict_project2019';
-        $mail->setFrom('leenfiets2019@gmail.com', 'Mailer');
+        $mail->setFrom('leenfiets@antonbonder.nl', 'Leenfiets');
         $mail->addAddress($ontvanger);
         $mail->isHTML(true);
         $mail->Subject = $onderwerp;

@@ -226,6 +226,7 @@ else{
                 if (empty($afbeelding)){
                     $afbeelding = "fiets_afbeeldingen/default.png";
                 }
+
             echo   "<div class='fiets_blok'>
                     <h1>$row[merk_naam] $row[model]</h1>
                     <h4>€$row[prijs] per dag<br/></h4>

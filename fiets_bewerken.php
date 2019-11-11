@@ -145,6 +145,7 @@ if(isset($_POST['foto_bewerken'])){
         $uniekePad = date('dmYHis') .$gebruiker_id;
         $target_dir = "fiets_afbeeldingen/" .$uniekePad;
         $target_file = $target_dir . basename($_FILES["foto"]["name"]);
+        $target_file = str_replace(" ", "", $target_file );
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
@@ -174,6 +175,7 @@ if(isset($_POST['foto_bewerken'])){
     else {
         $target_dir = "$afbeelding";
         $target_file = $target_dir ;
+        $target_file = str_replace(" ", "", $target_file );
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image

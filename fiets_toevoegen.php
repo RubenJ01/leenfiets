@@ -137,6 +137,7 @@ if(isset($_POST['toevoegen'])){
             $uniekePad = date('dmYHis') .$_SESSION['id'];
             $target_dir = "fiets_afbeeldingen/" .$uniekePad;
             $target_file = $target_dir . basename($_FILES["foto"]["name"]);
+            $target_file = str_replace(" ", "", $target_file );
             $uploadOk = 1;
             $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
             // Checkt of er echt een afbeelding geupload is
