@@ -9,7 +9,6 @@
 
 include 'utils/core_functions.php';
 include 'utils/database_connection.php';
-include 'menu.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -37,7 +36,7 @@ if (isset($_SESSION['rol'])) {
         // dit zorgt ervoor dat de gebruikertabel paginas kan hebben
         $(document).ready(function(){
             $('#data').after('<div id="nav"></div>');
-            var rowsShown = 4;
+            var rowsShown = 8;
             var rowsTotal = $('#data tbody tr').length;
             var numPages = rowsTotal/rowsShown;
             for(i = 0;i < numPages;i++) {
@@ -56,10 +55,35 @@ if (isset($_SESSION['rol'])) {
             $('#data tbody tr').css('opacity','0.0').hide().slice(startItem, endItem).
             css('display','table-row').animate({opacity:1}, 300);
             });
+        // dit zorgt ervoor dat de fiets tabel paginas kan hebben
+        });
+        $(document).ready(function(){
+            $('#fietsen').after('<div id="nav2"></div>');
+            var rowsShown = 8;
+            var rowsTotal = $('#fietsen tbody tr').length;
+            var numPages = rowsTotal/rowsShown;
+            for(i = 0;i < numPages;i++) {
+                var pageNum = i + 1;
+                $('#nav2').append('<a href="#" rel="'+i+'">'+pageNum+'</a> ');
+            }
+            $('#fietsen tbody tr').hide();
+            $('#fietsen tbody tr').slice(0, rowsShown).show();
+            $('#nav2 a:first').addClass('active');
+            $('#nav2 a').bind('click', function(){
+            $('#nav2 a').removeClass('active');
+            $(this).addClass('active');
+            var currPage = $(this).attr('rel');
+            var startItem = currPage * rowsShown;
+            var endItem = startItem + rowsShown;
+            $('#fietsen tbody tr').css('opacity','0.0').hide().slice(startItem, endItem).
+            css('display','table-row').animate({opacity:1}, 300);
+            });
         });
     </script>
+    <div><?php include 'menu.php'; ?></div>
     <button onclick="toggle_visibility('user_div')">Gebruikers</button>
     <button onclick="toggle_visibility('merk_div')">Merk</button>
+    <button onclick="toggle_visibility('fiets_div')">Fietsen</button>
     <div id="user_div" style="display: none;">
         <table id="data">
             <tr>
@@ -68,6 +92,9 @@ if (isset($_SESSION['rol'])) {
                 <th>Id</th>
                 <th>Geverifieerd</th>
                 <th>Rol</th>
+                <th>Geven geven</th>
+                <th>Admin verwijderen</th>
+                <th>Gebruiker verwijderen</th>
             </tr>
             <?php
             $sql_userinfo = "select id, naam, email, rol, status_code from gebruiker";
@@ -80,27 +107,31 @@ if (isset($_SESSION['rol'])) {
                   <td>" . htmlentities($row['id']) . "</td>
                   <td>" . htmlentities($row['status_code']) . "</td>
                   <td>" . htmlentities($row['rol']) . "</td>
+                  <td>
+                      <form action='' method='post'>
+                        <input type='text' name='gebruiker_email' value='{$row['email']}' style='display: none;'>
+                        <input type='text' name='actie' value='admin_geven' style='display: none;'>
+                        <input type='submit' name='admin_aanpassing_versturen' value='geven'>
+                      </form>
+                  </td>
+                  <td>
+                      <form action='' method='post'>
+                        <input type='text' name='gebruiker_email' value='{$row['email']}' style='display: none;'>
+                        <input type='text' name='actie' value='admin_verwijderen' style='display: none;'>
+                        <input type='submit' name='admin_aanpassing_versturen' value='verwijderen'>
+                      </form>
+                  </td>
+                  <td>
+                      <form action='' method='post'>
+                        <input type='text' name='gebruiker_email' value='{$row['email']}' style='display: none;'>
+                        <input type='submit' name='gebruiker_aanpassing_versturen' value='verwijderen'>
+                      </form>
+                  </td>
                 </tr>
                 ";
             }
             ?>
         </table>
-        <form method="post" action="" id="admin_geven">
-            <h3>Admin rechten geven</h3>
-            <label for="gebruiker_email">Gebruiker email</label>
-            <input type="text" name="gebruiker_email" id="admin_geven"> <br />
-            <label for="actie">Rechten toekennen</label>
-            <input type="radio" name="actie" value="admin_geven"> <br />
-            <label for="actie">Rechten verwijderen</label>
-            <input type="radio" name="actie" value="admin_verwijderen"> <br>
-            <input type="submit" name="admin_aanpassing_versturen" value="Uitvoeren">
-        </form>
-        <form method="post" action="" id="gebruiker_veranderen">
-            <h3>Gebruiker verwijderen</h3>
-            <label for="gebruiker_email">Gebruiker email</label>
-            <input type="text" name="gebruiker_email"> <br />
-            <input type="submit" name="gebruiker_aanpassing_versturen" value="Gebruiker verwijderen">
-        </form>
     </div>
     <?php
     $sql = "SELECT merk_naam, id FROM merk_fiets order by merk_naam asc";
@@ -111,6 +142,7 @@ if (isset($_SESSION['rol'])) {
             <tr>
                 <th>Merk</th>
                 <th>Id</th>
+                <th>Verwijderen<th>
             </tr>
             <?php
             while ($row = $result->fetch_assoc()){
@@ -118,6 +150,13 @@ if (isset($_SESSION['rol'])) {
                 <tr>
                     <td>" . htmlentities($row['merk_naam']) . "</td>
                     <td>" . htmlentities($row['id']) . "</td>
+                    <td> 
+                        <form method='post' action=''>
+                            <input type='submit' name='merk_aanpassing_versturen' value='Verwijderen'>
+                            <input type='text' name='merk_naam' value='{$row['merk_naam']}' style='display: none;'>
+                            <input type='text' name='merk_aanpassen' value='verwijderen' style='display: none;'>
+                        </form>
+                    </td>
                 </tr>
                 ";
             }
@@ -127,12 +166,45 @@ if (isset($_SESSION['rol'])) {
             <h3>Merk Toevoegen</h3>
             <label for="nieuw_merk">Merk</label>
             <input type="text" name="merk_naam" id="merk_naam" placeholder="Merk naam"> <br />
-            <label for="merk_toevoegen">Toevoegen</label>
-            <input type="radio" name="merk_aanpassen" id="merk_toevoegen" value="toevoegen"> <br />
-            <label for="merk_verwijderen">Verwijderen</label>
-            <input type="radio" name="merk_aanpassen" id="merk_verwijderen" value="verwijderen"> <br />
+            <input type='text' name='merk_aanpassen' value='toevoegen' style='display: none;'>
             <input type="submit" name="merk_aanpassing_versturen" value="Uitvoeren">
         </form>
+    </div>
+    <div id="fiets_div" style="display: none;">
+    <?php
+        $sql = "SELECT g.email email, f.id id, f.borg borg, f.model model, f.status status
+        FROM gebruiker g
+        JOIN fietsen f ON f.gebruiker_id = g.id";
+        $result = $mysqli->query($sql);
+    ?>   
+    <table id="fietsen">
+        <tr>
+            <th>E-mail</th>
+            <th>Id</th>
+            <th>Borg</th>
+            <th>Model</th>
+            <th>Status</th>
+            <th>Verwijderen</th>
+        </tr>
+        <?php
+        while ($row = $result->fetch_assoc()){
+            echo "
+            <tr>
+                <td>" . htmlentities($row['email']) . "</td>
+                <td>" . htmlentities($row['id']) . "</td>
+                <td>" . htmlentities($row['borg']) . "</td>
+                <td>" . htmlentities($row['model']) . "</td>
+                <td>" . htmlentities($row['status']) . "</td>
+                <td> <form method='post' action=''> 
+                        <input type='submit' name='fiets_verwijdering_versturen' value='verwijderen'>
+                        <input type='text' name='fiets_id' value='{$row['id']}' style='display: none;'>
+                    </form>
+                </td>
+            </tr>
+            ";
+            }
+        ?>     
+    </table>
     </div>
     <script src="js/dashboard.js"></script>
     <?php
@@ -162,7 +234,6 @@ if (isset($_SESSION['rol'])) {
             }
         }
     }
-
     if (isset($_POST['admin_aanpassing_versturen'])) {
         $email = $_POST['gebruiker_email'];
         $actie = $_POST['actie'];
@@ -191,6 +262,21 @@ if (isset($_SESSION['rol'])) {
             echo createAlert("Gebruiker met $email is verwijdert uit de database.");
         } else {
             echo createAlert("Gebruiker met $email is niet gevonden.");
+        }
+    }
+    if (isset($_POST['fiets_verwijdering_versturen'])) {
+        $fiets_id = $_POST['fiets_id'];
+        $sql = "SELECT id FROM fietsen WHERE id = '$fiets_id'";
+        $result = $mysqli->query($sql);
+        if ($result->num_rows == 1){
+            $sql = "DELETE FROM fietsen WHERE id = '$fiets_id'";
+            $result = $mysqli->query($sql);
+            if (!$result){
+                echo $mysqli->error;
+            }
+            echo createAlert("Fiets met id $fiets_id is verwijdert uit de database.");
+        } else {
+            echo createAlert("Fiets met id $fiets_id is niet gevonden.");
         }
     }
     ?>
