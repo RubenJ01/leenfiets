@@ -37,7 +37,7 @@ if (!isset($_SESSION)) {
       $comment = $_POST['comment'];
       $sql = "INSERT INTO comments(`name`, `comment`) VALUES ('$name', '$comment')";
       $result = $mysqli->query($sql);
-      header("location: review_bedankt.php");
+      header("location: review.php");
   }
 
     $sql_result ="SELECT `name`, `comment` FROM `comments` WHERE 1 order by id DESC";
