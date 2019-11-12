@@ -44,7 +44,7 @@ function send_email($ontvanger, $onderwerp, $body){
         $mail->SMTPDebug = 1;
         $mail->Host = "smtp.ziggo.nl";
         $mail->Username = 'leenfiets@antonbonder.nl';
-        $mail->Password = 'ict_project2019';
+        $mail->Password = '';
         $mail->setFrom('leenfiets@antonbonder.nl', 'Leenfiets');
         $mail->addAddress($ontvanger);
         $mail->isHTML(true);
